@@ -1,0 +1,139 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Retail Feature Pre Req",
+		"_postman_id": "3b752a0e-154e-e04c-0ece-f20a65e7f5cb",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"description": "",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\npostman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));\npostman.setEnvironmentVariable(\"x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Retail User Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"Id\", jsonData.d.Id);\n//postman.setGlobalVariable(\"Id1\", jsonData.d.Id);\nconsole.log(jsonData.d.Id);\ntests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\t\"ProfileName\": \"Retail User Profile {{$randomInt}}\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Web\"\r\n\t\t\t\t\t}]\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get CB Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 200 : OK\"] = responseCode.code === 200;\nvar jsonData = JSON.parse(responseBody);\nvar res = jsonData.d.ChannelProfiles.results;\npostman.setEnvironmentVariable(\"ChannelId\",res[0].Id);\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

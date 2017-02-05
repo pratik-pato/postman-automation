@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Retail Profile Features With Limit">
+  <testsuite name="Login" id="33b340ad-d815-4abd-8521-07842ccbb6dd" tests="1" time="30.75">
+    <testcase name="Logged in with admin : Iteration = 101"/>
+    <testcase name="Logged in with admin : Iteration = 201"/>
+    <testcase name="Logged in with admin : Iteration = 601"/>
+    <testcase name="Logged in with admin : Iteration = 603"/>
+    <testcase name="Logged in with admin : Iteration = 701"/>
+    <testcase name="Logged in with admin : Iteration = 702"/>
+    <testcase name="Logged in with admin : Iteration = 703"/>
+    <testcase name="Logged in with admin : Iteration = 1401"/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures without assigning feature" id="6c67a16f-580e-476b-be57-e21691d8e6c5" tests="4" time="33.875">
+    <testcase name="Feature 101 get without assigning"/>
+    <testcase name="Feature not assigned for 101"/>
+    <testcase name="Profile Id verified :2948 101"/>
+    <testcase name="Feature Id verified :101"/>
+    <testcase name="Feature 201 get without assigning"/>
+    <testcase name="Feature not assigned for 201"/>
+    <testcase name="Profile Id verified :2948 201"/>
+    <testcase name="Feature Id verified :201"/>
+    <testcase name="Feature 601 get without assigning"/>
+    <testcase name="Feature not assigned for 601"/>
+    <testcase name="Profile Id verified :2948 601"/>
+    <testcase name="Feature Id verified :601"/>
+    <testcase name="Feature 603 get without assigning"/>
+    <testcase name="Feature not assigned for 603"/>
+    <testcase name="Profile Id verified :2948 603"/>
+    <testcase name="Feature Id verified :603"/>
+    <testcase name="Feature 701 get without assigning"/>
+    <testcase name="Feature not assigned for 701"/>
+    <testcase name="Profile Id verified :2948 701"/>
+    <testcase name="Feature Id verified :701"/>
+    <testcase name="Feature 702 get without assigning"/>
+    <testcase name="Feature not assigned for 702"/>
+    <testcase name="Profile Id verified :2948 702"/>
+    <testcase name="Feature Id verified :702"/>
+    <testcase name="Feature 703 get without assigning"/>
+    <testcase name="Feature not assigned for 703"/>
+    <testcase name="Profile Id verified :2948 703"/>
+    <testcase name="Feature Id verified :703"/>
+    <testcase name="Feature 1401 get without assigning"/>
+    <testcase name="Feature not assigned for 1401"/>
+    <testcase name="Profile Id verified :2948 1401"/>
+    <testcase name="Feature Id verified :1401"/>
+  </testsuite>
+  <testsuite name="Add Retail User Profile Feature without entitlements" id="e1a6b3ac-174a-490e-8e56-80819df4f477" tests="1" time="53.875">
+    <testcase name="Feature : Account Management added without entitlements"/>
+    <testcase name="Feature : Administration added without entitlements"/>
+    <testcase name="Feature : Payments added without entitlements"/>
+    <testcase name="Feature : Stop Payment added without entitlements"/>
+    <testcase name="Feature : Transfers added without entitlements"/>
+    <testcase name="Feature : External Transfers added without entitlements"/>
+    <testcase name="Feature : Transfers To External Account added without entitlements"/>
+    <testcase name="Feature : Others added without entitlements"/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures entitlements" id="8a670e03-d4ae-45be-950a-86efe6ccd09d" tests="11" time="502.375">
+    <testcase name="Feature Account Setup entitled false"/>
+    <testcase name="Feature has display name =Account Setup"/>
+    <testcase name="Feature AccountAggregation entitled false"/>
+    <testcase name="Feature has display name =Account Aggregation"/>
+    <testcase name="Feature CheckImaging entitled false"/>
+    <testcase name="Feature has display name =Check Imaging"/>
+    <testcase name="Feature History entitled false"/>
+    <testcase name="Feature has display name =Account History"/>
+    <testcase name="Feature OnlineStatement entitled false"/>
+    <testcase name="Feature has display name =Online Statement"/>
+    <testcase name="All Entitlements for Account Management are entitled False"/>
+    <testcase name="Feature Manage Users entitled false"/>
+    <testcase name="Feature has display name =Manage Users"/>
+    <testcase name="All Entitlements for Administration are entitled False"/>
+    <testcase name="Feature Payments entitled false"/>
+    <testcase name="Feature has display name =Payments"/>
+    <testcase name="Feature Mobile Payments entitled false"/>
+    <testcase name="Child Feature has display name =Mobile Payments"/>
+    <testcase name="Feature Multi-Currency Payments entitled false"/>
+    <testcase name="Child Feature has display name =Multi-Currency Payments"/>
+    <testcase name="Feature Payees entitled false"/>
+    <testcase name="Child Feature has display name =Manage Payees"/>
+    <testcase name="All Entitlements for Payments are entitled False"/>
+    <testcase name="Feature Stops entitled false"/>
+    <testcase name="Feature has display name =Stop Payments"/>
+    <testcase name="All Entitlements for Stop Payment are entitled False"/>
+    <testcase name="Feature Transfers entitled false"/>
+    <testcase name="Feature has display name =Transfers"/>
+    <testcase name="Feature Multi-Currency Transfers entitled false"/>
+    <testcase name="Child Feature has display name =Multi-Currency Transfers"/>
+    <testcase name="Feature Transfers Template entitled false"/>
+    <testcase name="Child Feature has display name =Transfers Template"/>
+    <testcase name="All Entitlements for Transfers are entitled False"/>
+    <testcase name="Feature External Transfers entitled false"/>
+    <testcase name="Feature has display name =External Transfers"/>
+    <testcase name="Feature External Transfers Add Account entitled false"/>
+    <testcase name="Child Feature has display name =Transfers Add External Account"/>
+    <testcase name="Feature External Transfers From entitled false"/>
+    <testcase name="Child Feature has display name =Transfers From External Account"/>
+    <testcase name="All Entitlements for External Transfers are entitled False"/>
+    <testcase name="Feature External Transfers To entitled false"/>
+    <testcase name="Feature has display name =Transfers To External Account"/>
+    <testcase name="Feature External Transfers To Unverified Account entitled false"/>
+    <testcase name="Child Feature has display name =Transfers To Unverified External Account"/>
+    <testcase name="All Entitlements for Transfers To External Account are entitled False"/>
+    <testcase name="Feature MBanking entitled false"/>
+    <testcase name="Feature has display name =Mobile Banking"/>
+    <testcase name="Feature Portal entitled false"/>
+    <testcase name="Feature has display name =Financial News"/>
+    <testcase name="Feature Services entitled false"/>
+    <testcase name="Feature has display name =Services"/>
+    <testcase name="Feature faq entitled false"/>
+    <testcase name="Feature has display name =Frequently Asked Questions"/>
+    <testcase name="Feature sessionRcpt entitled false"/>
+    <testcase name="Feature has display name =Session Receipt"/>
+    <testcase name="All Entitlements for Others are entitled False"/>
+  </testsuite>
+  <testsuite name="delete feature" id="fb1b123a-45c2-447f-9718-6e8271240d7b" tests="1" time="29.125">
+    <testcase name="Feature Account Management deleted"/>
+    <testcase name="Feature Administration deleted"/>
+    <testcase name="Feature Payments deleted"/>
+    <testcase name="Feature Stop Payment deleted"/>
+    <testcase name="Feature Transfers deleted"/>
+    <testcase name="Feature External Transfers deleted"/>
+    <testcase name="Feature Transfers To External Account deleted"/>
+    <testcase name="Feature Others deleted"/>
+  </testsuite>
+  <testsuite name="Add Retail User Profile Features with entitlements (Valid Set)" id="9aef6c8b-4779-4e0c-b542-4b8b25e4e8de" tests="1" time="58.5">
+    <testcase name="Feature Account Management added with entitlemnts entitled true"/>
+    <testcase name="Feature Administration added with entitlemnts entitled true"/>
+    <testcase name="Feature Payments added with entitlemnts entitled true"/>
+    <testcase name="Feature Stop Payment added with entitlemnts entitled true"/>
+    <testcase name="Feature Transfers added with entitlemnts entitled true"/>
+    <testcase name="Feature External Transfers added with entitlemnts entitled true"/>
+    <testcase name="Feature Transfers To External Account added with entitlemnts entitled true"/>
+    <testcase name="Feature Others added with entitlemnts entitled true"/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children and limits" id="da88daf2-5831-4e67-8c00-5278ff11ee3e" tests="11" time="39.75">
+    <testcase name="Feature Account Setup entitled true"/>
+    <testcase name="Feature has display name =Account Setup"/>
+    <testcase name="Feature AccountAggregation entitled true"/>
+    <testcase name="Feature has display name =Account Aggregation"/>
+    <testcase name="Feature CheckImaging entitled true"/>
+    <testcase name="Feature has display name =Check Imaging"/>
+    <testcase name="Feature History entitled true"/>
+    <testcase name="Feature has display name =Account History"/>
+    <testcase name="Feature OnlineStatement entitled true"/>
+    <testcase name="Feature has display name =Online Statement"/>
+    <testcase name="All Entitlements for Account Management are entitled true"/>
+    <testcase name="Feature Manage Users entitled true"/>
+    <testcase name="Feature has display name =Manage Users"/>
+    <testcase name="All Entitlements for Administration are entitled true"/>
+    <testcase name="Feature Payments entitled true"/>
+    <testcase name="Feature has display name =Payments"/>
+    <testcase name="Feature Mobile Payments entitled true"/>
+    <testcase name="Child Feature has display name =Mobile Payments"/>
+    <testcase name="Feature Multi-Currency Payments entitled true"/>
+    <testcase name="Child Feature has display name =Multi-Currency Payments"/>
+    <testcase name="Feature Payees entitled true"/>
+    <testcase name="Child Feature has display name =Manage Payees"/>
+    <testcase name="All Entitlements for Payments are entitled true"/>
+    <testcase name="Feature Stops entitled true"/>
+    <testcase name="Feature has display name =Stop Payments"/>
+    <testcase name="All Entitlements for Stop Payment are entitled true"/>
+    <testcase name="Feature Transfers entitled true"/>
+    <testcase name="Feature has display name =Transfers"/>
+    <testcase name="Feature Multi-Currency Transfers entitled true"/>
+    <testcase name="Child Feature has display name =Multi-Currency Transfers"/>
+    <testcase name="Feature Transfers Template entitled true"/>
+    <testcase name="Child Feature has display name =Transfers Template"/>
+    <testcase name="All Entitlements for Transfers are entitled true"/>
+    <testcase name="Feature External Transfers entitled true"/>
+    <testcase name="Feature has display name =External Transfers"/>
+    <testcase name="Feature External Transfers Add Account entitled true"/>
+    <testcase name="Child Feature has display name =Transfers Add External Account"/>
+    <testcase name="Feature External Transfers From entitled true"/>
+    <testcase name="Child Feature has display name =Transfers From External Account"/>
+    <testcase name="All Entitlements for External Transfers are entitled true"/>
+    <testcase name="Feature External Transfers To entitled true"/>
+    <testcase name="Feature has display name =Transfers To External Account"/>
+    <testcase name="Feature External Transfers To Unverified Account entitled true"/>
+    <testcase name="Child Feature has display name =Transfers To Unverified External Account"/>
+    <testcase name="All Entitlements for Transfers To External Account are entitled true"/>
+    <testcase name="Feature MBanking entitled true"/>
+    <testcase name="Feature has display name =Mobile Banking"/>
+    <testcase name="Feature Portal entitled true"/>
+    <testcase name="Feature has display name =Financial News"/>
+    <testcase name="Feature Services entitled true"/>
+    <testcase name="Feature has display name =Services"/>
+    <testcase name="Feature faq entitled true"/>
+    <testcase name="Feature has display name =Frequently Asked Questions"/>
+    <testcase name="Feature sessionRcpt entitled true"/>
+    <testcase name="Feature has display name =Session Receipt"/>
+    <testcase name="All Entitlements for Others are entitled true"/>
+  </testsuite>
+  <testsuite name="Add Retail User Profile Features with entitlements (Valid Set)" id="f1827424-5829-443e-9c5d-5feaa6cc2b91" tests="1" time="44.5">
+    <testcase name="Modify entitlements for feature Account Management on channel profile"/>
+    <testcase name="Modify entitlements for feature Administration on channel profile"/>
+    <testcase name="Modify entitlements for feature Payments on channel profile"/>
+    <testcase name="Modify entitlements for feature Stop Payment on channel profile"/>
+    <testcase name="Modify entitlements for feature Transfers on channel profile"/>
+    <testcase name="Modify entitlements for feature External Transfers on channel profile"/>
+    <testcase name="Modify entitlements for feature Transfers To External Account on channel profile"/>
+    <testcase name="Modify entitlements for feature Others on channel profile"/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children entitled false on channel Verify" id="b70a6e5b-1c08-44f1-a54d-928f1b9a9226" tests="11" time="45.875">
+    <testcase name="Feature Account Setup entitled false"/>
+    <testcase name="Feature has display name =Account Setup"/>
+    <testcase name="Feature AccountAggregation entitled false"/>
+    <testcase name="Feature has display name =Account Aggregation"/>
+    <testcase name="Feature CheckImaging entitled false"/>
+    <testcase name="Feature has display name =Check Imaging"/>
+    <testcase name="Feature History entitled false"/>
+    <testcase name="Feature has display name =Account History"/>
+    <testcase name="Feature OnlineStatement entitled false"/>
+    <testcase name="Feature has display name =Online Statement"/>
+    <testcase name="All Entitlements for Account Management are entitled False for channel profile"/>
+    <testcase name="Feature Manage Users entitled false"/>
+    <testcase name="Feature has display name =Manage Users"/>
+    <testcase name="All Entitlements for Administration are entitled False for channel profile"/>
+    <testcase name="Feature Payments entitled false"/>
+    <testcase name="Feature has display name =Payments"/>
+    <testcase name="Feature Mobile Payments entitled false"/>
+    <testcase name="Child Feature has display name =Mobile Payments"/>
+    <testcase name="Feature Multi-Currency Payments entitled false"/>
+    <testcase name="Child Feature has display name =Multi-Currency Payments"/>
+    <testcase name="Feature Payees entitled false"/>
+    <testcase name="Child Feature has display name =Manage Payees"/>
+    <testcase name="All Entitlements for Payments are entitled False for channel profile"/>
+    <testcase name="Feature Stops entitled false"/>
+    <testcase name="Feature has display name =Stop Payments"/>
+    <testcase name="All Entitlements for Stop Payment are entitled False for channel profile"/>
+    <testcase name="Feature Transfers entitled false"/>
+    <testcase name="Feature has display name =Transfers"/>
+    <testcase name="Feature Multi-Currency Transfers entitled false"/>
+    <testcase name="Child Feature has display name =Multi-Currency Transfers"/>
+    <testcase name="Feature Transfers Template entitled false"/>
+    <testcase name="Child Feature has display name =Transfers Template"/>
+    <testcase name="All Entitlements for Transfers are entitled False for channel profile"/>
+    <testcase name="Feature External Transfers entitled false"/>
+    <testcase name="Feature has display name =External Transfers"/>
+    <testcase name="Feature External Transfers Add Account entitled false"/>
+    <testcase name="Child Feature has display name =Transfers Add External Account"/>
+    <testcase name="Feature External Transfers From entitled false"/>
+    <testcase name="Child Feature has display name =Transfers From External Account"/>
+    <testcase name="All Entitlements for External Transfers are entitled False for channel profile"/>
+    <testcase name="Feature External Transfers To entitled false"/>
+    <testcase name="Feature has display name =Transfers To External Account"/>
+    <testcase name="Feature External Transfers To Unverified Account entitled false"/>
+    <testcase name="Child Feature has display name =Transfers To Unverified External Account"/>
+    <testcase name="All Entitlements for Transfers To External Account are entitled False for channel profile"/>
+    <testcase name="Feature MBanking entitled false"/>
+    <testcase name="Feature has display name =Mobile Banking"/>
+    <testcase name="Feature Portal entitled false"/>
+    <testcase name="Feature has display name =Financial News"/>
+    <testcase name="Feature Services entitled false"/>
+    <testcase name="Feature has display name =Services"/>
+    <testcase name="Feature faq entitled false"/>
+    <testcase name="Feature has display name =Frequently Asked Questions"/>
+    <testcase name="Feature sessionRcpt entitled false"/>
+    <testcase name="Feature has display name =Session Receipt"/>
+    <testcase name="All Entitlements for Others are entitled False for channel profile"/>
+  </testsuite>
+  <testsuite name="Add Business Profile Features with entitlements with limits" id="dd99e7f1-348c-4d71-90c2-efec4fb70d35" tests="1" time="81.875">
+    <testcase name="Modify entitlements for feature Account Management on cross profile"/>
+    <testcase name="Modify entitlements for feature Administration on cross profile"/>
+    <testcase name="Modify entitlements for feature Payments on cross profile"/>
+    <testcase name="Modify entitlements for feature Stop Payment on cross profile"/>
+    <testcase name="Modify entitlements for feature Transfers on cross profile"/>
+    <testcase name="Modify entitlements for feature External Transfers on cross profile"/>
+    <testcase name="Modify entitlements for feature Transfers To External Account on cross profile"/>
+    <testcase name="Modify entitlements for feature Others on cross profile"/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children and limits verify" id="8139762f-43cc-4577-9a9b-6319eb8c2c8d" tests="11" time="39">
+    <testcase name="Feature Account Setup entitled true"/>
+    <testcase name="Feature has display name =Account Setup"/>
+    <testcase name="Feature AccountAggregation entitled true"/>
+    <testcase name="Feature has display name =Account Aggregation"/>
+    <testcase name="Feature CheckImaging entitled true"/>
+    <testcase name="Feature has display name =Check Imaging"/>
+    <testcase name="Feature History entitled true"/>
+    <testcase name="Feature has display name =Account History"/>
+    <testcase name="Feature OnlineStatement entitled true"/>
+    <testcase name="Feature has display name =Online Statement"/>
+    <testcase name="All Entitlements for Account Management are entitled True for channel profile"/>
+    <testcase name="Feature Manage Users entitled true"/>
+    <testcase name="Feature has display name =Manage Users"/>
+    <testcase name="All Entitlements for Administration are entitled True for channel profile"/>
+    <testcase name="Limit for Per Transaction is100.00 and MaxLimitValue is null for Payments"/>
+    <testcase name="Limit for Per Day is200.00 and MaxLimitValue is null for Payments"/>
+    <testcase name="Limit for Per Week is400.00 and MaxLimitValue is null for Payments"/>
+    <testcase name="Limit for Per Month is800.00 and MaxLimitValue is null for Payments"/>
+    <testcase name="Feature Payments entitled true"/>
+    <testcase name="Feature has display name =Payments"/>
+    <testcase name="Feature Mobile Payments entitled true"/>
+    <testcase name="Child Feature has display name =Mobile Payments"/>
+    <testcase name="Feature Multi-Currency Payments entitled true"/>
+    <testcase name="Child Feature has display name =Multi-Currency Payments"/>
+    <testcase name="Feature Payees entitled true"/>
+    <testcase name="Child Feature has display name =Manage Payees"/>
+    <testcase name="All Entitlements for Payments are entitled True for channel profile"/>
+    <testcase name="Feature Stops entitled true"/>
+    <testcase name="Feature has display name =Stop Payments"/>
+    <testcase name="All Entitlements for Stop Payment are entitled True for channel profile"/>
+    <testcase name="Limit for Per Transaction is100.00 and MaxLimitValue is null for Transfers"/>
+    <testcase name="Limit for Per Day is200.00 and MaxLimitValue is null for Transfers"/>
+    <testcase name="Limit for Per Week is400.00 and MaxLimitValue is null for Transfers"/>
+    <testcase name="Limit for Per Month is800.00 and MaxLimitValue is null for Transfers"/>
+    <testcase name="Feature Transfers entitled true"/>
+    <testcase name="Feature has display name =Transfers"/>
+    <testcase name="Feature Multi-Currency Transfers entitled true"/>
+    <testcase name="Child Feature has display name =Multi-Currency Transfers"/>
+    <testcase name="Feature Transfers Template entitled true"/>
+    <testcase name="Child Feature has display name =Transfers Template"/>
+    <testcase name="All Entitlements for Transfers are entitled True for channel profile"/>
+    <testcase name="Limit for Per Transaction is100.00 and MaxLimitValue is null for External Transfers"/>
+    <testcase name="Limit for Per Day is200.00 and MaxLimitValue is null for External Transfers"/>
+    <testcase name="Limit for Per Week is400.00 and MaxLimitValue is null for External Transfers"/>
+    <testcase name="Limit for Per Month is800.00 and MaxLimitValue is null for External Transfers"/>
+    <testcase name="Feature External Transfers entitled true"/>
+    <testcase name="Feature has display name =External Transfers"/>
+    <testcase name="Feature External Transfers Add Account entitled true"/>
+    <testcase name="Child Feature has display name =Transfers Add External Account"/>
+    <testcase name="Limit for child Per Transaction is100.00 and MaxLimitValue is null for External Transfers"/>
+    <testcase name="Limit for child Per Day is200.00 and MaxLimitValue is null for External Transfers"/>
+    <testcase name="Limit for child Per Week is400.00 and MaxLimitValue is null for External Transfers"/>
+    <testcase name="Limit for child Per Month is800.00 and MaxLimitValue is null for External Transfers"/>
+    <testcase name="Feature External Transfers From entitled true"/>
+    <testcase name="Child Feature has display name =Transfers From External Account"/>
+    <testcase name="All Entitlements for External Transfers are entitled True for channel profile"/>
+    <testcase name="Limit for Per Transaction is100.00 and MaxLimitValue is null for Transfers To External Account"/>
+    <testcase name="Limit for Per Day is200.00 and MaxLimitValue is null for Transfers To External Account"/>
+    <testcase name="Limit for Per Week is400.00 and MaxLimitValue is null for Transfers To External Account"/>
+    <testcase name="Limit for Per Month is800.00 and MaxLimitValue is null for Transfers To External Account"/>
+    <testcase name="Feature External Transfers To entitled true"/>
+    <testcase name="Feature has display name =Transfers To External Account"/>
+    <testcase name="Limit for child Per Transaction is100.00 and MaxLimitValue is null for Transfers To External Account"/>
+    <testcase name="Limit for child Per Day is200.00 and MaxLimitValue is null for Transfers To External Account"/>
+    <testcase name="Limit for child Per Week is400.00 and MaxLimitValue is null for Transfers To External Account"/>
+    <testcase name="Limit for child Per Month is800.00 and MaxLimitValue is null for Transfers To External Account"/>
+    <testcase name="Feature External Transfers To Unverified Account entitled true"/>
+    <testcase name="Child Feature has display name =Transfers To Unverified External Account"/>
+    <testcase name="All Entitlements for Transfers To External Account are entitled True for channel profile"/>
+    <testcase name="Feature MBanking entitled true"/>
+    <testcase name="Feature has display name =Mobile Banking"/>
+    <testcase name="Feature Portal entitled true"/>
+    <testcase name="Feature has display name =Financial News"/>
+    <testcase name="Feature Services entitled true"/>
+    <testcase name="Feature has display name =Services"/>
+    <testcase name="Feature faq entitled true"/>
+    <testcase name="Feature has display name =Frequently Asked Questions"/>
+    <testcase name="Feature sessionRcpt entitled true"/>
+    <testcase name="Feature has display name =Session Receipt"/>
+    <testcase name="All Entitlements for Others are entitled True for channel profile"/>
+  </testsuite>
+  <testsuite name="Add Retail User Profile Features with entitlements with limits on Channel" id="dd67543b-b65d-458b-9d59-6f683f333dfe" tests="1" time="243.375">
+    <testcase name="Modify entitlements with limit for feature Account Management on channel profile"/>
+    <testcase name="Modify entitlements with limit for feature Administration on channel profile"/>
+    <testcase name="Modify entitlements with limit for feature Payments on channel profile"/>
+    <testcase name="Modify entitlements with limit for feature Stop Payment on channel profile"/>
+    <testcase name="Modify entitlements with limit for feature Transfers on channel profile"/>
+    <testcase name="Modify entitlements with limit for feature External Transfers on channel profile"/>
+    <testcase name="Modify entitlements with limit for feature Transfers To External Account on channel profile"/>
+    <testcase name="Modify entitlements with limit for feature Others on channel profile"/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children and limits verify on channel" id="0d9e15f8-b15a-49c2-a017-dc1eef15029f" tests="11" time="38.375">
+    <testcase name="Feature Account Setup entitled true"/>
+    <testcase name="Feature has display name =Account Setup"/>
+    <testcase name="Feature AccountAggregation entitled true"/>
+    <testcase name="Feature has display name =Account Aggregation"/>
+    <testcase name="Feature CheckImaging entitled true"/>
+    <testcase name="Feature has display name =Check Imaging"/>
+    <testcase name="Feature History entitled true"/>
+    <testcase name="Feature has display name =Account History"/>
+    <testcase name="Feature OnlineStatement entitled true"/>
+    <testcase name="Feature has display name =Online Statement"/>
+    <testcase name="All Entitlement for Account Management are entitled True for channel profile"/>
+    <testcase name="Feature Manage Users entitled true"/>
+    <testcase name="Feature has display name =Manage Users"/>
+    <testcase name="All Entitlement for Administration are entitled True for channel profile"/>
+    <testcase name="Limit for Per Transaction is50.00 and MaxLimitValue is : 100.00 for Payments"/>
+    <testcase name="Limit for Per Day is100.00 and MaxLimitValue is : 200.00 for Payments"/>
+    <testcase name="Limit for Per Week is200.00 and MaxLimitValue is : 400.00 for Payments"/>
+    <testcase name="Limit for Per Month is400.00 and MaxLimitValue is : 800.00 for Payments"/>
+    <testcase name="Feature Payments entitled true"/>
+    <testcase name="Feature has display name =Payments"/>
+    <testcase name="Feature Mobile Payments entitled true"/>
+    <testcase name="Child Feature has display name =Mobile Payments"/>
+    <testcase name="Feature Multi-Currency Payments entitled true"/>
+    <testcase name="Child Feature has display name =Multi-Currency Payments"/>
+    <testcase name="Feature Payees entitled true"/>
+    <testcase name="Child Feature has display name =Manage Payees"/>
+    <testcase name="All Entitlement for Payments are entitled True for channel profile"/>
+    <testcase name="Feature Stops entitled true"/>
+    <testcase name="Feature has display name =Stop Payments"/>
+    <testcase name="All Entitlement for Stop Payment are entitled True for channel profile"/>
+    <testcase name="Limit for Per Transaction is50.00 and MaxLimitValue is : 100.00 for Transfers"/>
+    <testcase name="Limit for Per Day is100.00 and MaxLimitValue is : 200.00 for Transfers"/>
+    <testcase name="Limit for Per Week is200.00 and MaxLimitValue is : 400.00 for Transfers"/>
+    <testcase name="Limit for Per Month is400.00 and MaxLimitValue is : 800.00 for Transfers"/>
+    <testcase name="Feature Transfers entitled true"/>
+    <testcase name="Feature has display name =Transfers"/>
+    <testcase name="Feature Multi-Currency Transfers entitled true"/>
+    <testcase name="Child Feature has display name =Multi-Currency Transfers"/>
+    <testcase name="Feature Transfers Template entitled true"/>
+    <testcase name="Child Feature has display name =Transfers Template"/>
+    <testcase name="All Entitlement for Transfers are entitled True for channel profile"/>
+    <testcase name="Limit for Per Transaction is50.00 and MaxLimitValue is : 100.00 for External Transfers"/>
+    <testcase name="Limit for Per Day is100.00 and MaxLimitValue is : 200.00 for External Transfers"/>
+    <testcase name="Limit for Per Week is200.00 and MaxLimitValue is : 400.00 for External Transfers"/>
+    <testcase name="Limit for Per Month is400.00 and MaxLimitValue is : 800.00 for External Transfers"/>
+    <testcase name="Feature External Transfers entitled true"/>
+    <testcase name="Feature has display name =External Transfers"/>
+    <testcase name="Feature External Transfers Add Account entitled true"/>
+    <testcase name="Child Feature has display name =Transfers Add External Account"/>
+    <testcase name="Limit for child Per Transaction is50.00 and MaxLimitValue is :100.00 for External Transfers"/>
+    <testcase name="Limit for child Per Day is100.00 and MaxLimitValue is :200.00 for External Transfers"/>
+    <testcase name="Limit for child Per Week is200.00 and MaxLimitValue is :400.00 for External Transfers"/>
+    <testcase name="Limit for child Per Month is400.00 and MaxLimitValue is :800.00 for External Transfers"/>
+    <testcase name="Feature External Transfers From entitled true"/>
+    <testcase name="Child Feature has display name =Transfers From External Account"/>
+    <testcase name="All Entitlement for External Transfers are entitled True for channel profile"/>
+    <testcase name="Limit for Per Transaction is50.00 and MaxLimitValue is : 100.00 for Transfers To External Account"/>
+    <testcase name="Limit for Per Day is100.00 and MaxLimitValue is : 200.00 for Transfers To External Account"/>
+    <testcase name="Limit for Per Week is200.00 and MaxLimitValue is : 400.00 for Transfers To External Account"/>
+    <testcase name="Limit for Per Month is400.00 and MaxLimitValue is : 800.00 for Transfers To External Account"/>
+    <testcase name="Feature External Transfers To entitled true"/>
+    <testcase name="Feature has display name =Transfers To External Account"/>
+    <testcase name="Limit for child Per Transaction is50.00 and MaxLimitValue is :100.00 for Transfers To External Account"/>
+    <testcase name="Limit for child Per Day is100.00 and MaxLimitValue is :200.00 for Transfers To External Account"/>
+    <testcase name="Limit for child Per Week is200.00 and MaxLimitValue is :400.00 for Transfers To External Account"/>
+    <testcase name="Limit for child Per Month is400.00 and MaxLimitValue is :800.00 for Transfers To External Account"/>
+    <testcase name="Feature External Transfers To Unverified Account entitled true"/>
+    <testcase name="Child Feature has display name =Transfers To Unverified External Account"/>
+    <testcase name="All Entitlement for Transfers To External Account are entitled True for channel profile"/>
+    <testcase name="Feature MBanking entitled true"/>
+    <testcase name="Feature has display name =Mobile Banking"/>
+    <testcase name="Feature Portal entitled true"/>
+    <testcase name="Feature has display name =Financial News"/>
+    <testcase name="Feature Services entitled true"/>
+    <testcase name="Feature has display name =Services"/>
+    <testcase name="Feature faq entitled true"/>
+    <testcase name="Feature has display name =Frequently Asked Questions"/>
+    <testcase name="Feature sessionRcpt entitled true"/>
+    <testcase name="Feature has display name =Session Receipt"/>
+    <testcase name="All Entitlement for Others are entitled True for channel profile"/>
+  </testsuite>
+</testsuites>

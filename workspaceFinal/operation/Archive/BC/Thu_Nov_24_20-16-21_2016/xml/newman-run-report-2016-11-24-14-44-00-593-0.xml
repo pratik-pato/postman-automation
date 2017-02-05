@@ -1,0 +1,1169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Omni Channel Profile Features With Limit">
+  <testsuite name="Login" id="799b17dc-21f3-4d55-8f59-9cc0cb8c3b97" tests="1" time="627.1666666666666">
+    <testcase name="Logged in with admin : Iteration = 101"/>
+    <testcase name="Logged in with admin : Iteration = 201"/>
+    <testcase name="Logged in with admin : Iteration = 501"/>
+    <testcase name="Logged in with admin : Iteration = 502"/>
+    <testcase name="Logged in with admin : Iteration = 601"/>
+    <testcase name="Logged in with admin : Iteration = 603"/>
+    <testcase name="Logged in with admin : Iteration = 701"/>
+    <testcase name="Logged in with admin : Iteration = 702"/>
+    <testcase name="Logged in with admin : Iteration = 805"/>
+    <testcase name="Logged in with admin : Iteration = 1201"/>
+    <testcase name="Logged in with admin : Iteration = 1202"/>
+    <testcase name="Logged in with admin : Iteration = 1401"/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures without assigning feature" id="f64cc18b-e200-49e3-b53c-ce7e680f7cb7" tests="0" time="310.75">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 1
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 2
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 3
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 4
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 5
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 6
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 7
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 8
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 9
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 10
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 11
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="Add Retail User Profile Feature without entitlements" id="52c0b35a-1cde-4264-b97c-25a41f9df9a7" tests="1" time="696.1666666666666">
+    <testcase name="Feature : undefined added without entitlements">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 12 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="get ProfileFeatures entitlements" id="618f2ff7-63ca-48f5-aa5e-e5d9a5d13ddf" tests="0" time="859.0833333333334">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 1
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 2
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 3
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 4
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 5
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 6
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 7
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 8
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 9
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 10
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 11
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="delete feature" id="6469ca4d-6bfc-446f-ae54-229f0753d574" tests="1" time="779.75">
+    <testcase name="Feature undefined deleted">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 12 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Add Retail User Profile Features with entitlements (Valid Set)" id="94a0a97d-2be7-472e-ae4f-02bd83e3513f" tests="1" time="620.5">
+    <testcase name="Feature undefined added with entitlemnts entitled true">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 12 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children and limits" id="c15d5385-b313-4f53-9802-8f2686e80dbd" tests="0" time="743.75">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 1
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 2
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 3
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 4
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 5
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 6
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 7
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 8
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 9
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 10
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 11
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="Add Retail User Profile Features with entitlements (Valid Set)" id="3f766175-6f63-4bcd-a8fa-12933fd5fe20" tests="1" time="596.4166666666666">
+    <testcase name="Modify entitlements for feature undefined on channel profile">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 12 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children entitled false on channel Verify" id="74e44040-f997-4dd0-a2be-c63ad8244b7f" tests="0" time="827.4166666666666">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 1
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 2
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 3
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 4
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 5
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 6
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 7
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 8
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 9
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 10
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 11
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="Add Business Profile Features with entitlements with limits" id="58d4ec23-987b-4150-9306-33b9922a5cdf" tests="1" time="842.25">
+    <testcase name="Modify entitlements for feature undefined on cross profile">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 12 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children and limits verify" id="cfdfd62f-0b0a-4ef6-ad2b-26b1172d17fa" tests="0" time="738.25">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 1
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 2
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 3
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 4
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 5
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 6
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 7
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 8
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 9
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 10
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 11
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="Add Retail User Profile Features with entitlements with limits on Channel" id="220f8a89-020c-432c-ba74-e953142880d7" tests="1" time="591.5833333333334">
+    <testcase name="Modify entitlements with limit for feature undefined on channel profile">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 12 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children and limits verify on channel" id="a36c7401-3522-45bd-99fa-1b623b3ee955" tests="0" time="1028">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 1
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 2
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 3
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 4
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 5
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 6
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 7
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 8
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 9
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 10
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+Iteration: 11
+
+---
+testScriptError: TypeError: Cannot read property 'results' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+</testsuites>

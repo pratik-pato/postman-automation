@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="ProfileAssignmentRetail">
+  <testsuite name="Login to BC as admin" id="b0379874-c23c-4eb4-8b93-db6ffca54978" tests="1" time="882">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add RetailUser Profile(MA Platinum)" id="3ac164a2-1aeb-485f-974a-fb99db3ec8ca" tests="0" time="0">
+    <error>
+      <![CDATA[Iteration: 0
+RequestError: Error: read ECONNRESET
+    at exports._errnoException (util.js:907:11)
+    at TLSWrap.onread (net.js:557:26)
+
+---
+testScriptError: ReferenceError: responseBody is not defined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:3:27)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="get profile by Id" id="7b0d7ed1-bf3f-4ffb-8ef8-8a4d41f72437" tests="1" time="863">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'ChannelProfiles' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:5:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+    <testcase name="status code is 200 : OK">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="assign channel profile(which is not allowed)" id="d58d3614-79e6-41ab-b884-155f4660d534" tests="1" time="984">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="assign profile to retail user" id="c915fed2-097b-473b-9147-c9c738ac3626" tests="0" time="815">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'Id' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:6:51)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="delete profile associated with user" id="72e7f8d8-943b-4500-8485-2d5ab6f2e6bc" tests="1" time="662">
+    <testcase name="Cannot Delete profile which is associated with user">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="get user" id="1be3b545-5c98-4a16-9d51-7bda1227526e" tests="0" time="1370">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'UserName' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:35)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="Add RetailUser Profile(MA Platinum) to assign in PUT" id="40ffd02b-2a30-43d9-b4ec-95416e77c84a" tests="1" time="657">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Modify retail user" id="8c184bc8-9c61-467b-a3be-3fa3c55b7cdf" tests="1" time="579">
+    <testcase name="status code is 204 : No Content">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="verify edit user" id="3b03dea5-a1b9-4920-b607-f48fe6501a1c" tests="0" time="902">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'UserName' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:5:35)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="retailUser without profile" id="5e1019ca-c35f-4a9c-8e32-b077f6a14cd6" tests="1" time="933">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="assign validMultipleProfile" id="0bcc532a-d25b-4888-a558-42f1e2e598e4" tests="1" time="973">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add RetailUser Profile(Omni Channel)" id="77ef8fab-6fe4-4212-a74a-bc76152585d5" tests="1" time="694">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="assign omni channel profile to retail user" id="46e82ecd-badd-4046-889c-ba1b885dba40" tests="1" time="313">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="assign businessUser profile(which is not allowed) " id="8f857108-05a5-445e-b844-70a200d038d4" tests="1" time="454">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Login to BC as jbrown" id="d9e85430-7c34-4657-b63e-57535affb88c" tests="1" time="591">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="assign profile to retail user(by not entitled user)" id="6e8576d8-4fdc-4c38-bef3-f93bdb16b7cc" tests="1" time="404">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,3169 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Secondary User Harness v1 copy",
+		"_postman_id": "32f4b1aa-bd7f-2a30-991a-19445899bf93",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Pre-requsite",
+			"description": "",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\r\npostman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));\r\npostman.setEnvironmentVariable(\"x-csrf-token\",postman.getResponseHeader('x-csrf-token')); \r\n\r\npostman.setEnvironmentVariable(\"Per Day\", 200.00);\r\npostman.setEnvironmentVariable(\"Per Transaction\", 100.00);\r\npostman.setEnvironmentVariable(\"Per Week\", 300.00);\r\npostman.setEnvironmentVariable(\"Per Month\", 400.00);\r\n\r\nvar jsonData = JSON.parse(responseBody);\r\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"Id\": \"\",\r\n\t\"UserName\": \"manoj\",\r\n\t\"AppType\": \"Consumers\",\r\n\t\"Password\": \"Pass1234\",\r\n\t\"ChannelType\": \"Web\"\r\n} "
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Secondary User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"secodaryUserId\",jsonData.d.Id);\npostman.setEnvironmentVariable(\"secodaryUserName\",jsonData.d.UserName);"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUsers",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FirstName\": \"aish{{$randomInt}}\",\r\n    \"LastName\": \"aish{{$randomInt}}\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass1234\",\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n    \"CustId\": \"aish{{$randomInt}}\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"aish{{$randomInt}}\",\r\n\t\"CustomerType\": \"2\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj{{$randomInt}}@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n\t \"PrimaryUserId\":\"273\"\r\n} "
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Secondary User ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"User is activated\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUsers('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"AccountStatus\": \"1\"\r\n} "
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Modify Secondary User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"User is Modified\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUsers('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FirstName\": \"muser_test1\",\r\n    \"LastName\": \"muser_test1\",\r\n    \"MiddleName\": \"\",\r\n    \"Password\": \"Pass1234\",\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    }\r\n} "
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get added Secondary Users ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\ntests[\"secondary User is added\"] = jsonData.d.Id===environment['secodaryUserId']"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUsers('{{secodaryUserId}}')",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Entitlements ",
+			"description": "",
+			"item": [
+				{
+					"name": "Revoking access for Transfers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is revoked for specified user\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers for Secondary User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for Transfers ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted for speciefied user\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers\",\r\n        \"Entitled\": true}\r\n        \r\n\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers for Secondary User- check granted Permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement as true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access to Payments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Payments is revoked for specified user\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Payments\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }\r\n  "
+						},
+						"description": "Revoking access to Payments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments for Secondary User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have payments as entitlement as false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Payments'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Payments for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access to Payments ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Payments is granted for specified user\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Payments\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access to Payments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments for Secondary User- check granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have payments as entitlement true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Payments'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Payments for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking of Mobile Payments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Mobile Payments is revoked for specified user\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Mobile Payments\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking of Mobile Payments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mobile Payemnts for Secondary User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Mobile Payments as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Mobile Payments'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Mobile Payemnts for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting of Mobile Payments ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Mobile Payments is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Mobile Payments\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Granting of Mobile Payments "
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mobile Payments for Secondary User - check granted entitlement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Mobile Payments as entitlement as true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Mobile Payments'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Mobile Payments for Secondary User - check granted entitlement"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for External Transfers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"Id\": \"{{secodaryUserId}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"External Transfers\",\n\n        \"Entitled\": false\n        \n            }\n            ]\n  }\n\n\n"
+						},
+						"description": "Revoking access for External Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers for Secondary User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers as entitlement false \"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"Id\": \"{{secodaryUserId}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"External Transfers\",\n\n        \"Entitled\": true\n        \n            }\n            ]\n  }\n\n\n"
+						},
+						"description": "Granting access for External Transfers "
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers for Secondary User - check granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers as entitlement true \"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers for Secondary User - check granted permission"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for Transfer Template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfer Template is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Id\": \"{{secodaryUserId}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"Transfers Template\",\n\n        \"Entitled\": false\n        \n            }\n            ]\n  }\n\n\n\n\n\n\n"
+						},
+						"description": "Revoking access for Transfer Template"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfer Template for Secondary User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfer Template as entitlement false \"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers Template'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfer Template for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting  access for Transfer Template ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfer Template is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Id\": \"{{secodaryUserId}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"Transfers Template\",\n\n        \"Entitled\": true\n        \n            }\n            ]\n  }\n\n\n\n\n\n\n"
+						},
+						"description": "Granting  access for Transfer Template "
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfer Template for Secondary User- check for granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfer Template as entitlement true \"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers Template'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfer Template for Secondary User- check for granted permission"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for External Transfers To",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers to is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for Secondary User ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers To as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers To'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers To",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers To is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for Secondary User- check granted Permission ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers To as entitlement true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers To'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for External Transfers From",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers From is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers From for Secondary User ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers from as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers From'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers From",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers From is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers from for Secondary User- check granted Permission ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers From as entitlement as True\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers From'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for Transfers To",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers To is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access for Transfers To"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers to for Secondary User ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers To as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers To'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for Transfers  to",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers To is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers for Secondary User- check granted Permission ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers To as entitlement true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers To'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for Transfers From",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers From is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access for Transfers From"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers from for Secondary User ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers From as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers From'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for Transfers  from",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers From is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers from for Secondary User- check granted Permission ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers From'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3.Entitlements  with Limits",
+			"description": "",
+			"item": [
+				{
+					"name": "Granting access for Transfers with Limits",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers\",\r\n\r\n        \"Entitled\": true,\r\n        \r\n        \"Limits\": [{\r\n\"Period\": \"Per Month\",\r\n\"Amount\": \"{{Per Month}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Week\",\r\n\"Amount\": \"{{Per Week}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Day\",\r\n\"Amount\": \"{{Per Day}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Transaction\",\r\n\"Amount\": \"{{Per Transaction}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Granting access for Transfers with Limits"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers for Secondary User- check granted Permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access to Payments ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Payments is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Payments\",\r\n                \"Entitled\": true,\r\n\r\n             \"Limits\": [{\r\n\"Period\": \"Per Month\",\r\n\"Amount\": \"{{Per Month}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Week\",\r\n\"Amount\": \"{{Per Week}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Day\",\r\n\"Amount\": \"{{Per Day}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Transaction\",\r\n\"Amount\": \"{{Per Transaction}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access to Payments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments for Secondary User- check granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Payments'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Payments for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting of Mobile Payments ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Mobile Payments is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Mobile Payments\",\r\n\r\n        \"Entitled\": true\r\n        \r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Granting of Mobile Payments "
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mobile Payments for Secondary User - check granted entitlement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Mobile Payments as entitlement as true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Mobile Payments'&$expand=Limits ",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Mobile Payments for Secondary User - check granted entitlement"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"Id\": \"{{secodaryUserId}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"External Transfers\",\n        \"Entitled\": true,\n            \"Limits\": [{\n\"Period\": \"Per Month\",\n\"Amount\": \"{{Per Month}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"Per Week\",\n\"Amount\": \"{{Per Week}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"Per Day\",\n\"Amount\": \"{{Per Day}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"Per Transaction\",\n\"Amount\": \"{{Per Transaction}}\",\n\"ExceedWithApproval\": false\n}]\n\n            }\n            ]\n  }"
+						},
+						"description": "Granting access for External Transfers "
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers for Secondary User - check granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers for Secondary User - check granted permission"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting  access for Transfer Template ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfer Template is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Id\": \"{{secodaryUserId}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"Transfers Template\",\n                \"Entitled\": true,\n       \"Limits\": [{\n\"Period\": \"Per Month\",\n\"Amount\": \"{{Per Month}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"Per Week\",\n\"Amount\": \"{{Per Week}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"Per Day\",\n\"Amount\": \"{{Per Day}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"Per Transaction\",\n\"Amount\": \"{{Per Transaction}}\",\n\"ExceedWithApproval\": false\n}]\n\n            }\n            ]\n  }"
+						},
+						"description": "Granting  access for Transfer Template "
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfer Template for Secondary User- check for granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers Template'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfer Template for Secondary User- check for granted permission"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers To",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n        \"Entitled\": true,\r\n             \"Limits\": [{\r\n\"Period\": \"Per Month\",\r\n\"Amount\": \"{{Per Month}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Week\",\r\n\"Amount\": \"{{Per Week}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Day\",\r\n\"Amount\": \"{{Per Day}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Transaction\",\r\n\"Amount\": \"{{Per Transaction}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for Secondary User- check granted Permission ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers To'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers From",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n        \"Entitled\": true,\r\n            \"Limits\": [{\r\n\"Period\": \"Per Month\",\r\n\"Amount\": \"{{Per Month}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Week\",\r\n\"Amount\": \"{{Per Week}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Day\",\r\n\"Amount\": \"{{Per Day}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Transaction\",\r\n\"Amount\": \"{{Per Transaction}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers from for Secondary User- check granted Permission ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers From'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for Transfers  to",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n        \"Entitled\": true,\r\n             \"Limits\": [{\r\n\"Period\": \"Per Month\",\r\n\"Amount\": \"{{Per Month}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Week\",\r\n\"Amount\": \"{{Per Week}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Day\",\r\n\"Amount\": \"{{Per Day}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Transaction\",\r\n\"Amount\": \"{{Per Transaction}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers for Secondary User- check granted Permission ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers To'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for Transfers  from",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n        \"Entitled\": true,\r\n             \"Limits\": [{\r\n\"Period\": \"Per Month\",\r\n\"Amount\": \"{{Per Month}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Week\",\r\n\"Amount\": \"{{Per Week}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Day\",\r\n\"Amount\": \"{{Per Day}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Transaction\",\r\n\"Amount\": \"{{Per Transaction}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers from for Secondary User- check granted Permission ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers From'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for Secondary User"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Entitlements with Accounts",
+			"description": "",
+			"item": [
+				{
+					"name": "*Get Accounts for Secondary User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "\nvar jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\npostman.setEnvironmentVariable(\"Account\",res[1].ObjectId); "
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Access' ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Accounts for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for Transfers To for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": false}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for Transfers To for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers to for Secondary User for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers To as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers to for Secondary User for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for Transfers To for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": true}\r\n        \r\n        ]}"
+						},
+						"description": "Grant access for Transfers To for a particular account "
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers to for Secondary User for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers to for Secondary User for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for Transfers From for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": false}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers From for Secondary User for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers From' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers From for Secondary User for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for Transfers From for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": true}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers From for Secondary User for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers From' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers From for Secondary User for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for External Transfers To for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": false}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for External Transfers To for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for Secondary User for a particular account  ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers To for Secondary User for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for External Transfers To for a particular account   ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": true}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for External Transfers To for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for Secondary User for a particular account   ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers To for Secondary User for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for External Transfers From for a particular account   ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": false}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for External Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers From for Secondary User for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers From' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers From for Secondary User for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for External Transfers From for a particular account    ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": true}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for External Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers From for Secondary User for a particular account    ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers From' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers From for Secondary User for a particular account"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Entitlements with  Account and Limits",
+			"description": "",
+			"item": [
+				{
+					"name": "*Get Accounts for Secondary User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "\nvar jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\npostman.setEnvironmentVariable(\"Account\",res[1].ObjectId); "
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Access' ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Accounts for Secondary User"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for Transfers To for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": true,\r\n      \"Limits\": [{\r\n\"Period\": \"Per Month\",\r\n\"Amount\": \"{{Per Month}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Week\",\r\n\"Amount\": \"{{Per Week}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Day\",\r\n\"Amount\": \"{{Per Day}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Transaction\",\r\n\"Amount\": \"{{Per Transaction}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Grant access for Transfers To for a particular account "
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers to for Secondary User for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'&$expand=Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers to for Secondary User for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for Transfers From for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"660110110-2732731-1\",\r\n        \"Entitled\": true,\r\n           \"Limits\": [{\r\n\"Period\": \"Per Month\",\r\n\"Amount\": \"{{Per Month}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Week\",\r\n\"Amount\": \"{{Per Week}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Day\",\r\n\"Amount\": \"{{Per Day}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Transaction\",\r\n\"Amount\": \"{{Per Transaction}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access for Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers From for Secondary User for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers From' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'&$expand=Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers From for Secondary User for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for External Transfers To for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}}}\",\r\n        \"Entitled\": true,\r\n           \"Limits\": [{\r\n\"Period\": \"Per Month\",\r\n\"Amount\": \"{{Per Month}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Week\",\r\n\"Amount\": \"{{Per Week}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Day\",\r\n\"Amount\": \"{{Per Day}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Transaction\",\r\n\"Amount\": \"{{Per Transaction}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access for External Transfers To for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for Secondary User for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'&$expand=Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers To for Secondary User for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for External Transfers From for a particular account   ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{secodaryUserId}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": true,\r\n           \"Limits\": [{\r\n\"Period\": \"Per Month\",\r\n\"Amount\": \"{{Per Month}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Week\",\r\n\"Amount\": \"{{Per Week}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Day\",\r\n\"Amount\": \"{{Per Day}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"Per Transaction\",\r\n\"Amount\": \"{{Per Transaction}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access for External Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers From for Secondary User for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"Per Transaction\"]+\".00\";\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"Per Day\"]+\".00\";\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"Per Week\"]+\".00\";\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"Per Month\"]+\".00\";"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/SecondaryUserProfiles('{{secodaryUserId}}')/Entitlements?$filter=OperationName eq 'External Transfers From' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'&$expand=Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers From for Secondary User for a particular account"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

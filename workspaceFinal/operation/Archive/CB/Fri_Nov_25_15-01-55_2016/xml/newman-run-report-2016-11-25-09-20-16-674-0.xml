@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="ProfileAssignmentsBusiness">
+  <testsuite name="Login to CB as primaryadmin" id="a96adab7-0ae8-47fc-aa05-f43b834ac806" tests="1" time="666">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile" id="452d27a2-7678-4a9c-bc15-298438af0e74" tests="0" time="0">
+    <error>
+      <![CDATA[Iteration: 0
+RequestError: Error: read ECONNRESET
+    at exports._errnoException (util.js:907:11)
+    at TCP.onread (net.js:557:26)
+
+---
+testScriptError: ReferenceError: responseBody is not defined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:3:27)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="get profile by Id copy" id="ea460839-aa3c-4412-bb98-0a94bf4d71bf" tests="1" time="414">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'ChannelProfiles' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:5:21)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+    <testcase name="status code is 200 : OK">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="business user add with profile" id="81376df0-c55d-4192-956f-db0e8460c400" tests="1" time="492">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'Id' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:5:51)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+    <testcase name="status code is 201 : Created">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Get Business Users with profile" id="15854c6d-adf5-4bb8-abd4-715efddb6702" tests="0" time="455">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'UserName' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:53)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="modify business user" id="48ea502c-b065-48b9-9355-c1fb9f19f8f8" tests="1" time="450">
+    <testcase name="status code is 204 : No Content">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Get Business Users with profile copy" id="48bfcc00-da0d-40c7-aa57-e539adfff40a" tests="0" time="451">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'UserName' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:53)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="business user add without profile" id="245a468b-9df0-44a3-8693-712a1cbba103" tests="1" time="501">
+    <testcase name="Profile is required."/>
+  </testsuite>
+  <testsuite name="business user add with channel profile" id="69f5a2ef-6a3d-4bd4-8b2d-79a3180fbd53" tests="1" time="498">
+    <testcase name="Profile ID is Invalid.">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="business user add with retailUser profile" id="22b41985-432b-441e-80ca-f9c87af03f7e" tests="1" time="485">
+    <testcase name="Profile ID is Invalid."/>
+  </testsuite>
+  <testsuite name="business user add with invalid profileId" id="db61c738-1210-4afa-b3d2-4ec6e78b7089" tests="1" time="1131">
+    <testcase name="Profile ID is Invalid."/>
+  </testsuite>
+  <testsuite name="business user add with multiple profile" id="93fce6f4-f9cb-4c8d-9604-d3e44d116d73" tests="1" time="488">
+    <testcase name="User can be assigned to only one Profile."/>
+  </testsuite>
+  <testsuite name="Login to CB as jolina" id="daa443c6-532b-44d0-bbac-37237ee1cd0c" tests="1" time="626">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile with user not entitled to add" id="5d1d1490-cb95-4057-93f3-e3ca838084dc" tests="1" time="255">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="business user add with profile with user not entitled" id="909372d5-4961-4528-b73d-adc692904c3f" tests="1" time="475">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Login to CB as secondaryadmin" id="50e73719-27ee-4d79-a2a6-dad8af5d2f3f" tests="1" time="662">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile with secondaryadmin" id="f49342ad-46e2-478b-ac20-7613d4c1fad5" tests="1" time="402">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="business user add with secondaryadmin" id="a78b2902-c544-4018-911f-eab4254b84d3" tests="1" time="2255">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="delete assigned profile" id="5722e274-98f2-46e4-86c9-89d4a84d3ec9" tests="0" time="0">
+    <error>
+      <![CDATA[Iteration: 0
+RequestError: Error: read ECONNRESET
+    at exports._errnoException (util.js:907:11)
+    at TCP.onread (net.js:557:26)
+
+---
+testScriptError: ReferenceError: responseBody is not defined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:3:45)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+</testsuites>

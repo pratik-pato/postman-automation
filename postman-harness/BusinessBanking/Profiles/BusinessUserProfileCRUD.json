@@ -1,0 +1,623 @@
+{
+	"variables": [],
+	"info": {
+		"name": "BusinessUserProfile_Harness",
+		"_postman_id": "6c251885-d575-9b35-9500-1a767d5f8db2",
+		"description": "harness includes following operations on business profile\n1. Add\n2. Get\n3. Delete\n4. Modify",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login to CB as primaryadmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\n"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"primaryadmin\",\r\n\r\n               \"AppType\": \"Business\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n}"
+				},
+				"description": "1. BusinessLogin"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"Id\", jsonData.d.Id);\ntests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Test add postman_harness\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Add profile test"
+			},
+			"response": []
+		},
+		{
+			"name": "delete profile1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles('{{Id}}')",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Delete previously created profile"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile to test Duplicate profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"Id\", jsonData.d.Id);\ntests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Test add postman for Duplicate_harness\",    \r\n        \"Description\": \"This for testing duplicate profile \",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "3.1> Add profile to test Duplicate"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile Duplicate profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Test add postman for Duplicate_harness\",    \r\n        \"Description\": \"This for testing duplicate profile \",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "3.2> Add profile to test Duplicate"
+			},
+			"response": []
+		},
+		{
+			"name": "delete profile2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles('{{Id}}')",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Delete previously created profile"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile Invalid Channel",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Invalid channel\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"InvMobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Add profile test with Invalid Channel"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile Duplicate Channel",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Duplicate channel\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            } ,\r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }\r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Add profile test with Duplicate Channel"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile With Special Character",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"$pecialChar\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Add profile test special character"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile With Not allowed parentEntId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Not allowed parentEntId\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 49  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Add profile test Not allowed parentEntId"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile With Invalid parentEntId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Invalid parentEntId\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 9999 ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Add profile test Invalid parentEntId"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile With No Channel",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"No channel\",    \r\n        \"Description\": \"This is test for No channel\",    \r\n        \"ParentEntGroupId\": 1101 ,  \r\n        \"ChannelProfiles\": [    \r\n             \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Add profile test No Channel"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile for get by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"Id\", jsonData.d.Id);\ntests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Test for get by Id postman_harness\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            },\r\n            {    \r\n                \"Channel\": \"Web\"\r\n            }\r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Add profile test"
+			},
+			"response": []
+		},
+		{
+			"name": "get profile by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 200 : OK\"] = responseCode.code === 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles('{{Id}}')",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Get Business User Profile by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Modify business user profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles('{{Id}}')",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Test add postman_harness\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Web\"\r\n            },\r\n            {    \r\n                \"Channel\": \"Sms\"\r\n            } \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Modify profile"
+			},
+			"response": []
+		},
+		{
+			"name": "get profile by Id Verify modification",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Body has Sms Channel\"] = responseBody.has(\"Sms\");\ntests[\"Body has No Mobile Channel\"] = !(responseBody.has(\"Mobile\"));\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Get Business User Profile by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "delete profile3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles('{{Id}}')",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Delete previously created profile"
+			},
+			"response": []
+		},
+		{
+			"name": "get profile by Id Verify Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Get Business User Profile by ID"
+			},
+			"response": []
+		}
+	]
+}

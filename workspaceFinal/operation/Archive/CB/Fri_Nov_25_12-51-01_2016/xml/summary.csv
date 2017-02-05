@@ -1,0 +1,6 @@
+Suit,Requests,Assertions,FailCount,ErrorCount,FailMap
+BusinessUserProfile_Harness,18,18,1,2,#delete profile1$status code is 204 : No Content
+ProfileAssignmentsBusiness,19,15,4,6,#get profile by Id copy$status code is 200 : OK#business user add with profile$status code is 201 : Created#modify business user$status code is 204 : No Content#business user add with channel profile$Profile ID is Invalid.
+Business Profile Features With Limit,13,7,6,6,#Add Business Profile Feature without entitlements$Account Management added without entitlements.#delete feature$Account Management deleted.#Add Business Profile Features with entitlements (Valid Set)$Account Management added with entitlements entitled true.#Add Business Profile Features with entitlements (Valid Set) copy$Change entitlements to entitled false on channel for Account Management#Add Business Profile Features with entitlements with limits$set limits for Account Management#Add Business Profile Features with entitlements with limits on Channel$set limits on channel for Account Management
+BusinessUserProfile_Harness,18,20,0,3,
+transfer,3,4,0,2,

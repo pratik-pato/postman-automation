@@ -1,0 +1,543 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Lean Business with Business Employees",
+		"_postman_id": "4e80e915-bfb1-ceef-9bea-f627ed394ab2",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BC Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\npostman.setEnvironmentVariable(\"BC_TokenKey\",postman.getResponseHeader('TokenKey'));\npostman.setEnvironmentVariable(\"BC_x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\",    \r\n    \"ChannelType\": \"Web\"    \r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "valid business name with invalid cif",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Error message 'Invalid business CIF.'\"] = responseBody.has(\"Invalid business CIF.\");"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": "postman.setEnvironmentVariable('cif',data['cif']);\npostman.setEnvironmentVariable('businessName',data['id']);"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/businessservice/Businesses",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"BusinessName\": \"{{businessName}}\",\r\n    \"BusinessCIF\": \"defaultpass\",\r\n    \"CustomerId\": \"anything\",    \r\n    \"AffiliateBankID\": 1,\r\n    \"BankId\": \"1000\",\r\n    \"ServicesPackageId\": 28,\r\n    \"PrimaryContact\": {\r\n\r\n    \"FirstName\": \"Ebanking{{$randomInt}}\",\r\n\r\n    \"LastName\": \"OmniChannel{{$randomInt}}\",\r\n\r\n    \"MiddleName\": \"Entitlements{{$randomInt}}\",\r\n\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n\r\n    \"CustId\": \"{{$randomInt}}\",\r\n\r\n    \"Greeting\":null,\r\n\r\n    \"GreetingType\": \"2\",\r\n\r\n    \"OldPassword\":null,\r\n\r\n    \"Password\": \"Pass1234\",\r\n\r\n    \"PersonalBanker\": \"0\",\r\n\r\n    \"Ssn\": \"33-12-1234\",\r\n\r\n    \"MaskSSN\":null,\r\n\r\n    \"UserName\": \"primaryuser{{$randomInt}}\",\r\n\r\n    \"AccountStatus\": \"1\",\r\n\r\n    \"Timeout\": \"1500\",\r\n\r\n    \"Address\": {\r\n\r\n        \"Street\": \"1119 Overlake Drive\",\r\n\r\n        \"Street2\":null,\r\n\r\n        \"Street3\":null,\r\n\r\n        \"City\": \"Tulsa\",\r\n\r\n        \"State\": \"OK\",\r\n\r\n        \"StreetCode\":null,\r\n\r\n        \"Country\": \"USA\",\r\n\r\n        \"Email\": \"primaryuser{{$randomInt}}@anymail.com\",\r\n\r\n        \"Phone\": \"2065551423\",\r\n\r\n        \"Phone2\":null,\r\n\r\n        \"ZipCode\": \"98007\",\r\n\r\n        \"DataPhone\":null,\r\n\r\n        \"FaxPhone\":null,\r\n\r\n        \"PreferredContactMethod\":null,\r\n\r\n        \"PreferredLanguage\": \"en_US\"\r\n\r\n    }\r\n    },\r\n    \"SecondaryContact\": {\r\n\r\n    \"FirstName\": \"Ebanking2{{$randomInt}}\",\r\n\r\n    \"LastName\": \"OmniChannel2{{$randomInt}}\",\r\n\r\n    \"MiddleName\": \"Entitlements2{{$randomInt}}\",\r\n\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n\r\n    \"CustId\": \"2{{$randomInt}}\",\r\n\r\n    \"Greeting\":null,\r\n\r\n    \"GreetingType\": \"2\",\r\n\r\n    \"OldPassword\":null,\r\n\r\n    \"Password\": \"Pass1234\",\r\n\r\n    \"PersonalBanker\": \"0\",\r\n\r\n    \"Ssn\": \"33-12-1234\",\r\n\r\n    \"MaskSSN\":null,\r\n\r\n    \"UserName\": \"secodnaryuser{{$randomInt}}\",\r\n\r\n    \"AccountStatus\": \"1\",\r\n\r\n    \"Timeout\": \"1500\",\r\n\r\n    \"Address\": {\r\n\r\n        \"Street\": \"1119 Overlake Drive\",\r\n\r\n        \"Street2\":null,\r\n\r\n        \"Street3\":null,\r\n\r\n        \"City\": \"Tulsa\",\r\n\r\n        \"State\": \"OK\",\r\n\r\n        \"StreetCode\":null,\r\n\r\n        \"Country\": \"USA\",\r\n\r\n        \"Email\": \"secodnaryuser{{$randomInt}}@anymail.com\",\r\n\r\n        \"Phone\": \"2065551423\",\r\n\r\n        \"Phone2\":null,\r\n\r\n        \"ZipCode\": \"98007\",\r\n\r\n        \"DataPhone\":null,\r\n\r\n        \"FaxPhone\":null,\r\n\r\n        \"PreferredContactMethod\":null,\r\n\r\n        \"PreferredLanguage\": \"en_US\"\r\n\r\n    }\r\n    },\r\n    \"SupportedChannels\": [{\r\n    \t\"Id\": \"Web\"\r\n    }, {\r\n    \t\"Id\": \"Sms\"\r\n    },{\r\n    \t\"Id\": \"Mobile\"\r\n    }]\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Invalid business name with valid cif",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Error message 'The name of the business being enrolled is invalid.'\"] = responseBody.has(\"The name of the business being enrolled is invalid.\");"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": "//postman.setEnvironmentVariable('cif',data['cif']);\n//postman.setEnvironmentVariable('businessName',data['id']);"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/businessservice/Businesses",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"BusinessName\": \"invalid\",\r\n    \"BusinessCIF\": \"{{cif}}\",\r\n    \"CustomerId\": \"anything\",    \r\n    \"AffiliateBankID\": 1,\r\n    \"BankId\": \"1000\",\r\n    \"ServicesPackageId\": 28,\r\n    \"PrimaryContact\": {\r\n\r\n    \"FirstName\": \"Ebanking{{$randomInt}}\",\r\n\r\n    \"LastName\": \"OmniChannel{{$randomInt}}\",\r\n\r\n    \"MiddleName\": \"Entitlements{{$randomInt}}\",\r\n\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n\r\n    \"CustId\": \"{{$randomInt}}\",\r\n\r\n    \"Greeting\":null,\r\n\r\n    \"GreetingType\": \"2\",\r\n\r\n    \"OldPassword\":null,\r\n\r\n    \"Password\": \"Pass1234\",\r\n\r\n    \"PersonalBanker\": \"0\",\r\n\r\n    \"Ssn\": \"33-12-1234\",\r\n\r\n    \"MaskSSN\":null,\r\n\r\n    \"UserName\": \"primaryuser{{$randomInt}}\",\r\n\r\n    \"AccountStatus\": \"1\",\r\n\r\n    \"Timeout\": \"1500\",\r\n\r\n    \"Address\": {\r\n\r\n        \"Street\": \"1119 Overlake Drive\",\r\n\r\n        \"Street2\":null,\r\n\r\n        \"Street3\":null,\r\n\r\n        \"City\": \"Tulsa\",\r\n\r\n        \"State\": \"OK\",\r\n\r\n        \"StreetCode\":null,\r\n\r\n        \"Country\": \"USA\",\r\n\r\n        \"Email\": \"primaryuser{{$randomInt}}@anymail.com\",\r\n\r\n        \"Phone\": \"2065551423\",\r\n\r\n        \"Phone2\":null,\r\n\r\n        \"ZipCode\": \"98007\",\r\n\r\n        \"DataPhone\":null,\r\n\r\n        \"FaxPhone\":null,\r\n\r\n        \"PreferredContactMethod\":null,\r\n\r\n        \"PreferredLanguage\": \"en_US\"\r\n\r\n    }\r\n    },\r\n    \"SecondaryContact\": {\r\n\r\n    \"FirstName\": \"Ebanking2{{$randomInt}}\",\r\n\r\n    \"LastName\": \"OmniChannel2{{$randomInt}}\",\r\n\r\n    \"MiddleName\": \"Entitlements2{{$randomInt}}\",\r\n\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n\r\n    \"CustId\": \"2{{$randomInt}}\",\r\n\r\n    \"Greeting\":null,\r\n\r\n    \"GreetingType\": \"2\",\r\n\r\n    \"OldPassword\":null,\r\n\r\n    \"Password\": \"Pass1234\",\r\n\r\n    \"PersonalBanker\": \"0\",\r\n\r\n    \"Ssn\": \"33-12-1234\",\r\n\r\n    \"MaskSSN\":null,\r\n\r\n    \"UserName\": \"secodnaryuser{{$randomInt}}\",\r\n\r\n    \"AccountStatus\": \"1\",\r\n\r\n    \"Timeout\": \"1500\",\r\n\r\n    \"Address\": {\r\n\r\n        \"Street\": \"1119 Overlake Drive\",\r\n\r\n        \"Street2\":null,\r\n\r\n        \"Street3\":null,\r\n\r\n        \"City\": \"Tulsa\",\r\n\r\n        \"State\": \"OK\",\r\n\r\n        \"StreetCode\":null,\r\n\r\n        \"Country\": \"USA\",\r\n\r\n        \"Email\": \"secodnaryuser{{$randomInt}}@anymail.com\",\r\n\r\n        \"Phone\": \"2065551423\",\r\n\r\n        \"Phone2\":null,\r\n\r\n        \"ZipCode\": \"98007\",\r\n\r\n        \"DataPhone\":null,\r\n\r\n        \"FaxPhone\":null,\r\n\r\n        \"PreferredContactMethod\":null,\r\n\r\n        \"PreferredLanguage\": \"en_US\"\r\n\r\n    }\r\n    },\r\n    \"SupportedChannels\": [{\r\n    \t\"Id\": \"Web\"\r\n    }, {\r\n    \t\"Id\": \"Sms\"\r\n    },{\r\n    \t\"Id\": \"Mobile\"\r\n    }]\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "valid name and cif with existing customer Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Error message 'CustomerID already exists.'\"] = responseBody.has(\"CustomerID already exists.\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/businessservice/Businesses",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"BusinessName\": \"{{businessName}}\",\r\n    \"BusinessCIF\": \"{{cif}}\",\r\n    \"CustomerId\": \"AgriTech Profile Ltd\",    \r\n    \"AffiliateBankID\": 1,\r\n    \"BankId\": \"1000\",\r\n    \"ServicesPackageId\": 28,\r\n    \"PrimaryContact\": {\r\n\r\n    \"FirstName\": \"Ebanking{{$randomInt}}\",\r\n\r\n    \"LastName\": \"OmniChannel{{$randomInt}}\",\r\n\r\n    \"MiddleName\": \"Entitlements{{$randomInt}}\",\r\n\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n\r\n    \"CustId\": \"{{$randomInt}}\",\r\n\r\n    \"Greeting\":null,\r\n\r\n    \"GreetingType\": \"2\",\r\n\r\n    \"OldPassword\":null,\r\n\r\n    \"Password\": \"Pass1234\",\r\n\r\n    \"PersonalBanker\": \"0\",\r\n\r\n    \"Ssn\": \"33-12-1234\",\r\n\r\n    \"MaskSSN\":null,\r\n\r\n    \"UserName\": \"primaryuser{{$randomInt}}\",\r\n\r\n    \"AccountStatus\": \"1\",\r\n\r\n    \"Timeout\": \"1500\",\r\n\r\n    \"Address\": {\r\n\r\n        \"Street\": \"1119 Overlake Drive\",\r\n\r\n        \"Street2\":null,\r\n\r\n        \"Street3\":null,\r\n\r\n        \"City\": \"Tulsa\",\r\n\r\n        \"State\": \"OK\",\r\n\r\n        \"StreetCode\":null,\r\n\r\n        \"Country\": \"USA\",\r\n\r\n        \"Email\": \"primaryuser{{$randomInt}}@anymail.com\",\r\n\r\n        \"Phone\": \"2065551423\",\r\n\r\n        \"Phone2\":null,\r\n\r\n        \"ZipCode\": \"98007\",\r\n\r\n        \"DataPhone\":null,\r\n\r\n        \"FaxPhone\":null,\r\n\r\n        \"PreferredContactMethod\":null,\r\n\r\n        \"PreferredLanguage\": \"en_US\"\r\n\r\n    }\r\n    },\r\n    \"SecondaryContact\": {\r\n\r\n    \"FirstName\": \"Ebanking2{{$randomInt}}\",\r\n\r\n    \"LastName\": \"OmniChannel2{{$randomInt}}\",\r\n\r\n    \"MiddleName\": \"Entitlements2{{$randomInt}}\",\r\n\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n\r\n    \"CustId\": \"2{{$randomInt}}\",\r\n\r\n    \"Greeting\":null,\r\n\r\n    \"GreetingType\": \"2\",\r\n\r\n    \"OldPassword\":null,\r\n\r\n    \"Password\": \"Pass1234\",\r\n\r\n    \"PersonalBanker\": \"0\",\r\n\r\n    \"Ssn\": \"33-12-1234\",\r\n\r\n    \"MaskSSN\":null,\r\n\r\n    \"UserName\": \"secodnaryuser{{$randomInt}}\",\r\n\r\n    \"AccountStatus\": \"1\",\r\n\r\n    \"Timeout\": \"1500\",\r\n\r\n    \"Address\": {\r\n\r\n        \"Street\": \"1119 Overlake Drive\",\r\n\r\n        \"Street2\":null,\r\n\r\n        \"Street3\":null,\r\n\r\n        \"City\": \"Tulsa\",\r\n\r\n        \"State\": \"OK\",\r\n\r\n        \"StreetCode\":null,\r\n\r\n        \"Country\": \"USA\",\r\n\r\n        \"Email\": \"secodnaryuser{{$randomInt}}@anymail.com\",\r\n\r\n        \"Phone\": \"2065551423\",\r\n\r\n        \"Phone2\":null,\r\n\r\n        \"ZipCode\": \"98007\",\r\n\r\n        \"DataPhone\":null,\r\n\r\n        \"FaxPhone\":null,\r\n\r\n        \"PreferredContactMethod\":null,\r\n\r\n        \"PreferredLanguage\": \"en_US\"\r\n\r\n    }\r\n    },\r\n    \"SupportedChannels\": [{\r\n    \t\"Id\": \"Web\"\r\n    }, {\r\n    \t\"Id\": \"Sms\"\r\n    },{\r\n    \t\"Id\": \"Mobile\"\r\n    }]\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\ntests[\"Business created\"] = responseCode.code === 201;\nif(jsonData !== null){\npostman.setEnvironmentVariable(\"businessId\",jsonData.d.Id);\npostman.setEnvironmentVariable(\"businessName\",jsonData.d.BusinessName);}"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/businessservice/Businesses",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"BusinessName\": \"{{businessName}}\",\r\n    \"BusinessCIF\": \"{{cif}}\",\r\n    \"CustomerId\": \"{{$randomInt}}\",    \r\n    \"AffiliateBankID\": 1,\r\n    \"BankId\": \"1000\",\r\n    \"ServicesPackageId\": 28,\r\n    \"PrimaryContact\": {\r\n\r\n    \"FirstName\": \"Ebanking{{$randomInt}}\",\r\n\r\n    \"LastName\": \"OmniChannel{{$randomInt}}\",\r\n\r\n    \"MiddleName\": \"Entitlements{{$randomInt}}\",\r\n\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n\r\n    \"CustId\": \"{{$randomInt}}\",\r\n\r\n    \"Greeting\":null,\r\n\r\n    \"GreetingType\": \"2\",\r\n\r\n    \"OldPassword\":null,\r\n\r\n    \"Password\": \"Pass1234\",\r\n\r\n    \"PersonalBanker\": \"0\",\r\n\r\n    \"Ssn\": \"33-12-1234\",\r\n\r\n    \"MaskSSN\":null,\r\n\r\n    \"UserName\": \"primaryuser{{$randomInt}}\",\r\n\r\n    \"AccountStatus\": \"1\",\r\n\r\n    \"Timeout\": \"1500\",\r\n\r\n    \"Address\": {\r\n\r\n        \"Street\": \"1119 Overlake Drive\",\r\n\r\n        \"Street2\":null,\r\n\r\n        \"Street3\":null,\r\n\r\n        \"City\": \"Tulsa\",\r\n\r\n        \"State\": \"OK\",\r\n\r\n        \"StreetCode\":null,\r\n\r\n        \"Country\": \"USA\",\r\n\r\n        \"Email\": \"primaryuser{{$randomInt}}@anymail.com\",\r\n\r\n        \"Phone\": \"2065551423\",\r\n\r\n        \"Phone2\":null,\r\n\r\n        \"ZipCode\": \"98007\",\r\n\r\n        \"DataPhone\":null,\r\n\r\n        \"FaxPhone\":null,\r\n\r\n        \"PreferredContactMethod\":null,\r\n\r\n        \"PreferredLanguage\": \"en_US\"\r\n\r\n    }\r\n    },\r\n    \"SecondaryContact\": {\r\n\r\n    \"FirstName\": \"Ebanking2{{$randomInt}}\",\r\n\r\n    \"LastName\": \"OmniChannel2{{$randomInt}}\",\r\n\r\n    \"MiddleName\": \"Entitlements2{{$randomInt}}\",\r\n\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n\r\n    \"CustId\": \"2{{$randomInt}}\",\r\n\r\n    \"Greeting\":null,\r\n\r\n    \"GreetingType\": \"2\",\r\n\r\n    \"OldPassword\":null,\r\n\r\n    \"Password\": \"Pass1234\",\r\n\r\n    \"PersonalBanker\": \"0\",\r\n\r\n    \"Ssn\": \"33-12-1234\",\r\n\r\n    \"MaskSSN\":null,\r\n\r\n    \"UserName\": \"secodnaryuser{{$randomInt}}\",\r\n\r\n    \"AccountStatus\": \"1\",\r\n\r\n    \"Timeout\": \"1500\",\r\n\r\n    \"Address\": {\r\n\r\n        \"Street\": \"1119 Overlake Drive\",\r\n\r\n        \"Street2\":null,\r\n\r\n        \"Street3\":null,\r\n\r\n        \"City\": \"Tulsa\",\r\n\r\n        \"State\": \"OK\",\r\n\r\n        \"StreetCode\":null,\r\n\r\n        \"Country\": \"USA\",\r\n\r\n        \"Email\": \"secodnaryuser{{$randomInt}}@anymail.com\",\r\n\r\n        \"Phone\": \"2065551423\",\r\n\r\n        \"Phone2\":null,\r\n\r\n        \"ZipCode\": \"98007\",\r\n\r\n        \"DataPhone\":null,\r\n\r\n        \"FaxPhone\":null,\r\n\r\n        \"PreferredContactMethod\":null,\r\n\r\n        \"PreferredLanguage\": \"en_US\"\r\n\r\n    }\r\n    },\r\n    \"SupportedChannels\": [{\r\n    \t\"Id\": \"Web\"\r\n    }, {\r\n    \t\"Id\": \"Sms\"\r\n    },{\r\n    \t\"Id\": \"Mobile\"\r\n    }]\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Duplicate Business",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Error message: 'Business already exists.'\"] = responseBody.has(\"Business already exists.\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/businessservice/Businesses",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"BusinessName\": \"{{businessName}}\",\r\n    \"BusinessCIF\": \"{{cif}}\",\r\n    \"CustomerId\": \"anything\",    \r\n    \"AffiliateBankID\": 1,\r\n    \"BankId\": \"1000\",\r\n    \"ServicesPackageId\": 28,\r\n    \"PrimaryContact\": {\r\n\r\n    \"FirstName\": \"Ebanking{{$randomInt}}\",\r\n\r\n    \"LastName\": \"OmniChannel{{$randomInt}}\",\r\n\r\n    \"MiddleName\": \"Entitlements{{$randomInt}}\",\r\n\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n\r\n    \"CustId\": \"{{$randomInt}}\",\r\n\r\n    \"Greeting\":null,\r\n\r\n    \"GreetingType\": \"2\",\r\n\r\n    \"OldPassword\":null,\r\n\r\n    \"Password\": \"Pass1234\",\r\n\r\n    \"PersonalBanker\": \"0\",\r\n\r\n    \"Ssn\": \"33-12-1234\",\r\n\r\n    \"MaskSSN\":null,\r\n\r\n    \"UserName\": \"primaryuser{{$randomInt}}\",\r\n\r\n    \"AccountStatus\": \"1\",\r\n\r\n    \"Timeout\": \"1500\",\r\n\r\n    \"Address\": {\r\n\r\n        \"Street\": \"1119 Overlake Drive\",\r\n\r\n        \"Street2\":null,\r\n\r\n        \"Street3\":null,\r\n\r\n        \"City\": \"Tulsa\",\r\n\r\n        \"State\": \"OK\",\r\n\r\n        \"StreetCode\":null,\r\n\r\n        \"Country\": \"USA\",\r\n\r\n        \"Email\": \"primaryuser{{$randomInt}}@anymail.com\",\r\n\r\n        \"Phone\": \"2065551423\",\r\n\r\n        \"Phone2\":null,\r\n\r\n        \"ZipCode\": \"98007\",\r\n\r\n        \"DataPhone\":null,\r\n\r\n        \"FaxPhone\":null,\r\n\r\n        \"PreferredContactMethod\":null,\r\n\r\n        \"PreferredLanguage\": \"en_US\"\r\n\r\n    }\r\n    },\r\n    \"SecondaryContact\": {\r\n\r\n    \"FirstName\": \"Ebanking2{{$randomInt}}\",\r\n\r\n    \"LastName\": \"OmniChannel2{{$randomInt}}\",\r\n\r\n    \"MiddleName\": \"Entitlements2{{$randomInt}}\",\r\n\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n\r\n    \"CustId\": \"2{{$randomInt}}\",\r\n\r\n    \"Greeting\":null,\r\n\r\n    \"GreetingType\": \"2\",\r\n\r\n    \"OldPassword\":null,\r\n\r\n    \"Password\": \"Pass1234\",\r\n\r\n    \"PersonalBanker\": \"0\",\r\n\r\n    \"Ssn\": \"33-12-1234\",\r\n\r\n    \"MaskSSN\":null,\r\n\r\n    \"UserName\": \"secodnaryuser{{$randomInt}}\",\r\n\r\n    \"AccountStatus\": \"1\",\r\n\r\n    \"Timeout\": \"1500\",\r\n\r\n    \"Address\": {\r\n\r\n        \"Street\": \"1119 Overlake Drive\",\r\n\r\n        \"Street2\":null,\r\n\r\n        \"Street3\":null,\r\n\r\n        \"City\": \"Tulsa\",\r\n\r\n        \"State\": \"OK\",\r\n\r\n        \"StreetCode\":null,\r\n\r\n        \"Country\": \"USA\",\r\n\r\n        \"Email\": \"secodnaryuser{{$randomInt}}@anymail.com\",\r\n\r\n        \"Phone\": \"2065551423\",\r\n\r\n        \"Phone2\":null,\r\n\r\n        \"ZipCode\": \"98007\",\r\n\r\n        \"DataPhone\":null,\r\n\r\n        \"FaxPhone\":null,\r\n\r\n        \"PreferredContactMethod\":null,\r\n\r\n        \"PreferredLanguage\": \"en_US\"\r\n\r\n    }\r\n    },\r\n    \"SupportedChannels\": [{\r\n    \t\"Id\": \"Web\"\r\n    }, {\r\n    \t\"Id\": \"Sms\"\r\n    },{\r\n    \t\"Id\": \"Mobile\"\r\n    }]\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Business By ID with admin details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\nvar primary = jsonData.d.PrimaryContact;\nvar sec = jsonData.d.SecondaryContact;\n\npostman.setEnvironmentVariable(\"primary\",jsonData.d.PrimaryContact.Id);\npostman.setEnvironmentVariable(\"secondary\",jsonData.d.SecondaryContact.Id);\ntests['Business Id verified'] = jsonData.d.Id===environment['businessId'];\ntests['PrimaryContact user password verified'] = primary.Password===null & primary.ConfirmPassword===null;\ntests['SecondaryContact user password verified'] = sec.Password===null & sec.ConfirmPassword===null;\ntests['Status verified'] = jsonData.d.Status===\"1\";"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/businessservice/Businesses('{{businessId}}')?$expand=PrimaryContact,SecondaryContact",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Modify Business",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Business modified\"] = responseCode.code === 204;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/businessservice/Businesses('{{businessId}}')",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"BusinessName\": \"ModifiedBusiness{{$randomInt}}\",\r\n    \"ServicesPackageId\": 28,\r\n     \"PrimaryContact\": {\r\n\r\n    \"Id\": \"{{primary}}\"\r\n\r\n    },\r\n     \"SecondaryContact\": {\r\n\r\n    \"Id\": \"{{secondary}}\"\r\n\r\n    },\r\n    \"SupportedChannels\": [{\r\n    \t\"Id\": \"Web\"\r\n    }, {\r\n    \t\"Id\": \"Mobile\"\r\n    }]\r\n}\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Business By ID and verify modified details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"primary\",jsonData.d.PrimaryContact.Id);\npostman.setEnvironmentVariable(\"secondary\",jsonData.d.SecondaryContact.Id);\ntests['Business Id verified'] = jsonData.d.Id===environment['businessId'];\ntests['ServicesPackageId verified'] = jsonData.d.ServicesPackageId===28;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/businessservice/Businesses('{{businessId}}')?$expand=PrimaryContact,SecondaryContact",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Business",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Business deleted\"] = responseCode.code === 204;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/businessservice/Businesses('{{businessId}}')",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Business By ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"primary\",jsonData.d.PrimaryContact.Id);\npostman.setEnvironmentVariable(\"secondary\",jsonData.d.SecondaryContact.Id);\ntests['Business Id verified'] = jsonData.d.Id===environment['businessId'];\ntests['Status verified'] = jsonData.d.Status===\"8\";"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/businessservice/Businesses('{{businessId}}')?$expand=PrimaryContact,SecondaryContact",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Business",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\nvar res = jsonData.d.results;\ntests[\"Business Count : \"+res.length] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/businessservice/Businesses",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

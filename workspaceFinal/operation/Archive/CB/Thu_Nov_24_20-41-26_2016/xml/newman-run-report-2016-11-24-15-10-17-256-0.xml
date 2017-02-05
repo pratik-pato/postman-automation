@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="BusinessUserProfile_Harness">
+  <testsuite name="Login to CB as primaryadmin" id="4c7e08bb-137f-4851-b1b9-44d6289b556a" tests="1" time="1131">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile" id="a00ec63c-d027-4fa2-ac81-f5fdbb6f69a4" tests="0" time="0">
+    <error>
+      <![CDATA[Iteration: 0
+RequestError: Error: read ECONNRESET
+    at exports._errnoException (util.js:907:11)
+    at TLSWrap.onread (net.js:557:26)
+
+---
+testScriptError: ReferenceError: responseBody is not defined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:3:27)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="delete profile1" id="8f968f4f-4b47-4d42-9507-019f9280992a" tests="1" time="1100">
+    <testcase name="status code is 204 : No Content">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Add Business Profile to test Duplicate profile" id="5037f7e6-aa9f-4129-b8ee-903427090bb2" tests="1" time="684">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile Duplicate profile" id="dabf9c9c-300e-4e6a-bb4b-8a74e8e04f8e" tests="1" time="505">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="delete profile2" id="5ac3862d-2297-4d4c-8eab-42115c736cda" tests="1" time="929">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="Add Business Profile Invalid Channel" id="69b76bc8-9622-47a6-a220-a7d0ba1b9d33" tests="1" time="401">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile Duplicate Channel" id="344ea63a-cbc7-417b-ab01-3a82bda61165" tests="1" time="789">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile With Special Character" id="b9c3e3e4-0ee2-4097-9f5b-fd538cf8c33b" tests="1" time="740">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile With Not allowed parentEntId" id="1df27705-e9ff-4358-b9f4-a34010139e6d" tests="1" time="819">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile With Invalid parentEntId" id="3dacc612-6fcb-4525-b396-e2378be0aa9b" tests="1" time="893">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile With No Channel" id="eff18560-6c55-4992-a54d-b23486b4fa1d" tests="1" time="792">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile for get by Id" id="0015659e-4f49-452c-ac85-379b4f15d218" tests="1" time="682">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="get profile by Id" id="18c4193b-4bba-482f-9312-8628021c7d16" tests="1" time="716">
+    <testcase name="status code is 200 : OK"/>
+  </testsuite>
+  <testsuite name="Modify business user profile" id="593f9bd6-2fbe-4c92-a886-cf50aaf720e7" tests="0" time="0">
+    <error>
+      <![CDATA[Iteration: 0
+RequestError: Error: read ECONNRESET
+    at exports._errnoException (util.js:907:11)
+    at TLSWrap.onread (net.js:557:26)
+
+---
+testScriptError: ReferenceError: responseCode is not defined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:3:44)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="get profile by Id Verify modification" id="998487df-1da8-4a78-a4c9-d208892724dc" tests="3" time="1248">
+    <testcase name="Body has Sms Channel">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+    <testcase name="Body has No Mobile Channel">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+    <testcase name="status code is 200 : OK"/>
+  </testsuite>
+  <testsuite name="delete profile3" id="36e7384c-88a8-4665-b5a7-79076749743a" tests="1" time="806">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="get profile by Id Verify Delete" id="0e30065a-b883-480e-bdc0-d7d0978cc8e4" tests="1" time="449">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,148 @@
+{
+	"variables": [],
+	"info": {
+		"name": "transfer",
+		"_postman_id": "4cecac97-c7d3-4b35-bb63-e2ef0238d7eb",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login primaryadmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Password Check\"] = jsonData.d.Password === \"\";",
+							"//tests[\"ProfileId Check\"] = jsonData.d.ProfileID === 0;",
+							"tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+							"postman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));",
+							"postman.setEnvironmentVariable(\"x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"primaryadmin\",\r\n\r\n               \"AppType\": \"Business\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "add transfer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"//tests[\"ProfileId Check\"] = jsonData.d.ProfileID === 0;",
+							"tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+							"postman.setEnvironmentVariable(\"tId\",jsonData.d.Id);"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var newDate = new Date();\r",
+							"var dateStr = \"\";\r",
+							"//dateStr = \"\"+newDate.getFullYear()+\"-\"+newDate.getMonth()+\"-\"+newDate.getDate()+\"T\"+newDate.getHours()+\":\"+newDate.getMinutes()+\":\"+newDate.getSeconds();\r",
+							"dateStr = newDate.toISOString().slice(0,-5);\r",
+							"postman.setEnvironmentVariable(\"curDate\",dateStr);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/transferservice/Transfers ",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "x-csrf-token",
+						"value": "{{x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"FromAccountID\": \"174008-2\",\r\n\r\n    \"ToAccountID\": \"174009-15\",\r\n\r\n    \"UserAssignedAmount\": \"single\",\r\n\r\n    \"Amount\": \"51\",\r\n\r\n    \"AmountCurrency\": \"USD\",\r\n\r\n    \"Date\": \"{{curDate}}\"\r\n\r\n} "
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getTransfer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Amount verified\"]=jsonData.d.Amount === \"51.0\""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/transferservice/Transfers('{{tId}}')?$expand=FromAccount",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

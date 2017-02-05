@@ -1,0 +1,4016 @@
+{
+  "collection": {
+    "info": {
+      "id": "725b71fb-3046-ef1b-4808-7fed67ce63f5",
+      "name": "ProfileAssignmentRetail",
+      "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+    },
+    "event": [],
+    "variable": [],
+    "item": [
+      {
+        "id": "94bf0ad8-8db2-4d40-a111-bcbf71e00859",
+        "name": "Login to BC as admin",
+        "request": {
+          "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+          },
+          "description": {
+            "content": "1. BankLogin",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                "postman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "081f1ac2-05d8-49da-82ec-1c58551a8501",
+        "name": "Add RetailUser Profile(MA Platinum)",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Test Profile Assignment1{{$randomInt}}\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Web\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+          },
+          "description": {
+            "content": "Add profile test",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var jsonData = JSON.parse(responseBody);",
+                "postman.setEnvironmentVariable(\"Id\", jsonData.d.Id);",
+                "postman.setEnvironmentVariable(\"DeleteId\", jsonData.d.Id);",
+                "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "947b0338-de4c-41e7-b64b-2f7660687a68",
+        "name": "get profile by Id",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "Get Business User Profile by ID",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"status code is 200 : OK\"] = responseCode.code === 200;",
+                "var jsonData = JSON.parse(responseBody);",
+                "var res = jsonData.d.ChannelProfiles.results;",
+                "postman.setEnvironmentVariable(\"ChannelId\",res[0].Id);"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "2a2a58c5-28e1-4427-b1d7-28942be38180",
+        "name": "assign channel profile(which is not allowed)",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"ricky\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"1110\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                "postman.clearEnvironmentVariable('ChannelId');"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "3197ab9d-5d1e-4f91-9a20-c424eaef992c",
+        "name": "assign profile to retail user",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"richard1{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"{{Id}}\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var jsonData = JSON.parse(responseBody);",
+                "//var usrNm = \"richard1\";",
+                "//tests[\"User created\"] = jsonData.d.UserName === usrNm;",
+                "postman.setEnvironmentVariable(\"UserId\",jsonData.d.Id);",
+                "postman.setEnvironmentVariable(\"UserName\",jsonData.d.UserName);",
+                "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "63ad07fd-5099-4ada-a91e-95ccac964310",
+        "name": "delete profile associated with user",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+          "method": "DELETE",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "Delete previously created profile",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"Cannot Delete profile which is associated with user\"] = responseBody.has(\"The entitlement profile cannot be deleted.\");"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "68e9d55b-3ea1-4582-9ec5-cda6cce25fb1",
+        "name": "get user",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers('{{UserId}}')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var jsonData = JSON.parse(responseBody);",
+                "tests[\"User created\"] = jsonData.d.UserName === environment[\"UserName\"];"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "d66712d0-bcf0-4331-94f9-add8a9ce2361",
+        "name": "Add RetailUser Profile(MA Platinum) to assign in PUT",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Testing Put Assignment1{{$randomInt}}\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Web\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+          },
+          "description": {
+            "content": "Add profile test",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var jsonData = JSON.parse(responseBody);",
+                "postman.setEnvironmentVariable(\"NewId\", jsonData.d.Id);",
+                "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "76fea7fc-b519-4b0b-9036-2bf85c326106",
+        "name": "Modify retail user",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers('{{UserId}}')",
+          "method": "PUT",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"Id\": \"{{UserId}}\",\r\n    \"FirstName\": \"richardModified\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"ConfirmPassword\": null,\r\n    \"ConfirmPasswordReminder\": null,\r\n    \"ConfirmPasswordReminder2\": null,\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"Password\": null,\r\n    \"PasswordClue\": null,\r\n    \"PasswordClue2\": null,\r\n    \"MemberId\": null,\r\n    \"GroupId\": \"2080\",\r\n    \"GroupName\": null,\r\n    \"PasswordReminder\": null,\r\n    \"PasswordReminder2\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"MaskSSN\": null,\r\n    \"UserName\": \"{{UserName}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"CustomerType\": \"2\",\r\n    \"RequestedCarrierTCId\": null,\r\n    \"Address\": {\r\n      \"__metadata\": {\r\n        \"type\": \"com.sap.banking.common.endpoint.v1_0.beans.Address\"\r\n      },\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"(206) 555-1423\",\r\n      \"Phone2\": null,\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": null,\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"OldPassword\": null,\r\n    \"NewPassword\": null,\r\n    \"PasswordStatus\": \"Valid\",\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"{{NewId}}\"\r\n       }]\r\n}\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "fc8584e6-cffb-437b-ac3a-9f12470c457b",
+        "name": "verify edit user",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers('{{UserId}}')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var jsonData = JSON.parse(responseBody);",
+                "var firstNm = \"richardModified\";",
+                "tests[\"User created\"] = jsonData.d.UserName === environment[\"UserName\"];",
+                "tests[\"PUT verified\"] = jsonData.d.FirstName === firstNm;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "9f58b8c7-dd57-4eb5-95af-51b1d8557490",
+        "name": "retailUser without profile",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"noProfile\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    }\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "4a2dd768-6af3-4176-8266-d8d9250d45f9",
+        "name": "assign validMultipleProfile",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"profArr\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"1201\"\r\n       },{\r\n                                                \"Id\" : \"1205\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "e4ae553e-e577-4a67-9824-9f36350deb8f",
+        "name": "Add RetailUser Profile(Omni Channel)",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Testing OmniChannel{{$randomInt}}\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 92,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Web\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+          },
+          "description": {
+            "content": "Add profile test",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var jsonData = JSON.parse(responseBody);",
+                "postman.setEnvironmentVariable(\"Id\", jsonData.d.Id);",
+                "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "f2ca1e64-eb40-4854-bf82-47580d591aa1",
+        "name": "assign omni channel profile to retail user",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"richard1{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"{{Id}}\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var jsonData = JSON.parse(responseBody);",
+                "//var usrNm = \"richard1\";",
+                "//tests[\"User created\"] = jsonData.d.UserName === usrNm;",
+                "postman.setEnvironmentVariable(\"UserId\",jsonData.d.Id);",
+                "postman.setEnvironmentVariable(\"UserName\",jsonData.d.UserName);",
+                "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "0ad7d6bf-5ade-446a-90c8-d46483b19410",
+        "name": "assign businessUser profile(which is not allowed) ",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"ricky\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"{{ChannelId}}\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                "postman.clearEnvironmentVariable('ChannelId');"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "46be2eef-7bd2-423f-9a17-ad05b06b569d",
+        "name": "Login to BC as jbrown",
+        "request": {
+          "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n    \"UserName\": \"jbrown\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+          },
+          "description": {
+            "content": "1. BankLogin",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                "postman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "f3dde57f-cd40-4123-99b0-99121eb52e33",
+        "name": "assign profile to retail user(by not entitled user)",
+        "request": {
+          "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "{{TokenKey}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"richard1{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"1201\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                "postman.clearEnvironmentVariable(\"Id\");",
+                "postman.clearEnvironmentVariable(\"UserId\");",
+                "postman.clearEnvironmentVariable(\"TokenKey\");",
+                "postman.clearEnvironmentVariable(\"NewId\");",
+                "postman.clearEnvironmentVariable(\"DeleteId\");",
+                "postman.clearEnvironmentVariable(\"UserName\");",
+                "postman.clearEnvironmentVariable(\"date\");"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "environment": {
+    "id": "a481bb2c-55f3-60ae-abea-cb58e17b0cc5",
+    "name": "RetailBanking",
+    "values": [
+      {
+        "type": "any",
+        "value": "https://10.97.188.237:8081",
+        "key": "env"
+      }
+    ]
+  },
+  "globals": {
+    "id": "e01f188a-f5ba-4161-8131-9d3a9c3dd2a7",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 17,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 17,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 17,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 17,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 17,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 17,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 568,
+      "started": 1478255865262,
+      "completed": 1478255877481
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 17,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "5f94c846-ea0a-4195-85b0-50c007ff8863"
+        },
+        "item": {
+          "id": "94bf0ad8-8db2-4d40-a111-bcbf71e00859",
+          "name": "Login to BC as admin",
+          "request": {
+            "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+            },
+            "description": {
+              "content": "1. BankLogin",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                  "postman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 66
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+          },
+          "description": {
+            "content": "1. BankLogin",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "",
+              "value": ""
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:14 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5413093594243736701"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1226"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.SecureUser\"},\"AffiliateID\":\"0\",\"AppType\":null,\"BankID\":\"1000\",\"BaseCurrency\":null,\"BusinessCIF\":null,\"BusinessCustId\":null,\"BusinessID\":0,\"BusinessName\":null,\"ChannelType\":null,\"CurrentMfaType\":null,\"EntitlementID\":4,\"Id\":\"BankEmp1\",\"NeedToAcceptTerms\":false,\"CarrierTermsAccepted\":false,\"Password\":\"\",\"UserProfileID\":null,\"ProfileID\":1,\"SmallBusinessUser\":false,\"UserLocale\":{\"__metadata\":{\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.UserLocale\"},\"Country\":\"US\",\"DateFormat\":\"MM/dd/yyyy\",\"DateFormatName\":\"MM/dd/yyyy\",\"DateTimeFormat\":\"MM/dd/yyyy HH:mm\",\"DateTimeFormatName\":\"MM/dd/yyyy HH:mm\",\"Language\":\"en\",\"Locale\":\"en_US\",\"LocaleName\":\"en-US\",\"TimeFormat\":\"HH:mm\",\"TimeFormatName\":\"HH:mm\",\"ZoneFormat\":null,\"ZoneFormatName\":null},\"UserName\":\"admin\",\"UserType\":2,\"BPWFIID\":null,\"DeviceId\":null,\"MacId\":null,\"MultifactorInfo\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')/MultifactorInfo\"}}}}",
+          "cookie": [],
+          "responseTime": 858,
+          "responseSize": 1226,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "94bf0ad8-8db2-4d40-a111-bcbf71e00859",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "831056b7-2953-4989-bb59-19294a7742aa",
+          "length": 17,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0
+        },
+        "item": {
+          "id": "081f1ac2-05d8-49da-82ec-1c58551a8501",
+          "name": "Add RetailUser Profile(MA Platinum)",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\t\"ProfileName\": \"Test Profile Assignment1{{$randomInt}}\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Web\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+            },
+            "description": {
+              "content": "Add profile test",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "postman.setEnvironmentVariable(\"Id\", jsonData.d.Id);",
+                  "postman.setEnvironmentVariable(\"DeleteId\", jsonData.d.Id);",
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 236
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Test Profile Assignment1988\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Web\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+          },
+          "description": {
+            "content": "Add profile test",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:15 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2032')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5413093594243736701"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "839"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2032')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2032')\",\"type\":\"com.sap.banking.retailuserprofile.endpoint.v1_0.beans.RetailUserProfile\"},\"Id\":\"2032\",\"ProfileName\":\"Test Profile Assignment1988\",\"Description\":\"This is test to add retail profile\",\"ProfileType\":7,\"ParentEntGroupId\":49,\"ParentGroupName\":null,\"CanSubscribe\":false,\"Status\":null,\"Id\":\"2032\",\"ChannelProfiles\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2032')/ChannelProfiles\"}},\"ProfileFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2032')/ProfileFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 323,
+          "responseSize": 839,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "081f1ac2-05d8-49da-82ec-1c58551a8501",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "c743a395-5877-4f80-b7e5-67d867243a7e",
+          "length": 17,
+          "cycles": 1,
+          "position": 2,
+          "iteration": 0
+        },
+        "item": {
+          "id": "947b0338-de4c-41e7-b64b-2f7660687a68",
+          "name": "get profile by Id",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "Get Business User Profile by ID",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 200 : OK\"] = responseCode.code === 200;",
+                  "var jsonData = JSON.parse(responseBody);",
+                  "var res = jsonData.d.ChannelProfiles.results;",
+                  "postman.setEnvironmentVariable(\"ChannelId\",res[0].Id);"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2032')?$expand=ChannelProfiles",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "Get Business User Profile by ID",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:16 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5413093594243736701"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1656"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2032')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2032')\",\"type\":\"com.sap.banking.retailuserprofile.endpoint.v1_0.beans.RetailUserProfile\"},\"Id\":\"2032\",\"ProfileName\":\"Test Profile Assignment1988\",\"Description\":\"This is test to add retail profile\",\"ProfileType\":7,\"ParentEntGroupId\":49,\"ParentGroupName\":null,\"CanSubscribe\":false,\"Status\":null,\"Id\":\"2032\",\"ChannelProfiles\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2034')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2034')\",\"type\":\"com.sap.banking.profile.endpoint.v1_0.beans.ChannelProfile\"},\"Id\":\"2034\",\"Channel\":\"Mobile\",\"ChannelFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2034')/ChannelFeatures\"}}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2033')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2033')\",\"type\":\"com.sap.banking.profile.endpoint.v1_0.beans.ChannelProfile\"},\"Id\":\"2033\",\"Channel\":\"Web\",\"ChannelFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2033')/ChannelFeatures\"}}}]},\"ProfileFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2032')/ProfileFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 244,
+          "responseSize": 1656,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "947b0338-de4c-41e7-b64b-2f7660687a68",
+        "assertions": [
+          {
+            "assertion": "status code is 200 : OK"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "a9060e11-870c-4fdd-a14e-f4514d574b6f",
+          "length": 17,
+          "cycles": 1,
+          "position": 3,
+          "iteration": 0
+        },
+        "item": {
+          "id": "2a2a58c5-28e1-4427-b1d7-28942be38180",
+          "name": "assign channel profile(which is not allowed)",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"ricky\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"1110\"\r\n       }]\r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                  "postman.clearEnvironmentVariable('ChannelId');"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 1012
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"ricky\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"1110\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:17 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "185"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"BE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error20016_descr\\\",\\\"errorMessage\\\":\\\"The entitlement group to administer was not found.\\\",\\\"errorCode\\\":20016}\"}}}",
+          "cookie": [],
+          "responseTime": 943,
+          "responseSize": 185,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "2a2a58c5-28e1-4427-b1d7-28942be38180",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "d42074de-0c51-49b3-81da-8a8fcc445fe7",
+          "length": 17,
+          "cycles": 1,
+          "position": 4,
+          "iteration": 0
+        },
+        "item": {
+          "id": "3197ab9d-5d1e-4f91-9a20-c424eaef992c",
+          "name": "assign profile to retail user",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"richard1{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"{{Id}}\"\r\n       }]\r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "//var usrNm = \"richard1\";",
+                  "//tests[\"User created\"] = jsonData.d.UserName === usrNm;",
+                  "postman.setEnvironmentVariable(\"UserId\",jsonData.d.Id);",
+                  "postman.setEnvironmentVariable(\"UserName\",jsonData.d.UserName);",
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 1018
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"richard1206\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"2032\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:18 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5413093594243736701"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "2001"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')\",\"type\":\"com.sap.banking.user.endpoint.v1_0.beans.RetailUser\"},\"Id\":\"404\",\"FirstName\":\"richard\",\"LastName\":\"stallman\",\"MiddleName\":\"\",\"AffiliateBankID\":4,\"BankId\":\"1000\",\"ConfirmPassword\":null,\"ConfirmPasswordReminder\":null,\"ConfirmPasswordReminder2\":null,\"CustId\":\"manoj\",\"Greeting\":null,\"GreetingType\":\"2\",\"Password\":\"Pass12345\",\"PasswordClue\":null,\"PasswordClue2\":null,\"MemberId\":null,\"GroupId\":\"1206\",\"GroupName\":null,\"PasswordReminder\":null,\"PasswordReminder2\":null,\"PersonalBanker\":\"0\",\"Ssn\":\"133-12-1234\",\"MaskSSN\":null,\"UserName\":\"richard1206\",\"AccountStatus\":\"1\",\"Timeout\":\"1500\",\"CustomerType\":\"2\",\"RequestedCarrierTCId\":null,\"OldPassword\":null,\"NewPassword\":null,\"PasswordStatus\":\"Valid\",\"Address\":{\"__metadata\":{\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.Address\"},\"Street\":\"1119 Overlake Drive\",\"Street2\":\"\",\"Street3\":null,\"City\":\"Tulsa\",\"State\":\"OK\",\"StreetCode\":null,\"Country\":\"USA\",\"Email\":\"manoj@anymail.com\",\"Phone\":\"(206) 555-1423\",\"Phone2\":null,\"ZipCode\":\"98007\",\"DataPhone\":null,\"FaxPhone\":null,\"PreferredContactMethod\":null,\"PreferredLanguage\":\"en_US\"},\"SecurityCredentials\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/SecurityCredentials\"}},\"Transactions\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/Transactions\"}},\"PersonalProfile\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/PersonalProfile\"}},\"RetailUserProfiles\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/RetailUserProfiles\"}},\"RetailUserFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/RetailUserFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 1283,
+          "responseSize": 2001,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "3197ab9d-5d1e-4f91-9a20-c424eaef992c",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "6706fd11-5ed2-4d5b-8a74-2dc71f92fa44",
+          "length": 17,
+          "cycles": 1,
+          "position": 5,
+          "iteration": 0
+        },
+        "item": {
+          "id": "63ad07fd-5099-4ada-a91e-95ccac964310",
+          "name": "delete profile associated with user",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+            "method": "DELETE",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "Delete previously created profile",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"Cannot Delete profile which is associated with user\"] = responseBody.has(\"The entitlement profile cannot be deleted.\");"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2032')",
+          "method": "DELETE",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": ""
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "Delete previously created profile",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:18 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "236"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"VE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error-2_descr\\\",\\\"errorCode\\\":-2,\\\"errorDetails\\\":[{\\\"Desc\\\":\\\"The entitlement profile cannot be deleted. \\\",\\\"FieldName\\\":\\\"\\\",\\\"Key\\\":\\\"Ent.Profile.CantDel\\\"}]}\"}}}",
+          "cookie": [],
+          "responseTime": 318,
+          "responseSize": 236,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "63ad07fd-5099-4ada-a91e-95ccac964310",
+        "assertions": [
+          {
+            "assertion": "Cannot Delete profile which is associated with user"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "ac45d4ee-97b3-4a58-8d0a-c2de7648072e",
+          "length": 17,
+          "cycles": 1,
+          "position": 6,
+          "iteration": 0
+        },
+        "item": {
+          "id": "68e9d55b-3ea1-4582-9ec5-cda6cce25fb1",
+          "name": "get user",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers('{{UserId}}')",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "tests[\"User created\"] = jsonData.d.UserName === environment[\"UserName\"];"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:19 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5413093594243736701"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1994"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')\",\"type\":\"com.sap.banking.user.endpoint.v1_0.beans.RetailUser\"},\"Id\":\"404\",\"FirstName\":\"richard\",\"LastName\":\"stallman\",\"MiddleName\":\"\",\"AffiliateBankID\":4,\"BankId\":\"1000\",\"ConfirmPassword\":null,\"ConfirmPasswordReminder\":null,\"ConfirmPasswordReminder2\":null,\"CustId\":\"manoj\",\"Greeting\":null,\"GreetingType\":\"2\",\"Password\":null,\"PasswordClue\":null,\"PasswordClue2\":null,\"MemberId\":null,\"GroupId\":\"2032\",\"GroupName\":null,\"PasswordReminder\":null,\"PasswordReminder2\":null,\"PersonalBanker\":\"0\",\"Ssn\":\"133-12-1234\",\"MaskSSN\":null,\"UserName\":\"richard1206\",\"AccountStatus\":\"1\",\"Timeout\":\"1500\",\"CustomerType\":\"2\",\"RequestedCarrierTCId\":null,\"OldPassword\":null,\"NewPassword\":null,\"PasswordStatus\":\"Valid\",\"Address\":{\"__metadata\":{\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.Address\"},\"Street\":\"1119 Overlake Drive\",\"Street2\":\"\",\"Street3\":null,\"City\":\"Tulsa\",\"State\":\"OK\",\"StreetCode\":null,\"Country\":\"USA\",\"Email\":\"manoj@anymail.com\",\"Phone\":\"(206) 555-1423\",\"Phone2\":null,\"ZipCode\":\"98007\",\"DataPhone\":null,\"FaxPhone\":null,\"PreferredContactMethod\":null,\"PreferredLanguage\":\"en_US\"},\"SecurityCredentials\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/SecurityCredentials\"}},\"Transactions\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/Transactions\"}},\"PersonalProfile\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/PersonalProfile\"}},\"RetailUserProfiles\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/RetailUserProfiles\"}},\"RetailUserFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/RetailUserFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 622,
+          "responseSize": 1994,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "68e9d55b-3ea1-4582-9ec5-cda6cce25fb1",
+        "assertions": [
+          {
+            "assertion": "User created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "1e0fe606-c400-43dc-9b5a-d775ae36552f",
+          "length": 17,
+          "cycles": 1,
+          "position": 7,
+          "iteration": 0
+        },
+        "item": {
+          "id": "d66712d0-bcf0-4331-94f9-add8a9ce2361",
+          "name": "Add RetailUser Profile(MA Platinum) to assign in PUT",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\t\"ProfileName\": \"Testing Put Assignment1{{$randomInt}}\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Web\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+            },
+            "description": {
+              "content": "Add profile test",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "postman.setEnvironmentVariable(\"NewId\", jsonData.d.Id);",
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 235
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Testing Put Assignment1241\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Web\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+          },
+          "description": {
+            "content": "Add profile test",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:19 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2036')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5413093594243736701"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "838"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2036')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2036')\",\"type\":\"com.sap.banking.retailuserprofile.endpoint.v1_0.beans.RetailUserProfile\"},\"Id\":\"2036\",\"ProfileName\":\"Testing Put Assignment1241\",\"Description\":\"This is test to add retail profile\",\"ProfileType\":7,\"ParentEntGroupId\":49,\"ParentGroupName\":null,\"CanSubscribe\":false,\"Status\":null,\"Id\":\"2036\",\"ChannelProfiles\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2036')/ChannelProfiles\"}},\"ProfileFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2036')/ProfileFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 292,
+          "responseSize": 838,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "d66712d0-bcf0-4331-94f9-add8a9ce2361",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "68da7858-2e7f-4d42-9afb-1025417e14dd",
+          "length": 17,
+          "cycles": 1,
+          "position": 8,
+          "iteration": 0
+        },
+        "item": {
+          "id": "76fea7fc-b519-4b0b-9036-2bf85c326106",
+          "name": "Modify retail user",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers('{{UserId}}')",
+            "method": "PUT",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"Id\": \"{{UserId}}\",\r\n    \"FirstName\": \"richardModified\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"ConfirmPassword\": null,\r\n    \"ConfirmPasswordReminder\": null,\r\n    \"ConfirmPasswordReminder2\": null,\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"Password\": null,\r\n    \"PasswordClue\": null,\r\n    \"PasswordClue2\": null,\r\n    \"MemberId\": null,\r\n    \"GroupId\": \"2080\",\r\n    \"GroupName\": null,\r\n    \"PasswordReminder\": null,\r\n    \"PasswordReminder2\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"MaskSSN\": null,\r\n    \"UserName\": \"{{UserName}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"CustomerType\": \"2\",\r\n    \"RequestedCarrierTCId\": null,\r\n    \"Address\": {\r\n      \"__metadata\": {\r\n        \"type\": \"com.sap.banking.common.endpoint.v1_0.beans.Address\"\r\n      },\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"(206) 555-1423\",\r\n      \"Phone2\": null,\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": null,\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"OldPassword\": null,\r\n    \"NewPassword\": null,\r\n    \"PasswordStatus\": \"Valid\",\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"{{NewId}}\"\r\n       }]\r\n}\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')",
+          "method": "PUT",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 1524
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"Id\": \"404\",\r\n    \"FirstName\": \"richardModified\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"ConfirmPassword\": null,\r\n    \"ConfirmPasswordReminder\": null,\r\n    \"ConfirmPasswordReminder2\": null,\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"Password\": null,\r\n    \"PasswordClue\": null,\r\n    \"PasswordClue2\": null,\r\n    \"MemberId\": null,\r\n    \"GroupId\": \"2080\",\r\n    \"GroupName\": null,\r\n    \"PasswordReminder\": null,\r\n    \"PasswordReminder2\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"MaskSSN\": null,\r\n    \"UserName\": \"richard1206\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"CustomerType\": \"2\",\r\n    \"RequestedCarrierTCId\": null,\r\n    \"Address\": {\r\n      \"__metadata\": {\r\n        \"type\": \"com.sap.banking.common.endpoint.v1_0.beans.Address\"\r\n      },\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"(206) 555-1423\",\r\n      \"Phone2\": null,\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": null,\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"OldPassword\": null,\r\n    \"NewPassword\": null,\r\n    \"PasswordStatus\": \"Valid\",\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"2036\"\r\n       }]\r\n}\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:20 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5413093594243736701"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 431,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "76fea7fc-b519-4b0b-9036-2bf85c326106",
+        "assertions": [
+          {
+            "assertion": "status code is 204 : No Content"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "61a8f1b6-ae11-4e6a-b025-950c4438f3fd",
+          "length": 17,
+          "cycles": 1,
+          "position": 9,
+          "iteration": 0
+        },
+        "item": {
+          "id": "fc8584e6-cffb-437b-ac3a-9f12470c457b",
+          "name": "verify edit user",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers('{{UserId}}')",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "var firstNm = \"richardModified\";",
+                  "tests[\"User created\"] = jsonData.d.UserName === environment[\"UserName\"];",
+                  "tests[\"PUT verified\"] = jsonData.d.FirstName === firstNm;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:20 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5413093594243736701"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "2002"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')\",\"type\":\"com.sap.banking.user.endpoint.v1_0.beans.RetailUser\"},\"Id\":\"404\",\"FirstName\":\"richardModified\",\"LastName\":\"stallman\",\"MiddleName\":\"\",\"AffiliateBankID\":4,\"BankId\":\"1000\",\"ConfirmPassword\":null,\"ConfirmPasswordReminder\":null,\"ConfirmPasswordReminder2\":null,\"CustId\":\"manoj\",\"Greeting\":null,\"GreetingType\":\"2\",\"Password\":null,\"PasswordClue\":null,\"PasswordClue2\":null,\"MemberId\":null,\"GroupId\":\"2036\",\"GroupName\":null,\"PasswordReminder\":null,\"PasswordReminder2\":null,\"PersonalBanker\":\"0\",\"Ssn\":\"133-12-1234\",\"MaskSSN\":null,\"UserName\":\"richard1206\",\"AccountStatus\":\"1\",\"Timeout\":\"1500\",\"CustomerType\":\"2\",\"RequestedCarrierTCId\":null,\"OldPassword\":null,\"NewPassword\":null,\"PasswordStatus\":\"Valid\",\"Address\":{\"__metadata\":{\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.Address\"},\"Street\":\"1119 Overlake Drive\",\"Street2\":\"\",\"Street3\":null,\"City\":\"Tulsa\",\"State\":\"OK\",\"StreetCode\":null,\"Country\":\"USA\",\"Email\":\"manoj@anymail.com\",\"Phone\":\"(206) 555-1423\",\"Phone2\":null,\"ZipCode\":\"98007\",\"DataPhone\":null,\"FaxPhone\":null,\"PreferredContactMethod\":null,\"PreferredLanguage\":\"en_US\"},\"SecurityCredentials\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/SecurityCredentials\"}},\"Transactions\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/Transactions\"}},\"PersonalProfile\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/PersonalProfile\"}},\"RetailUserProfiles\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/RetailUserProfiles\"}},\"RetailUserFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('404')/RetailUserFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 227,
+          "responseSize": 2002,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "fc8584e6-cffb-437b-ac3a-9f12470c457b",
+        "assertions": [
+          {
+            "assertion": "User created"
+          },
+          {
+            "assertion": "PUT verified"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "ef9ae85b-7de3-40e6-935e-eef9a2151ba7",
+          "length": 17,
+          "cycles": 1,
+          "position": 10,
+          "iteration": 0
+        },
+        "item": {
+          "id": "9f58b8c7-dd57-4eb5-95af-51b1d8557490",
+          "name": "retailUser without profile",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"noProfile\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    }\r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 911
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"noProfile\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    }\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:21 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "185"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"BE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error20016_descr\\\",\\\"errorMessage\\\":\\\"The entitlement group to administer was not found.\\\",\\\"errorCode\\\":20016}\"}}}",
+          "cookie": [],
+          "responseTime": 458,
+          "responseSize": 185,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "9f58b8c7-dd57-4eb5-95af-51b1d8557490",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "400e14e7-13fe-4baa-ba41-1f8c2997c6ac",
+          "length": 17,
+          "cycles": 1,
+          "position": 11,
+          "iteration": 0
+        },
+        "item": {
+          "id": "4a2dd768-6af3-4176-8266-d8d9250d45f9",
+          "name": "assign validMultipleProfile",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"profArr\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"1201\"\r\n       },{\r\n                                                \"Id\" : \"1205\"\r\n       }]\r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 1089
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"profArr\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"1201\"\r\n       },{\r\n                                                \"Id\" : \"1205\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:22 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "185"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"BE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error20016_descr\\\",\\\"errorMessage\\\":\\\"The entitlement group to administer was not found.\\\",\\\"errorCode\\\":20016}\"}}}",
+          "cookie": [],
+          "responseTime": 827,
+          "responseSize": 185,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "4a2dd768-6af3-4176-8266-d8d9250d45f9",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "2f6091d9-518e-4220-808e-5d4080fd5e15",
+          "length": 17,
+          "cycles": 1,
+          "position": 12,
+          "iteration": 0
+        },
+        "item": {
+          "id": "e4ae553e-e577-4a67-9824-9f36350deb8f",
+          "name": "Add RetailUser Profile(Omni Channel)",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\t\"ProfileName\": \"Testing OmniChannel{{$randomInt}}\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 92,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Web\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+            },
+            "description": {
+              "content": "Add profile test",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "postman.setEnvironmentVariable(\"Id\", jsonData.d.Id);",
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 231
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Testing OmniChannel391\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 92,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Web\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+          },
+          "description": {
+            "content": "Add profile test",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:23 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2039')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5413093594243736701"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "834"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2039')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2039')\",\"type\":\"com.sap.banking.retailuserprofile.endpoint.v1_0.beans.RetailUserProfile\"},\"Id\":\"2039\",\"ProfileName\":\"Testing OmniChannel391\",\"Description\":\"This is test to add retail profile\",\"ProfileType\":7,\"ParentEntGroupId\":92,\"ParentGroupName\":null,\"CanSubscribe\":false,\"Status\":null,\"Id\":\"2039\",\"ChannelProfiles\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2039')/ChannelProfiles\"}},\"ProfileFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2039')/ProfileFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 695,
+          "responseSize": 834,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "e4ae553e-e577-4a67-9824-9f36350deb8f",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "1ec99c12-8ebd-4751-96a2-a8aae5547e19",
+          "length": 17,
+          "cycles": 1,
+          "position": 13,
+          "iteration": 0
+        },
+        "item": {
+          "id": "f2ca1e64-eb40-4854-bf82-47580d591aa1",
+          "name": "assign omni channel profile to retail user",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"richard1{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"{{Id}}\"\r\n       }]\r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "//var usrNm = \"richard1\";",
+                  "//tests[\"User created\"] = jsonData.d.UserName === usrNm;",
+                  "postman.setEnvironmentVariable(\"UserId\",jsonData.d.Id);",
+                  "postman.setEnvironmentVariable(\"UserName\",jsonData.d.UserName);",
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 1018
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"richard1341\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"2039\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:23 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('405')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5413093594243736701"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "2001"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('405')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('405')\",\"type\":\"com.sap.banking.user.endpoint.v1_0.beans.RetailUser\"},\"Id\":\"405\",\"FirstName\":\"richard\",\"LastName\":\"stallman\",\"MiddleName\":\"\",\"AffiliateBankID\":4,\"BankId\":\"1000\",\"ConfirmPassword\":null,\"ConfirmPasswordReminder\":null,\"ConfirmPasswordReminder2\":null,\"CustId\":\"manoj\",\"Greeting\":null,\"GreetingType\":\"2\",\"Password\":\"Pass12345\",\"PasswordClue\":null,\"PasswordClue2\":null,\"MemberId\":null,\"GroupId\":\"1206\",\"GroupName\":null,\"PasswordReminder\":null,\"PasswordReminder2\":null,\"PersonalBanker\":\"0\",\"Ssn\":\"133-12-1234\",\"MaskSSN\":null,\"UserName\":\"richard1341\",\"AccountStatus\":\"1\",\"Timeout\":\"1500\",\"CustomerType\":\"2\",\"RequestedCarrierTCId\":null,\"OldPassword\":null,\"NewPassword\":null,\"PasswordStatus\":\"Valid\",\"Address\":{\"__metadata\":{\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.Address\"},\"Street\":\"1119 Overlake Drive\",\"Street2\":\"\",\"Street3\":null,\"City\":\"Tulsa\",\"State\":\"OK\",\"StreetCode\":null,\"Country\":\"USA\",\"Email\":\"manoj@anymail.com\",\"Phone\":\"(206) 555-1423\",\"Phone2\":null,\"ZipCode\":\"98007\",\"DataPhone\":null,\"FaxPhone\":null,\"PreferredContactMethod\":null,\"PreferredLanguage\":\"en_US\"},\"SecurityCredentials\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('405')/SecurityCredentials\"}},\"Transactions\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('405')/Transactions\"}},\"PersonalProfile\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('405')/PersonalProfile\"}},\"RetailUserProfiles\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('405')/RetailUserProfiles\"}},\"RetailUserFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers('405')/RetailUserFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 314,
+          "responseSize": 2001,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "f2ca1e64-eb40-4854-bf82-47580d591aa1",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "982ebe50-e9cf-41fc-b5c4-902448c186fb",
+          "length": 17,
+          "cycles": 1,
+          "position": 14,
+          "iteration": 0
+        },
+        "item": {
+          "id": "0ad7d6bf-5ade-446a-90c8-d46483b19410",
+          "name": "assign businessUser profile(which is not allowed) ",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"ricky\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"{{ChannelId}}\"\r\n       }]\r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                  "postman.clearEnvironmentVariable('ChannelId');"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 1021
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"ricky\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"{{ChannelId}}\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:24 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "60"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"OE\",\"message\":{\"lang\":\"en\",\"value\":null}}}",
+          "cookie": [],
+          "responseTime": 853,
+          "responseSize": 60,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "0ad7d6bf-5ade-446a-90c8-d46483b19410",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "c231625d-dd07-4357-9521-dfe6d354f6ab",
+          "length": 17,
+          "cycles": 1,
+          "position": 15,
+          "iteration": 0
+        },
+        "item": {
+          "id": "46be2eef-7bd2-423f-9a17-ad05b06b569d",
+          "name": "Login to BC as jbrown",
+          "request": {
+            "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n    \"UserName\": \"jbrown\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+            },
+            "description": {
+              "content": "1. BankLogin",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                  "postman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 67
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n    \"UserName\": \"jbrown\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+          },
+          "description": {
+            "content": "1. BankLogin",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "Set-Cookie",
+              "value": "rememberMe=deleteMe; Path=/bc; Max-Age=0; Expires=Thu, 03-Nov-2016 16:08:25 GMT"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:25 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp2')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5413093594243736701"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1227"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp2')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp2')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.SecureUser\"},\"AffiliateID\":\"4\",\"AppType\":null,\"BankID\":\"1000\",\"BaseCurrency\":null,\"BusinessCIF\":null,\"BusinessCustId\":null,\"BusinessID\":0,\"BusinessName\":null,\"ChannelType\":null,\"CurrentMfaType\":null,\"EntitlementID\":5,\"Id\":\"BankEmp2\",\"NeedToAcceptTerms\":false,\"CarrierTermsAccepted\":false,\"Password\":\"\",\"UserProfileID\":null,\"ProfileID\":2,\"SmallBusinessUser\":false,\"UserLocale\":{\"__metadata\":{\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.UserLocale\"},\"Country\":\"US\",\"DateFormat\":\"MM/dd/yyyy\",\"DateFormatName\":\"MM/dd/yyyy\",\"DateTimeFormat\":\"MM/dd/yyyy HH:mm\",\"DateTimeFormatName\":\"MM/dd/yyyy HH:mm\",\"Language\":\"en\",\"Locale\":\"en_US\",\"LocaleName\":\"en-US\",\"TimeFormat\":\"HH:mm\",\"TimeFormatName\":\"HH:mm\",\"ZoneFormat\":null,\"ZoneFormatName\":null},\"UserName\":\"jbrown\",\"UserType\":2,\"BPWFIID\":null,\"DeviceId\":null,\"MacId\":null,\"MultifactorInfo\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp2')/MultifactorInfo\"}}}}",
+          "cookie": [],
+          "responseTime": 609,
+          "responseSize": 1227,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "46be2eef-7bd2-423f-9a17-ad05b06b569d",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "bd299dcc-8300-41f6-98c7-a6fdd644f88f",
+          "length": 17,
+          "cycles": 1,
+          "position": 16,
+          "iteration": 0
+        },
+        "item": {
+          "id": "f3dde57f-cd40-4123-99b0-99121eb52e33",
+          "name": "assign profile to retail user(by not entitled user)",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserservice/RetailUsers",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"richard1{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"1201\"\r\n       }]\r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                  "postman.clearEnvironmentVariable(\"Id\");",
+                  "postman.clearEnvironmentVariable(\"UserId\");",
+                  "postman.clearEnvironmentVariable(\"TokenKey\");",
+                  "postman.clearEnvironmentVariable(\"NewId\");",
+                  "postman.clearEnvironmentVariable(\"DeleteId\");",
+                  "postman.clearEnvironmentVariable(\"UserName\");",
+                  "postman.clearEnvironmentVariable(\"date\");"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserservice/RetailUsers",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSC9lZ1cyYzlvZG9HZ21ybzZUM3A2NS9xN2pnYVpvN3d4M0JEU3FCRWRqamM9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=9E5CB4588A69834B8FE4693CF74687A3BC89589D2495ED93D7A69E1C969B89D3"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 1018
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n    \"FirstName\": \"richard\",\r\n    \"LastName\": \"stallman\",\r\n    \"MiddleName\": \"\",\r\n    \"AffiliateBankID\": 4,\r\n    \"BankId\": \"1000\",\r\n    \"Password\": \"Pass12345\",\r\n    \"ConfirmPassword\": \"Pass12345\",\r\n    \"CustId\": \"manoj\",\r\n    \"Greeting\": null,\r\n    \"GreetingType\": \"2\",\r\n    \"GroupId\": \"1206\",\r\n    \"GroupName\": null,\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"133-12-1234\",\r\n    \"UserName\": \"richard1701\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"Address\": {\r\n      \"Street\": \"1119 Overlake Drive\",\r\n      \"Street2\": \"\",\r\n      \"Street3\": null,\r\n      \"City\": \"Tulsa\",\r\n      \"State\": \"OK\",\r\n      \"StreetCode\": null,\r\n      \"Country\": \"USA\",\r\n      \"Email\": \"manoj@anymail.com\",\r\n      \"Phone\": \"2065551423\",\r\n      \"Phone2\": \"\",\r\n      \"ZipCode\": \"98007\",\r\n      \"DataPhone\": \"\",\r\n      \"FaxPhone\": null,\r\n      \"PreferredContactMethod\": null,\r\n      \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"RetailUserProfiles\": [{\r\n                                                \"Id\" : \"1201\"\r\n       }]\r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:25 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "180"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"BE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error20001_descr\\\",\\\"errorMessage\\\":\\\"Not entitled to perform the specified action.\\\",\\\"errorCode\\\":20001}\"}}}",
+          "cookie": [],
+          "responseTime": 359,
+          "responseSize": 180,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "f3dde57f-cd40-4123-99b0-99121eb52e33",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 15649
+    },
+    "failures": [],
+    "error": null
+  }
+}

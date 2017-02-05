@@ -1,0 +1,259 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Account,States,CountryList",
+		"_postman_id": "6665dba8-053e-9c88-df8a-c7c2cf2a6dc0",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "LOGIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Login\"]=responseCode.code===201\npostman.setEnvironmentVariable(\"xcsrf\",postman.getResponseHeader('x-csrf-token'))"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init ",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"tbowman\",\r\n\r\n               \"AppType\": \"Consumers\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n} "
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveAccounts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrive Accounts'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Accounts",
+				"method": "GET",
+				"header": [
+					{
+						"key": "formName",
+						"value": "FixedDeposit",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveAccounts Filter=Account Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrive Accounts'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\n\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Accounts?$filter=AccountGroup%20eq%20%27DEPOSIT%27",
+				"method": "GET",
+				"header": [
+					{
+						"key": "formName",
+						"value": "FixedDeposit",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Countries",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrive Countries'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\n\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Countries",
+				"method": "GET",
+				"header": [
+					{
+						"key": "formName",
+						"value": "FixedDeposit",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve States Filter=Country ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrive States'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\n\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/StateProvinces?$filter=CountryId%20eq%20%27USA%27",
+				"method": "GET",
+				"header": [
+					{
+						"key": "formName",
+						"value": "FixedDeposit",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Filter=Country Code not Exist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Invalid Country ID'] = responseCode.code === 200;\n\nvar jsd = JSON.parse(responseBody);\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\n\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];\nvar result = jsd.d.results;\n\ntests['No Records Found :[]']=result.length===0\n"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/StateProvinces?$filter=CountryId%20eq%20%27ABCD%27",
+				"method": "GET",
+				"header": [
+					{
+						"key": "formName",
+						"value": "FixedDeposit",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Filter=Invalid Acc Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Invalid Account Group'] = responseCode.code === 200;\n\nvar jsd = JSON.parse(responseBody);\n\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\n\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];\nvar result = jsd.d.results;\n\ntests['No Records Found :[]']=result.length===0\n"
+					}
+				}
+			],
+			"request": {
+				"url": "https://10.97.128.190:8081/cb/odata/services/applicationservice/Accounts?$filter=AccountGroup%20eq%20%27ABCD%27",
+				"method": "GET",
+				"header": [
+					{
+						"key": "formName",
+						"value": "FixedDeposit",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

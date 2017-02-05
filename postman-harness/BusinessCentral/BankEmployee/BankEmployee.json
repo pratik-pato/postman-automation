@@ -1,0 +1,587 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Bank Employee",
+		"_postman_id": "2a4dc26e-525d-aef1-3e2a-236a68cacdc5",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login as admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\npostman.setEnvironmentVariable(\"BC_TokenKey\",postman.getResponseHeader('TokenKey'));\npostman.setEnvironmentVariable(\"BC_x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+				},
+				"description": "BC Login"
+			},
+			"response": []
+		},
+		{
+			"name": "add bank invalid data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Error message 'Not entitled to perform the specified action.'\"] = responseBody.has(\"Not entitled to perform the specified action.\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "BC_TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "BC_x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n\r\n        \"FirstName\": \"Ross\",\r\n        \"LastName\": \"Hustler\",    \r\n\t\t\"UserName\": \"sudoUsr{{$randomInt}}\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 79,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"DefaultAffiliateBankId\" : \"4\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "add bank employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"bnkEmplId\",jsonData.d.Id);\npostman.setEnvironmentVariable(\"bnkEmplUsrNm\",jsonData.d.UserName);\ntests['password check'] = jsonData.d.Password === null;\ntests['status code 201 Created'] = responseCode.code === 201;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "BC_TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "BC_x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n\r\n        \"FirstName\": \"Ross\",\r\n        \"LastName\": \"Hustler\",    \r\n\t\t\"UserName\": \"sudoUsr{{$randomInt}}\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"DefaultAffiliateBankId\" : \"4\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get bank employee and verify details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\ntests['password check'] = jsonData.d.Password === null;\ntests['UserName check'] = jsonData.d.UserName === environment['bnkEmplUsrNm'];\ntests['Id check'] = jsonData.d.Id === environment['bnkEmplId'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "BC_TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "BC_x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get all bank employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\nvar res = jsonData.d.results;\ntests[\"Bank Employee Count : \"+res.length] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "BC_TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "BC_x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "login with new user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Password change required\"] = responseBody.has(\"Password change required\");\n"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n\r\n        \"UserName\": \"{{bnkEmplUsrNm}}\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+				},
+				"description": "BC Login"
+			},
+			"response": []
+		},
+		{
+			"name": "relogin as admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\npostman.setEnvironmentVariable(\"BC_TokenKey\",postman.getResponseHeader('TokenKey'));\npostman.setEnvironmentVariable(\"BC_x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+				},
+				"description": "BC Login"
+			},
+			"response": []
+		},
+		{
+			"name": "self delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Error message 'Not entitled to perform the specified action.'\"] = responseBody.has(\"Not entitled to perform the specified action.\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('1')",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "BC_TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "BC_x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['User logged out'] = responseCode.code === 200;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/authenticationservice/BankEmployees?action=logout",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "BC_TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "BC_x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "relogin as admin ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"User logged in\"] = responseCode.code === 201;\npostman.setEnvironmentVariable(\"BC_TokenKey\",postman.getResponseHeader('TokenKey'));\npostman.setEnvironmentVariable(\"BC_x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+				},
+				"description": "BC Login"
+			},
+			"response": []
+		},
+		{
+			"name": "modify bank employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Bank employee modified'] = responseCode.code === 204;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "BC_TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "BC_x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"sudoMod{{$randomInt}}\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"INACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get bank employee and verify OBO settings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\ntests['password check'] = jsonData.d.Password === null;\ntests['UserName check'] = jsonData.d.UserName !== environment['bnkEmplUsrNm'];\ntests['Id check'] = jsonData.d.Id === environment['bnkEmplId'];\ntests['OboSettings check'] = jsonData.d.OboSettings === \"INACTIVE\";"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "BC_TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "BC_x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete bank employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Bank employee deleted'] = responseCode.code === 204;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "BC_TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "BC_x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get deleted bank employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Error message 'Not entitled to perform the specified action.'\"] = responseBody.has(\"Not entitled to perform the specified action.\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "BC_TokenKey",
+						"value": "{{BC_TokenKey}}",
+						"description": ""
+					},
+					{
+						"key": "BC_x-csrf-token",
+						"value": "{{BC_x-csrf-token}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

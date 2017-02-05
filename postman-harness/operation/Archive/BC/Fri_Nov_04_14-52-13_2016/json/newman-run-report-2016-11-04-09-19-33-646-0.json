@@ -1,0 +1,3519 @@
+{
+  "collection": {
+    "info": {
+      "id": "2a4dc26e-525d-aef1-3e2a-236a68cacdc5",
+      "name": "Bank Employee",
+      "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+    },
+    "event": [],
+    "variable": [],
+    "item": [
+      {
+        "id": "dcf6f381-02e3-467e-8c84-c6d4e3b2d504",
+        "name": "login as admin",
+        "request": {
+          "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+          },
+          "description": {
+            "content": "BC Login",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                "postman.setEnvironmentVariable(\"BC_TokenKey\",postman.getResponseHeader('TokenKey'));",
+                "postman.setEnvironmentVariable(\"BC_x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "02a29d00-44d4-493b-b8db-3a3f29f5742c",
+        "name": "add bank invalid data",
+        "request": {
+          "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "{{BC_TokenKey}}"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "{{BC_x-csrf-token}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Ross\",\r\n        \"LastName\": \"Hustler\",    \r\n\t\t\"UserName\": \"sudoUsr{{$randomInt}}\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 79,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"DefaultAffiliateBankId\" : \"4\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"Error message 'Not entitled to perform the specified action.'\"] = responseBody.has(\"Not entitled to perform the specified action.\");"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "c6b03e84-4c5f-4faa-b10d-f5d1ac81430d",
+        "name": "add bank employee",
+        "request": {
+          "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "{{BC_TokenKey}}"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "{{BC_x-csrf-token}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Ross\",\r\n        \"LastName\": \"Hustler\",    \r\n\t\t\"UserName\": \"sudoUsr{{$randomInt}}\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"DefaultAffiliateBankId\" : \"4\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var jsonData = JSON.parse(responseBody);",
+                "postman.setEnvironmentVariable(\"bnkEmplId\",jsonData.d.Id);",
+                "postman.setEnvironmentVariable(\"bnkEmplUsrNm\",jsonData.d.UserName);",
+                "tests['password check'] = jsonData.d.Password === null;",
+                "tests['status code 201 Created'] = responseCode.code === 201;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "04e91d85-d0a9-4676-94c9-de4cfc8c886a",
+        "name": "get bank employee and verify details",
+        "request": {
+          "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "{{BC_TokenKey}}"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "{{BC_x-csrf-token}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var jsonData = JSON.parse(responseBody);",
+                "tests['password check'] = jsonData.d.Password === null;",
+                "tests['UserName check'] = jsonData.d.UserName === environment['bnkEmplUsrNm'];",
+                "tests['Id check'] = jsonData.d.Id === environment['bnkEmplId'];"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "0d08631a-4de3-49a0-8743-80228d8b2aee",
+        "name": "get all bank employee",
+        "request": {
+          "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "{{BC_TokenKey}}"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "{{BC_x-csrf-token}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var jsonData = JSON.parse(responseBody);",
+                "var res = jsonData.d.results;",
+                "tests[\"Bank Employee Count : \"+res.length] = res.length>0;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "a8607887-cdca-4c55-be6f-6151acdab339",
+        "name": "login with new user",
+        "request": {
+          "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"UserName\": \"{{bnkEmplUsrNm}}\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+          },
+          "description": {
+            "content": "BC Login",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"Password change required\"] = responseBody.has(\"Password change required\");",
+                ""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "49d061a9-d948-4cf8-b6af-f2f67bbbbb03",
+        "name": "relogin as admin",
+        "request": {
+          "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+          },
+          "description": {
+            "content": "BC Login",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                "postman.setEnvironmentVariable(\"BC_TokenKey\",postman.getResponseHeader('TokenKey'));",
+                "postman.setEnvironmentVariable(\"BC_x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "59712e87-b488-4af5-be44-49abf5cc1dd2",
+        "name": "self delete",
+        "request": {
+          "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('1')",
+          "method": "DELETE",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "{{BC_TokenKey}}"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "{{BC_x-csrf-token}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": ""
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"Error message 'Not entitled to perform the specified action.'\"] = responseBody.has(\"Not entitled to perform the specified action.\");"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "c501b26e-e8ec-421b-b6a2-56eaa797b923",
+        "name": "logout",
+        "request": {
+          "url": "{{env}}/bc/odata/services/authenticationservice/BankEmployees?action=logout",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "{{BC_TokenKey}}"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "{{BC_x-csrf-token}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests['User logged out'] = responseCode.code === 200;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "76f0ea9b-e680-47c5-a4d6-a0599d46c08e",
+        "name": "relogin as admin ",
+        "request": {
+          "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+          },
+          "description": {
+            "content": "BC Login",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"User logged in\"] = responseCode.code === 201;",
+                "postman.setEnvironmentVariable(\"BC_TokenKey\",postman.getResponseHeader('TokenKey'));",
+                "postman.setEnvironmentVariable(\"BC_x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "72ead5f1-e3d8-4971-aa42-0361711faeb9",
+        "name": "modify bank employee",
+        "request": {
+          "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+          "method": "PUT",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "{{BC_TokenKey}}"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "{{BC_x-csrf-token}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"sudoMod{{$randomInt}}\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"INACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests['Bank employee modified'] = responseCode.code === 204;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "4684294d-f789-4b29-979b-8e2a3c13280b",
+        "name": "get bank employee and verify OBO settings",
+        "request": {
+          "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "{{BC_TokenKey}}"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "{{BC_x-csrf-token}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "var jsonData = JSON.parse(responseBody);",
+                "tests['password check'] = jsonData.d.Password === null;",
+                "tests['UserName check'] = jsonData.d.UserName !== environment['bnkEmplUsrNm'];",
+                "tests['Id check'] = jsonData.d.Id === environment['bnkEmplId'];",
+                "tests['OboSettings check'] = jsonData.d.OboSettings === \"INACTIVE\";"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "c1ca82fd-8bc3-4acd-b12a-cb444a1b9d7d",
+        "name": "delete bank employee",
+        "request": {
+          "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+          "method": "DELETE",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "{{BC_TokenKey}}"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "{{BC_x-csrf-token}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": ""
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests['Bank employee deleted'] = responseCode.code === 204;"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "b2931086-adc6-4634-9ae0-f141beadd1eb",
+        "name": "get deleted bank employee",
+        "request": {
+          "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "{{BC_TokenKey}}"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "{{BC_x-csrf-token}}"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": [],
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "type": "text/javascript",
+              "exec": [
+                "tests[\"Error message 'Not entitled to perform the specified action.'\"] = responseBody.has(\"Not entitled to perform the specified action.\");"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "environment": {
+    "id": "a481bb2c-55f3-60ae-abea-cb58e17b0cc5",
+    "name": "RetailBanking",
+    "values": [
+      {
+        "type": "any",
+        "value": "https://localhost:8081",
+        "key": "env"
+      },
+      {
+        "type": "any",
+        "value": "RkZJSEFTSDMvRWNCbWMxcU5DaittKzNLc2JyU2Z0cENpUXJwbTBHeG9zRUsyYVRIZ1U9",
+        "key": "BC_TokenKey"
+      },
+      {
+        "type": "any",
+        "value": "1370657267061341849",
+        "key": "BC_x-csrf-token"
+      },
+      {
+        "type": "any",
+        "value": "140",
+        "key": "bnkEmplId"
+      },
+      {
+        "type": "any",
+        "value": "sudoUsr669",
+        "key": "bnkEmplUsrNm"
+      }
+    ]
+  },
+  "globals": {
+    "id": "c559392c-f59a-4c5f-bcf5-f9f7394bc1a1",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 14,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 14,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 14,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 14,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 14,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 20,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 14,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 135.78571428571428,
+      "started": 1478251169582,
+      "completed": 1478251173537
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 14,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "7868b71f-d5eb-4dad-ad31-a5e8101dc26b"
+        },
+        "item": {
+          "id": "dcf6f381-02e3-467e-8c84-c6d4e3b2d504",
+          "name": "login as admin",
+          "request": {
+            "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+            },
+            "description": {
+              "content": "BC Login",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                  "postman.setEnvironmentVariable(\"BC_TokenKey\",postman.getResponseHeader('TokenKey'));",
+                  "postman.setEnvironmentVariable(\"BC_x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 125
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+          },
+          "description": {
+            "content": "BC Login",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "",
+              "value": ""
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:29 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSGpwZjFFNmdRZmVpRmpYZ0dYK1o4YVRhL0MybDRRVCtROVhYTFFJMkJmNTA9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "1065583483780978455"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1214"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')\",\"uri\":\"https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.SecureUser\"},\"AffiliateID\":\"0\",\"AppType\":null,\"BankID\":\"1000\",\"BaseCurrency\":null,\"BusinessCIF\":null,\"BusinessCustId\":null,\"BusinessID\":0,\"BusinessName\":null,\"ChannelType\":null,\"CurrentMfaType\":null,\"EntitlementID\":4,\"Id\":\"BankEmp1\",\"NeedToAcceptTerms\":false,\"CarrierTermsAccepted\":false,\"Password\":\"\",\"UserProfileID\":null,\"ProfileID\":1,\"SmallBusinessUser\":false,\"UserLocale\":{\"__metadata\":{\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.UserLocale\"},\"Country\":\"US\",\"DateFormat\":\"MM/dd/yyyy\",\"DateFormatName\":\"MM/dd/yyyy\",\"DateTimeFormat\":\"MM/dd/yyyy HH:mm\",\"DateTimeFormatName\":\"MM/dd/yyyy HH:mm\",\"Language\":\"en\",\"Locale\":\"en_US\",\"LocaleName\":\"en-US\",\"TimeFormat\":\"HH:mm\",\"TimeFormatName\":\"HH:mm\",\"ZoneFormat\":null,\"ZoneFormatName\":null},\"UserName\":\"admin\",\"UserType\":2,\"BPWFIID\":null,\"DeviceId\":null,\"MacId\":null,\"MultifactorInfo\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')/MultifactorInfo\"}}}}",
+          "cookie": [],
+          "responseTime": 78,
+          "responseSize": 1214,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "dcf6f381-02e3-467e-8c84-c6d4e3b2d504",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "85ed7e72-b4fb-435f-8b52-d9acdbd0d9c2",
+          "length": 14,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0
+        },
+        "item": {
+          "id": "02a29d00-44d4-493b-b8db-3a3f29f5742c",
+          "name": "add bank invalid data",
+          "request": {
+            "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_TokenKey",
+                "value": "{{BC_TokenKey}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_x-csrf-token",
+                "value": "{{BC_x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n\r\n        \"FirstName\": \"Ross\",\r\n        \"LastName\": \"Hustler\",    \r\n\t\t\"UserName\": \"sudoUsr{{$randomInt}}\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 79,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"DefaultAffiliateBankId\" : \"4\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"Error message 'Not entitled to perform the specified action.'\"] = responseBody.has(\"Not entitled to perform the specified action.\");"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "RkZJSEFTSGpwZjFFNmdRZmVpRmpYZ0dYK1o4YVRhL0MybDRRVCtROVhYTFFJMkJmNTA9"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "1065583483780978455"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C035FA4F221C9DEDE1CE1200224781F57DDD17C4853C666B4F8F62B2A4C9EF91"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 507
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Ross\",\r\n        \"LastName\": \"Hustler\",    \r\n\t\t\"UserName\": \"sudoUsr519\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 79,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"DefaultAffiliateBankId\" : \"4\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:31 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "180"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"BE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error20001_descr\\\",\\\"errorMessage\\\":\\\"Not entitled to perform the specified action.\\\",\\\"errorCode\\\":20001}\"}}}",
+          "cookie": [],
+          "responseTime": 609,
+          "responseSize": 180,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "02a29d00-44d4-493b-b8db-3a3f29f5742c",
+        "assertions": [
+          {
+            "assertion": "Error message 'Not entitled to perform the specified action.'"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "698dd7ca-c23c-413f-a8a1-f44a36c0ae84",
+          "length": 14,
+          "cycles": 1,
+          "position": 2,
+          "iteration": 0
+        },
+        "item": {
+          "id": "c6b03e84-4c5f-4faa-b10d-f5d1ac81430d",
+          "name": "add bank employee",
+          "request": {
+            "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_TokenKey",
+                "value": "{{BC_TokenKey}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_x-csrf-token",
+                "value": "{{BC_x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n\r\n        \"FirstName\": \"Ross\",\r\n        \"LastName\": \"Hustler\",    \r\n\t\t\"UserName\": \"sudoUsr{{$randomInt}}\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"DefaultAffiliateBankId\" : \"4\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "postman.setEnvironmentVariable(\"bnkEmplId\",jsonData.d.Id);",
+                  "postman.setEnvironmentVariable(\"bnkEmplUsrNm\",jsonData.d.UserName);",
+                  "tests['password check'] = jsonData.d.Password === null;",
+                  "tests['status code 201 Created'] = responseCode.code === 201;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "RkZJSEFTSGpwZjFFNmdRZmVpRmpYZ0dYK1o4YVRhL0MybDRRVCtROVhYTFFJMkJmNTA9"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "1065583483780978455"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C035FA4F221C9DEDE1CE1200224781F57DDD17C4853C666B4F8F62B2A4C9EF91"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 506
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Ross\",\r\n        \"LastName\": \"Hustler\",    \r\n\t\t\"UserName\": \"sudoUsr669\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"DefaultAffiliateBankId\" : \"4\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:31 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "1065583483780978455"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "869"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"140\",\"EmployeeId\":\"140\",\"FirstName\":\"Ross\",\"LastName\":\"Hustler\",\"UserName\":\"sudoUsr669\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"email@email.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"0\",\"JobTypeId\":7,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"1\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":null,\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')/AffiliateBanks\"}}}}",
+          "cookie": [],
+          "responseTime": 95,
+          "responseSize": 869,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "c6b03e84-4c5f-4faa-b10d-f5d1ac81430d",
+        "assertions": [
+          {
+            "assertion": "password check"
+          },
+          {
+            "assertion": "status code 201 Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "a8c9eaec-e507-4c9b-bd6e-b6ebd74bd516",
+          "length": 14,
+          "cycles": 1,
+          "position": 3,
+          "iteration": 0
+        },
+        "item": {
+          "id": "04e91d85-d0a9-4676-94c9-de4cfc8c886a",
+          "name": "get bank employee and verify details",
+          "request": {
+            "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_TokenKey",
+                "value": "{{BC_TokenKey}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_x-csrf-token",
+                "value": "{{BC_x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "tests['password check'] = jsonData.d.Password === null;",
+                  "tests['UserName check'] = jsonData.d.UserName === environment['bnkEmplUsrNm'];",
+                  "tests['Id check'] = jsonData.d.Id === environment['bnkEmplId'];"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "RkZJSEFTSGpwZjFFNmdRZmVpRmpYZ0dYK1o4YVRhL0MybDRRVCtROVhYTFFJMkJmNTA9"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "1065583483780978455"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C035FA4F221C9DEDE1CE1200224781F57DDD17C4853C666B4F8F62B2A4C9EF91"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 465
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:31 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "1065583483780978455"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "878"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"140\",\"EmployeeId\":\"140\",\"FirstName\":\"Ross\",\"LastName\":\"Hustler\",\"UserName\":\"sudoUsr669\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"email@email.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":7,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"0\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')/AffiliateBanks\"}}}}",
+          "cookie": [],
+          "responseTime": 22,
+          "responseSize": 878,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "04e91d85-d0a9-4676-94c9-de4cfc8c886a",
+        "assertions": [
+          {
+            "assertion": "password check"
+          },
+          {
+            "assertion": "UserName check"
+          },
+          {
+            "assertion": "Id check"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "a9ab3a6b-a506-4db0-a606-a36f51effcab",
+          "length": 14,
+          "cycles": 1,
+          "position": 4,
+          "iteration": 0
+        },
+        "item": {
+          "id": "0d08631a-4de3-49a0-8743-80228d8b2aee",
+          "name": "get all bank employee",
+          "request": {
+            "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_TokenKey",
+                "value": "{{BC_TokenKey}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_x-csrf-token",
+                "value": "{{BC_x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "var res = jsonData.d.results;",
+                  "tests[\"Bank Employee Count : \"+res.length] = res.length>0;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "RkZJSEFTSGpwZjFFNmdRZmVpRmpYZ0dYK1o4YVRhL0MybDRRVCtROVhYTFFJMkJmNTA9"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "1065583483780978455"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C035FA4F221C9DEDE1CE1200224781F57DDD17C4853C666B4F8F62B2A4C9EF91"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 465
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:31 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "1065583483780978455"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            }
+          ],
+          "body": "{\"d\":{\"results\":[{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('2')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('2')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"2\",\"EmployeeId\":\"BankEmp2\",\"FirstName\":\"John\",\"LastName\":\"Brown\",\"UserName\":\"jbrown\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"jbrown@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":5,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('2')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('3')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('3')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"3\",\"EmployeeId\":\"BankEmp3\",\"FirstName\":\"Richard\",\"LastName\":\"Burt\",\"UserName\":\"rburt\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"rburt@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":6,\"SupervisorId\":\"2\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"2\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"1\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('3')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('4')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('4')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"4\",\"EmployeeId\":\"BankEmp4\",\"FirstName\":\"Nancy\",\"LastName\":\"Nott\",\"UserName\":\"nnott\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"nnott@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":6,\"SupervisorId\":\"2\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"2\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"3\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('4')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('5')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('5')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"5\",\"EmployeeId\":\"BankEmp5\",\"FirstName\":\"John\",\"LastName\":\"Tubb\",\"UserName\":\"jtubb\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"jtubb@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":7,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('5')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('6')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('6')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"6\",\"EmployeeId\":\"BankEmp6\",\"FirstName\":\"Kerry\",\"LastName\":\"Copp\",\"UserName\":\"kcopp\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"kcopp@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":7,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('6')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('7')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('7')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"7\",\"EmployeeId\":\"BankEmp7\",\"FirstName\":\"Jim\",\"LastName\":\"Jarang\",\"UserName\":\"jjarang\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"jjarang@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":8,\"SupervisorId\":\"6\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"6\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('7')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('9')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('9')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"9\",\"EmployeeId\":\"BankEmp9\",\"FirstName\":\"Bob\",\"LastName\":\"Johnson\",\"UserName\":\"bjohnson\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"bjohnson@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":5,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('9')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('10')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('10')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"10\",\"EmployeeId\":\"BankEmp10\",\"FirstName\":\"Jill\",\"LastName\":\"Sampson\",\"UserName\":\"jsampson\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"jsampson@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":5,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"2\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('10')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('11')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('11')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"11\",\"EmployeeId\":\"BankEmp11\",\"FirstName\":\"Mike\",\"LastName\":\"Chalk\",\"UserName\":\"mchalk\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"mchalk@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":6,\"SupervisorId\":\"9\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"2\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('11')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('12')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('12')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"12\",\"EmployeeId\":\"BankEmp12\",\"FirstName\":\"ACH\",\"LastName\":\"Admin\",\"UserName\":\"achadmin\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"achadmin@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":70,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('12')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('13')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('13')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"13\",\"EmployeeId\":\"BankEmp13\",\"FirstName\":\"Wires\",\"LastName\":\"Admin\",\"UserName\":\"wiresadmin\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"wiresadmin@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":69,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('13')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('14')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('14')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"14\",\"EmployeeId\":\"BankEmp14\",\"FirstName\":\"CashCon\",\"LastName\":\"Admin\",\"UserName\":\"cashconadmin\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"cashconadmin@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":71,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('14')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('15')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('15')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"15\",\"EmployeeId\":\"BankEmp15\",\"FirstName\":\"PPay\",\"LastName\":\"Admin\",\"UserName\":\"ppayadmin\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"ppayadmin@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":72,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('15')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('16')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('16')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"16\",\"EmployeeId\":\"BankEmp16\",\"FirstName\":\"ExtTransfer\",\"LastName\":\"Admin\",\"UserName\":\"exttransferadmin\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"exttransferadminadmin@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":73,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('16')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('17')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('17')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"17\",\"EmployeeId\":\"BankEmp17\",\"FirstName\":\"BillPayment\",\"LastName\":\"Admin\",\"UserName\":\"billpayadmin\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"billpayadmin@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":74,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('17')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('18')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('18')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"18\",\"EmployeeId\":\"BankEmp18\",\"FirstName\":\"BookTransfers\",\"LastName\":\"Admin\",\"UserName\":\"booktransfersadmin\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"booktransfersadmin@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":75,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"1\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('18')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('19')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('19')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"19\",\"EmployeeId\":\"BankEmp19\",\"FirstName\":\"Sam\",\"LastName\":\"Sung\",\"UserName\":\"ssung\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"ssung@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":6,\"SupervisorId\":\"2\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"2\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"1\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('19')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('20')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('20')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"20\",\"EmployeeId\":\"BankEmp20\",\"FirstName\":\"Leo\",\"LastName\":\"Fusion\",\"UserName\":\"lfusion\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"lfusion@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":6,\"SupervisorId\":\"2\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"2\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"1\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('20')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"140\",\"EmployeeId\":\"140\",\"FirstName\":\"Ross\",\"LastName\":\"Hustler\",\"UserName\":\"sudoUsr669\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"email@email.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":7,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"0\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('1')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('1')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"1\",\"EmployeeId\":\"BankEmp1\",\"FirstName\":\"Admin\",\"LastName\":\"Admin\",\"UserName\":\"admin\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"admin@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":4,\"SupervisorId\":\"0\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"0\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"0\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('1')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('8')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('8')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"8\",\"EmployeeId\":\"BankEmp8\",\"FirstName\":\"System\",\"LastName\":\"System\",\"UserName\":\"system\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"system@mybank.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":64,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"0\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"0\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('8')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('106')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('106')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"106\",\"EmployeeId\":\"106\",\"FirstName\":\"Super1\",\"LastName\":\"User1\",\"UserName\":\"sudoMod594\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"email@email.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":7,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"0\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('106')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('103')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('103')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"103\",\"EmployeeId\":\"103\",\"FirstName\":\"Ross\",\"LastName\":\"Hustler\",\"UserName\":\"sudoUsr609\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"email@email.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":7,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"0\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('103')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('104')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('104')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"104\",\"EmployeeId\":\"104\",\"FirstName\":\"Ross\",\"LastName\":\"Hustler\",\"UserName\":\"sudoUsr544\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"email@email.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":74,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"0\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('104')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('105')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('105')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"105\",\"EmployeeId\":\"105\",\"FirstName\":\"Ross\",\"LastName\":\"Hustler\",\"UserName\":\"sudoUsr131\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"email@email.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":7,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"0\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('105')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('120')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('120')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"120\",\"EmployeeId\":\"120\",\"FirstName\":\"Ross\",\"LastName\":\"Hustler\",\"UserName\":\"sudoUsr487\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"email@email.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":7,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"0\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('120')/AffiliateBanks\"}}},{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('124')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('124')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"124\",\"EmployeeId\":\"124\",\"FirstName\":\"Ross\",\"LastName\":\"Hustler\",\"UserName\":\"sudoUsr776\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"email@email.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":7,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"ACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"0\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('124')/AffiliateBanks\"}}}]}}",
+          "cookie": [],
+          "responseTime": 92,
+          "responseSize": 23663,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "0d08631a-4de3-49a0-8743-80228d8b2aee",
+        "assertions": [
+          {
+            "assertion": "Bank Employee Count : 27"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "76bc1f9f-d101-45d2-a76b-d737ae1ef2af",
+          "length": 14,
+          "cycles": 1,
+          "position": 5,
+          "iteration": 0
+        },
+        "item": {
+          "id": "a8607887-cdca-4c55-be6f-6151acdab339",
+          "name": "login with new user",
+          "request": {
+            "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n\r\n        \"UserName\": \"{{bnkEmplUsrNm}}\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+            },
+            "description": {
+              "content": "BC Login",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"Password change required\"] = responseBody.has(\"Password change required\");",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C035FA4F221C9DEDE1CE1200224781F57DDD17C4853C666B4F8F62B2A4C9EF91"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 130
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"UserName\": \"sudoUsr669\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+          },
+          "description": {
+            "content": "BC Login",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "",
+              "value": ""
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:32 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "158"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"BE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error3007_descr\\\",\\\"errorMessage\\\":\\\"Password change required.\\\",\\\"errorCode\\\":3007}\"}}}",
+          "cookie": [],
+          "responseTime": 107,
+          "responseSize": 158,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "a8607887-cdca-4c55-be6f-6151acdab339",
+        "assertions": [
+          {
+            "assertion": "Password change required"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "d937da67-5fe6-49df-acdf-bf5fbd6b9dc2",
+          "length": 14,
+          "cycles": 1,
+          "position": 6,
+          "iteration": 0
+        },
+        "item": {
+          "id": "49d061a9-d948-4cf8-b6af-f2f67bbbbb03",
+          "name": "relogin as admin",
+          "request": {
+            "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+            },
+            "description": {
+              "content": "BC Login",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                  "postman.setEnvironmentVariable(\"BC_TokenKey\",postman.getResponseHeader('TokenKey'));",
+                  "postman.setEnvironmentVariable(\"BC_x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C035FA4F221C9DEDE1CE1200224781F57DDD17C4853C666B4F8F62B2A4C9EF91"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 125
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+          },
+          "description": {
+            "content": "BC Login",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "",
+              "value": ""
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:32 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSFVCNkhPWjdrQUZjNDNoalo4RE9vb2g1ZHlWaDlYdXNMOVJKbXBNbXVmMGc9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "5297510443912270496"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1214"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')\",\"uri\":\"https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.SecureUser\"},\"AffiliateID\":\"0\",\"AppType\":null,\"BankID\":\"1000\",\"BaseCurrency\":null,\"BusinessCIF\":null,\"BusinessCustId\":null,\"BusinessID\":0,\"BusinessName\":null,\"ChannelType\":null,\"CurrentMfaType\":null,\"EntitlementID\":4,\"Id\":\"BankEmp1\",\"NeedToAcceptTerms\":false,\"CarrierTermsAccepted\":false,\"Password\":\"\",\"UserProfileID\":null,\"ProfileID\":1,\"SmallBusinessUser\":false,\"UserLocale\":{\"__metadata\":{\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.UserLocale\"},\"Country\":\"US\",\"DateFormat\":\"MM/dd/yyyy\",\"DateFormatName\":\"MM/dd/yyyy\",\"DateTimeFormat\":\"MM/dd/yyyy HH:mm\",\"DateTimeFormatName\":\"MM/dd/yyyy HH:mm\",\"Language\":\"en\",\"Locale\":\"en_US\",\"LocaleName\":\"en-US\",\"TimeFormat\":\"HH:mm\",\"TimeFormatName\":\"HH:mm\",\"ZoneFormat\":null,\"ZoneFormatName\":null},\"UserName\":\"admin\",\"UserType\":2,\"BPWFIID\":null,\"DeviceId\":null,\"MacId\":null,\"MultifactorInfo\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')/MultifactorInfo\"}}}}",
+          "cookie": [],
+          "responseTime": 24,
+          "responseSize": 1214,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "49d061a9-d948-4cf8-b6af-f2f67bbbbb03",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "34dfa4f6-4b85-4075-804b-fe79621f1b49",
+          "length": 14,
+          "cycles": 1,
+          "position": 7,
+          "iteration": 0
+        },
+        "item": {
+          "id": "59712e87-b488-4af5-be44-49abf5cc1dd2",
+          "name": "self delete",
+          "request": {
+            "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('1')",
+            "method": "DELETE",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_TokenKey",
+                "value": "{{BC_TokenKey}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_x-csrf-token",
+                "value": "{{BC_x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"Error message 'Not entitled to perform the specified action.'\"] = responseBody.has(\"Not entitled to perform the specified action.\");"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('1')",
+          "method": "DELETE",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "RkZJSEFTSFVCNkhPWjdrQUZjNDNoalo4RE9vb2g1ZHlWaDlYdXNMOVJKbXBNbXVmMGc9"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "5297510443912270496"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=CF9E0F2BDAD3886FFF0E60DEAB1EF9BC9B662D364583949C9BA0F6570A7B781D"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": ""
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": ""
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:32 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "180"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"BE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error20001_descr\\\",\\\"errorMessage\\\":\\\"Not entitled to perform the specified action.\\\",\\\"errorCode\\\":20001}\"}}}",
+          "cookie": [],
+          "responseTime": 139,
+          "responseSize": 180,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "59712e87-b488-4af5-be44-49abf5cc1dd2",
+        "assertions": [
+          {
+            "assertion": "Error message 'Not entitled to perform the specified action.'"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "e1ec76f6-35e5-491c-a4f8-329edb1ce280",
+          "length": 14,
+          "cycles": 1,
+          "position": 8,
+          "iteration": 0
+        },
+        "item": {
+          "id": "c501b26e-e8ec-421b-b6a2-56eaa797b923",
+          "name": "logout",
+          "request": {
+            "url": "{{env}}/bc/odata/services/authenticationservice/BankEmployees?action=logout",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_TokenKey",
+                "value": "{{BC_TokenKey}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_x-csrf-token",
+                "value": "{{BC_x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests['User logged out'] = responseCode.code === 200;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/services/authenticationservice/BankEmployees?action=logout",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "RkZJSEFTSFVCNkhPWjdrQUZjNDNoalo4RE9vb2g1ZHlWaDlYdXNMOVJKbXBNbXVmMGc9"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "5297510443912270496"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=CF9E0F2BDAD3886FFF0E60DEAB1EF9BC9B662D364583949C9BA0F6570A7B781D"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "referer",
+              "value": "https://localhost:8081/bc/odata/services/authenticationservice/BankEmployees?action=logout"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "",
+              "value": ""
+            },
+            {
+              "key": "Pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "",
+              "value": ""
+            },
+            {
+              "key": "",
+              "value": ""
+            },
+            {
+              "key": "pragma",
+              "value": "no-cache"
+            },
+            {
+              "key": "Content-Type",
+              "value": "text/html;charset=ISO-8859-1"
+            },
+            {
+              "key": "Content-Length",
+              "value": "104"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:32 GMT"
+            }
+          ],
+          "body": "\r\n\r\n<HTML>\r\n<HEAD>\r\n\t<SCRIPT>location.replace('/bc/bc/html/logout.html');</SCRIPT>\r\n\r\n\r\n</HEAD>\r\n</HTML>",
+          "cookie": [],
+          "responseTime": 430,
+          "responseSize": 104,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "c501b26e-e8ec-421b-b6a2-56eaa797b923",
+        "assertions": [
+          {
+            "assertion": "User logged out"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "bc48d45a-48af-4fe1-a69c-bce75f94f9d0",
+          "length": 14,
+          "cycles": 1,
+          "position": 9,
+          "iteration": 0
+        },
+        "item": {
+          "id": "76f0ea9b-e680-47c5-a4d6-a0599d46c08e",
+          "name": "relogin as admin ",
+          "request": {
+            "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+            },
+            "description": {
+              "content": "BC Login",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"User logged in\"] = responseCode.code === 201;",
+                  "postman.setEnvironmentVariable(\"BC_TokenKey\",postman.getResponseHeader('TokenKey'));",
+                  "postman.setEnvironmentVariable(\"BC_x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=CF9E0F2BDAD3886FFF0E60DEAB1EF9BC9B662D364583949C9BA0F6570A7B781D"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 125
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"UserName\": \"admin\",    \r\n\r\n        \"Password\": \"Pass1234\",    \r\n\r\n        \"ChannelType\": \"Web\"    \r\n\r\n    }"
+          },
+          "description": {
+            "content": "BC Login",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "",
+              "value": ""
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:32 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSDMvRWNCbWMxcU5DaittKzNLc2JyU2Z0cENpUXJwbTBHeG9zRUsyYVRIZ1U9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "1370657267061341849"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1214"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')\",\"uri\":\"https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.SecureUser\"},\"AffiliateID\":\"0\",\"AppType\":null,\"BankID\":\"1000\",\"BaseCurrency\":null,\"BusinessCIF\":null,\"BusinessCustId\":null,\"BusinessID\":0,\"BusinessName\":null,\"ChannelType\":null,\"CurrentMfaType\":null,\"EntitlementID\":4,\"Id\":\"BankEmp1\",\"NeedToAcceptTerms\":false,\"CarrierTermsAccepted\":false,\"Password\":\"\",\"UserProfileID\":null,\"ProfileID\":1,\"SmallBusinessUser\":false,\"UserLocale\":{\"__metadata\":{\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.UserLocale\"},\"Country\":\"US\",\"DateFormat\":\"MM/dd/yyyy\",\"DateFormatName\":\"MM/dd/yyyy\",\"DateTimeFormat\":\"MM/dd/yyyy HH:mm\",\"DateTimeFormatName\":\"MM/dd/yyyy HH:mm\",\"Language\":\"en\",\"Locale\":\"en_US\",\"LocaleName\":\"en-US\",\"TimeFormat\":\"HH:mm\",\"TimeFormatName\":\"HH:mm\",\"ZoneFormat\":null,\"ZoneFormatName\":null},\"UserName\":\"admin\",\"UserType\":2,\"BPWFIID\":null,\"DeviceId\":null,\"MacId\":null,\"MultifactorInfo\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')/MultifactorInfo\"}}}}",
+          "cookie": [],
+          "responseTime": 22,
+          "responseSize": 1214,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "76f0ea9b-e680-47c5-a4d6-a0599d46c08e",
+        "assertions": [
+          {
+            "assertion": "User logged in"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "374b7e5e-7a6f-444b-9b14-bfa14fc7ec43",
+          "length": 14,
+          "cycles": 1,
+          "position": 10,
+          "iteration": 0
+        },
+        "item": {
+          "id": "72ead5f1-e3d8-4971-aa42-0361711faeb9",
+          "name": "modify bank employee",
+          "request": {
+            "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+            "method": "PUT",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_TokenKey",
+                "value": "{{BC_TokenKey}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_x-csrf-token",
+                "value": "{{BC_x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"sudoMod{{$randomInt}}\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"INACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests['Bank employee modified'] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')",
+          "method": "PUT",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "RkZJSEFTSDMvRWNCbWMxcU5DaittKzNLc2JyU2Z0cENpUXJwbTBHeG9zRUsyYVRIZ1U9"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "1370657267061341849"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=EED4C83F6999A1B7029BA98AADCE215BC7EB26AD41824DA201B62D6EDAF68C2B"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 467
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"sudoMod725\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"INACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:33 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "1370657267061341849"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 45,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "72ead5f1-e3d8-4971-aa42-0361711faeb9",
+        "assertions": [
+          {
+            "assertion": "Bank employee modified"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "f969314d-4f3c-4fc9-90a5-8ae06880017f",
+          "length": 14,
+          "cycles": 1,
+          "position": 11,
+          "iteration": 0
+        },
+        "item": {
+          "id": "4684294d-f789-4b29-979b-8e2a3c13280b",
+          "name": "get bank employee and verify OBO settings",
+          "request": {
+            "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_TokenKey",
+                "value": "{{BC_TokenKey}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_x-csrf-token",
+                "value": "{{BC_x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "tests['password check'] = jsonData.d.Password === null;",
+                  "tests['UserName check'] = jsonData.d.UserName !== environment['bnkEmplUsrNm'];",
+                  "tests['Id check'] = jsonData.d.Id === environment['bnkEmplId'];",
+                  "tests['OboSettings check'] = jsonData.d.OboSettings === \"INACTIVE\";"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "RkZJSEFTSDMvRWNCbWMxcU5DaittKzNLc2JyU2Z0cENpUXJwbTBHeG9zRUsyYVRIZ1U9"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "1370657267061341849"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=EED4C83F6999A1B7029BA98AADCE215BC7EB26AD41824DA201B62D6EDAF68C2B"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 465
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:33 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "1370657267061341849"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "880"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')\",\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')\",\"type\":\"com.sap.banking.bankemployee.endpoint.v1_0.beans.BankEmployee\"},\"Id\":\"140\",\"EmployeeId\":\"140\",\"FirstName\":\"Super1\",\"LastName\":\"User1\",\"UserName\":\"sudoMod725\",\"Password\":null,\"ConfirmPassword\":null,\"EmailAddress\":\"email@email.com\",\"ConfirmEmailAddress\":null,\"PhoneNumber\":null,\"Status\":\"ACTIVE\",\"JobTypeId\":7,\"SupervisorId\":\"1\",\"EmployeeExtId\":null,\"OboSettings\":\"INACTIVE\",\"ApprovalProviderForGlobalMessages\":null,\"ApprovalProviderForCases\":\"0\",\"ManageConsumerBanking\":null,\"ManageCorporateBanking\":null,\"DefaultAffiliateBankId\":\"4\",\"AffiliateBanks\":{\"__deferred\":{\"uri\":\"https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')/AffiliateBanks\"}}}}",
+          "cookie": [],
+          "responseTime": 14,
+          "responseSize": 880,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "4684294d-f789-4b29-979b-8e2a3c13280b",
+        "assertions": [
+          {
+            "assertion": "password check"
+          },
+          {
+            "assertion": "UserName check"
+          },
+          {
+            "assertion": "Id check"
+          },
+          {
+            "assertion": "OboSettings check"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "7e8c8e4a-c2b7-4a48-aa09-eec5b95dd1b2",
+          "length": 14,
+          "cycles": 1,
+          "position": 12,
+          "iteration": 0
+        },
+        "item": {
+          "id": "c1ca82fd-8bc3-4acd-b12a-cb444a1b9d7d",
+          "name": "delete bank employee",
+          "request": {
+            "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+            "method": "DELETE",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_TokenKey",
+                "value": "{{BC_TokenKey}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_x-csrf-token",
+                "value": "{{BC_x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests['Bank employee deleted'] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')",
+          "method": "DELETE",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "RkZJSEFTSDMvRWNCbWMxcU5DaittKzNLc2JyU2Z0cENpUXJwbTBHeG9zRUsyYVRIZ1U9"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "1370657267061341849"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=EED4C83F6999A1B7029BA98AADCE215BC7EB26AD41824DA201B62D6EDAF68C2B"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": ""
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": ""
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:33 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "1370657267061341849"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 92,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "c1ca82fd-8bc3-4acd-b12a-cb444a1b9d7d",
+        "assertions": [
+          {
+            "assertion": "Bank employee deleted"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "1d393533-6d98-4e46-b36d-7fd8ef08db7b",
+          "length": 14,
+          "cycles": 1,
+          "position": 13,
+          "iteration": 0
+        },
+        "item": {
+          "id": "b2931086-adc6-4634-9ae0-f141beadd1eb",
+          "name": "get deleted bank employee",
+          "request": {
+            "url": "{{env}}/bc/odata/services/bankemployeeservice/BankEmployees('{{bnkEmplId}}')",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_TokenKey",
+                "value": "{{BC_TokenKey}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "BC_x-csrf-token",
+                "value": "{{BC_x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"Error message 'Not entitled to perform the specified action.'\"] = responseBody.has(\"Not entitled to perform the specified action.\");"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://localhost:8081/bc/odata/services/bankemployeeservice/BankEmployees('140')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_TokenKey",
+              "value": "RkZJSEFTSDMvRWNCbWMxcU5DaittKzNLc2JyU2Z0cENpUXJwbTBHeG9zRUsyYVRIZ1U9"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "BC_x-csrf-token",
+              "value": "1370657267061341849"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "localhost:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=EED4C83F6999A1B7029BA98AADCE215BC7EB26AD41824DA201B62D6EDAF68C2B"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 465
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n\r\n        \"FirstName\": \"Super1\",\r\n        \"LastName\": \"User1\",    \r\n\t\t\"UserName\": \"superuser1\", \r\n        \"Password\": \"Pass1234\",\r\n        \"JobTypeId\": 7,\r\n        \"SupervisorId\" : \"1\",\r\n        \"EmailAddress\" : \"email@email.com\",\r\n        \"Status\": \"0\",\r\n        \"OboSettings\" : \"ACTIVE\",\r\n        \"AffiliateBanks\" : [{\r\n        \t\t\"Id\": \"1\",\r\n        \t\t\"FiId\": \"1000\",\r\n        \t\t\"BankId\" : \"4\",\r\n        \t\t\"BankName\": \"Fusion Bank\"\r\n        \t\t}]\r\n\r\n    }\r\n"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 09:19:33 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "180"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"BE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error20001_descr\\\",\\\"errorMessage\\\":\\\"Not entitled to perform the specified action.\\\",\\\"errorCode\\\":20001}\"}}}",
+          "cookie": [],
+          "responseTime": 132,
+          "responseSize": 180,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "b2931086-adc6-4634-9ae0-f141beadd1eb",
+        "assertions": [
+          {
+            "assertion": "Error message 'Not entitled to perform the specified action.'"
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 30734
+    },
+    "failures": [],
+    "error": null
+  }
+}

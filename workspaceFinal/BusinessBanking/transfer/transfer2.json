@@ -1,0 +1,132 @@
+{
+	"variables": [],
+	"info": {
+		"name": "DEMO1",
+		"_postman_id": "3bd2ef96-9aa8-2ceb-a39f-173cb1b25150",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login jtech",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsd = JSON.parse(responseBody);",
+							"tests[\"login success\"]=jsd.d.Password===\"\" && jsd.d.UserName===\"jtech\";",
+							"postman.setEnvironmentVariable(\"token\",postman.getResponseHeader('TokenKey'));"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{envKey}}/cb/odata/ns/authenticationservice/SecureUsers?action=init",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"UserName\": \"jtech\",\r\n\r\n               \"AppType\": \"Business\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "add transfer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsd = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"trId\",jsd.d.Id);",
+							"tests[\"transfer added\"]=jsd.d.Id!==\"\";"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var newDate = new Date();\r",
+							"var dateStr = \"\";\r",
+							"//dateStr = \"\"+newDate.getFullYear()+\"-\"+newDate.getMonth()+\"-\"+newDate.getDate()+\"T\"+newDate.getHours()+\":\"+newDate.getMinutes()+\":\"+newDate.getSeconds();\r",
+							"dateStr = newDate.toISOString().slice(0,-5);\r",
+							"postman.setEnvironmentVariable(\"curDate\",dateStr);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{envKey}}/cb/odata/services/transferservice/Transfers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"FromAccountID\": \"50000-1\",\r\n\r\n    \"ToAccountID\": \"50001-2\",\r\n\r\n    \"UserAssignedAmount\": \"single\",\r\n\r\n    \"Amount\": \"51\",\r\n\r\n    \"AmountCurrency\": \"USD\",\r\n\r\n    \"Date\": \"{{curDate}}\"\r\n\r\n} "
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get transfer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsd = JSON.parse(responseBody);",
+							"tests[\"get transfer with \"+environment['trId']]=jsd.d.Id===environment['trId'];"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{envKey}}/cb/odata/services/transferservice/Transfers('{{trId}}')?$expand=FromAccount,ToAccount",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

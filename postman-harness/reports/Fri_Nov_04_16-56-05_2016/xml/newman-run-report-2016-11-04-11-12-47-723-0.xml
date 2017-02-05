@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="BusinessUserProfile_Harness">
+  <testsuite name="Login to CB as primaryadmin" id="f011880d-124b-4031-8b47-f6a352220ff7" tests="1" time="3383">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile" id="b8e683a0-82ba-425c-8332-c83f7ce9b351" tests="1" time="3842">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="delete profile1" id="4061fe10-f954-4d8a-85c9-6277bec899bb" tests="1" time="649">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="Add Business Profile to test Duplicate profile" id="fa129f52-2c97-4c3c-82ff-ee74905847a2" tests="1" time="278">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile Duplicate profile" id="dc2c194b-132e-4f6a-af8a-3a2a4642f850" tests="1" time="558">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="delete profile2" id="e714ae60-e91b-4d3f-8429-f2410e92d19a" tests="1" time="991">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="Add Business Profile Invalid Channel" id="7c88ca76-ff0a-4c1f-b905-334b30fcde6c" tests="1" time="465">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile Duplicate Channel" id="f13b22da-e0fe-4e67-b947-9270915121bc" tests="1" time="755">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile With Special Character" id="67b7b7bc-c290-4f5a-b8f3-ca0aaa43765d" tests="1" time="1053">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile With Not allowed parentEntId" id="0906beb3-0b88-4318-8173-1875e306f873" tests="1" time="770">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile With Invalid parentEntId" id="ae450d86-3df2-4dc1-9de9-38d0b65b9953" tests="1" time="832">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile With No Channel" id="cacca696-559e-4ab2-bcb3-abc16828ab55" tests="1" time="756">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Business Profile for get by Id" id="9ee6ebc3-689f-45ed-a845-c7113facf154" tests="1" time="707">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="get profile by Id" id="aef7e481-48fc-4db0-9084-787d21c72b2b" tests="1" time="480">
+    <testcase name="status code is 200 : OK"/>
+  </testsuite>
+  <testsuite name="Modify business user profile" id="341d7423-8111-4d17-ac1a-6e65db80340b" tests="1" time="1277">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="get profile by Id Verify modification" id="11049ac8-44f3-4309-9cf3-e1cfc63545af" tests="3" time="551">
+    <testcase name="Body has Sms Channel"/>
+    <testcase name="Body has No Mobile Channel"/>
+    <testcase name="status code is 200 : OK"/>
+  </testsuite>
+  <testsuite name="delete profile3" id="68a32768-9e80-454e-af40-5bb732b28655" tests="1" time="555">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="get profile by Id Verify Delete" id="1abd0e11-91ac-4058-9060-ec15b909aa5f" tests="1" time="432">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+</testsuites>

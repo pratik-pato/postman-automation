@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Business Profile Features With Limit">
+  <testsuite name="Login" id="b81857a6-36c3-4a30-ac17-d76f65f32243" tests="1" time="1597">
+    <testcase name="Logged in as primaryadmin for iteration : Account Management"/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures without assigning feature" id="697dc7f4-0a59-438c-8c86-32e458abae11" tests="1" time="501">
+    <testcase name="Account Management get without assigning."/>
+  </testsuite>
+  <testsuite name="Add Business Profile Feature without entitlements" id="6673effd-f61c-4220-ae61-36b59a88183c" tests="1" time="524">
+    <testcase name="Account Management added without entitlements."/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures entitlements" id="ac26ff79-966f-4759-ae80-757db1d27ed6" tests="13" time="665">
+    <testcase name="Feature Account Balance entitled false"/>
+    <testcase name="Feature 101 has display name =Account Balance"/>
+    <testcase name="Feature CheckImaging entitled false"/>
+    <testcase name="Feature 101 has display name =Check Imaging"/>
+    <testcase name="Feature Consolidated Balance entitled false"/>
+    <testcase name="Feature 101 has display name =Consolidated Balance"/>
+    <testcase name="Feature History entitled false"/>
+    <testcase name="Feature 101 has display name =Account History"/>
+    <testcase name="Feature Transaction Search entitled false"/>
+    <testcase name="Feature 101 has display name =Transaction Search"/>
+    <testcase name="Feature View Transactions Across Groups entitled false"/>
+    <testcase name="Feature 101 has display name =View Transactions Across Groups"/>
+    <testcase name="status code is 200 : OK for Account Management"/>
+  </testsuite>
+  <testsuite name="delete feature" id="96e85b49-49aa-4bf7-b89d-0a898abe8098" tests="1" time="799">
+    <testcase name="Account Management deleted."/>
+  </testsuite>
+  <testsuite name="Add Business Profile Features with entitlements (Valid Set)" id="80c4334c-149b-472d-b22f-6fd4d30dcdfd" tests="1" time="541">
+    <testcase name="Account Management added with entitlements entitled true."/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children and limits" id="a607368f-339f-4920-a31f-4b1da2ffd410" tests="13" time="443">
+    <testcase name="Feature Account Balance entitled true"/>
+    <testcase name="Feature 101 has display name =Account Balance"/>
+    <testcase name="Feature CheckImaging entitled true"/>
+    <testcase name="Feature 101 has display name =Check Imaging"/>
+    <testcase name="Feature Consolidated Balance entitled true"/>
+    <testcase name="Feature 101 has display name =Consolidated Balance"/>
+    <testcase name="Feature History entitled true"/>
+    <testcase name="Feature 101 has display name =Account History"/>
+    <testcase name="Feature Transaction Search entitled true"/>
+    <testcase name="Feature 101 has display name =Transaction Search"/>
+    <testcase name="Feature View Transactions Across Groups entitled true"/>
+    <testcase name="Feature 101 has display name =View Transactions Across Groups"/>
+    <testcase name="Account Management expand limit,properties verified."/>
+  </testsuite>
+  <testsuite name="Add Business Profile Features with entitlements (Valid Set) copy" id="97c06bf2-c7a8-4d75-b640-ad0a23d743c0" tests="1" time="370">
+    <testcase name="Change entitlements to entitled false on channel for Account Management"/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children entitled false on channel Verify" id="a245fdbf-0a9f-4555-9e42-834ad5787379" tests="13" time="319">
+    <testcase name="Feature Account Balance entitled false"/>
+    <testcase name="Feature 101 has display name =Account Balance"/>
+    <testcase name="Feature CheckImaging entitled false"/>
+    <testcase name="Feature 101 has display name =Check Imaging"/>
+    <testcase name="Feature Consolidated Balance entitled false"/>
+    <testcase name="Feature 101 has display name =Consolidated Balance"/>
+    <testcase name="Feature History entitled false"/>
+    <testcase name="Feature 101 has display name =Account History"/>
+    <testcase name="Feature Transaction Search entitled false"/>
+    <testcase name="Feature 101 has display name =Transaction Search"/>
+    <testcase name="Feature View Transactions Across Groups entitled false"/>
+    <testcase name="Feature 101 has display name =View Transactions Across Groups"/>
+    <testcase name="Entitlements checked (false) on channel for Account Management"/>
+  </testsuite>
+  <testsuite name="Add Business Profile Features with entitlements with limits" id="98467970-5949-4826-800e-967778e8e8c7" tests="1" time="553">
+    <testcase name="set limits for Account Management"/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children and limits verify" id="8dba6a4d-d8cb-470b-9fdd-d50a120f89a8" tests="13" time="440">
+    <testcase name="Feature Account Balance entitled true"/>
+    <testcase name="Feature 101 has display name =Account Balance"/>
+    <testcase name="Feature CheckImaging entitled true"/>
+    <testcase name="Feature 101 has display name =Check Imaging"/>
+    <testcase name="Feature Consolidated Balance entitled true"/>
+    <testcase name="Feature 101 has display name =Consolidated Balance"/>
+    <testcase name="Feature History entitled true"/>
+    <testcase name="Feature 101 has display name =Account History"/>
+    <testcase name="Feature Transaction Search entitled true"/>
+    <testcase name="Feature 101 has display name =Transaction Search"/>
+    <testcase name="Feature View Transactions Across Groups entitled true"/>
+    <testcase name="Feature 101 has display name =View Transactions Across Groups"/>
+    <testcase name="check entitlements with limit for Account Management"/>
+  </testsuite>
+  <testsuite name="Add Business Profile Features with entitlements with limits on Channel" id="593fe33d-181b-4cc3-a446-7b851abf89be" tests="1" time="799">
+    <testcase name="set limits on channel for Account Management"/>
+  </testsuite>
+  <testsuite name="get ProfileFeatures with children and limits verify on channel" id="fbc24764-c120-4949-a4df-752ae739b476" tests="13" time="335">
+    <testcase name="Feature Account Balance entitled true"/>
+    <testcase name="Feature 101 has display name =Account Balance"/>
+    <testcase name="Feature CheckImaging entitled true"/>
+    <testcase name="Feature 101 has display name =Check Imaging"/>
+    <testcase name="Feature Consolidated Balance entitled true"/>
+    <testcase name="Feature 101 has display name =Consolidated Balance"/>
+    <testcase name="Feature History entitled true"/>
+    <testcase name="Feature 101 has display name =Account History"/>
+    <testcase name="Feature Transaction Search entitled true"/>
+    <testcase name="Feature 101 has display name =Transaction Search"/>
+    <testcase name="Feature View Transactions Across Groups entitled true"/>
+    <testcase name="Feature 101 has display name =View Transactions Across Groups"/>
+    <testcase name="check entitlements with limit on channel for Account Management"/>
+  </testsuite>
+</testsuites>

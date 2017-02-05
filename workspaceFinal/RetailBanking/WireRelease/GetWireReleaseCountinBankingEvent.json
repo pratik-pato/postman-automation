@@ -1,0 +1,74 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Get Wire Release Count in Banking Events ",
+		"_postman_id": "258ac807-ee6a-44e8-cf3d-e01ce5af3e04",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Login\"]=responseCode.code===201\npostman.setEnvironmentVariable(\"xcsrf\",postman.getResponseHeader('x-csrf-token'))"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init ",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"Jtech\",\r\n\r\n               \"AppType\": \"Business\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n} "
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Banking Events",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Get Banking Events Value'] = responseCode.code === 200;\nvar jsd = JSON.parse(responseBody);\nvar res = jsd.d.results;\n\ntests[\"Get Event 1st : \"+res[0].Property] = res[0].Property===\"TRANSACTION_APPROVAL\";\ntests[\"Get Event 2nd : \"+res[1].Property] = res[1].Property===\"POSITIVE_PAY_ISSUE\";\ntests[\"Get Event 3rd : \"+res[2].Property] = res[2].Property===\"WIRE_RELEASE\";"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/notificationservice/getBankingEventsCount?BankingEvents=%27TRANSACTION_APPROVAL,POSITIVE_PAY_ISSUE,WIRE_RELEASE%27",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

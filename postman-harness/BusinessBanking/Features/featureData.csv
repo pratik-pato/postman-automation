@@ -1,0 +1,73 @@
+f_id,name,FEATURE_GROUP_ID,FEATURE_SEQUENCE
+101,Account Management,1,1
+102,File Upload,1,2
+201,Administration,2,1
+202,Approvals Workflow,2,2
+301,Cash Management,3,1
+302,Positive pay,3,2
+303,Cash Concentration,3,3
+401,Wire Approval Overall,4,1
+501,Wires Overall,5,1
+502,Wires Create,5,2
+503,Wires Host,5,3
+504,Wires Book,5,4
+505,Wires Domestic,5,5
+506,Wires Drawdown,5,6
+507,Wires FED,5,7
+508,Wires International,5,8
+601,Payments,6,1
+602,Payments Approval,6,2
+603,Stop Payment,6,3
+701,Transfers,7,1
+702,External Transfers,7,2
+703,Transfers To External Account,7,3
+801,ACH File Upload,8,1
+802,Overall-ACH Payment Approval,8,2
+803,Overall-ACH Payment Entry,8,3
+804,Overall-ACH Template,8,4
+805,Manage ACH Participants,8,5
+901,Child Support Payment Approval,9,1
+902,Child Support Payment Entry,9,2
+903,Child Support Payment Template,9,3
+1001,Tax Payment Approval,10,1
+1002,Tax Payment Entry,10,2
+1003,Tax Payment Template,10,3
+1004,Tax Payment Third Party,10,4
+1101,ACH Batch Payment Approval,11,1
+1102,ARC ACH Payment Approval,11,2
+1103,BOC ACH Payment Approval,11,3
+1104,CCD Addenda ACH Payment Approval,11,4
+1105,CIE Addenda ACH Payment Approval,11,5
+1106,CTX Addenda ACH Payment Approval,11,6
+1107,IAT Addenda ACH Payment Approval,11,7
+1108,POP ACH Payment Approval,11,8
+1109,PPD Addenda ACH Payment Approval,11,9
+1110,RCK-ACH Payment Approval,11,10
+1111,TEL-ACH Payment Approval,11,11
+1112,WEB Addenda ACH Payment Approval,11,12
+1113,XCK-ACH Payment Approval,11,13
+1201,ACH Batch Payment Entry,12,1
+1202,ACH Batch Template,12,2
+1203,ARC ACH Payment Entry,12,3
+1204,BOC ACH Payment Entry,12,4
+1205,CCD Addenda ACH Payment Entry,12,5
+1206,CCD Addenda ACH Payment Template,12,6
+1207,CCD Addenda Healthcare,12,7
+1208,CIE Addenda ACH Payment Entry,12,8
+1209,CTX Addenda ACH Payment Entry,12,9
+1210,CTX Addenda ACH Payment Template,12,10
+1211,IAT Addenda ACH Payment Entry,12,11
+1212,IAT Addenda ACH Payment Template,12,12
+1213,POP ACH Payment Entry,12,13
+1214,PPD Addenda ACH Payment Entry,12,14
+1215,PPD Addenda ACH Payment Template,12,15
+1216,RCK-ACH Payment Entry,12,16
+1217,TEL-ACH Payment Entry,12,17
+1218,WEB Addenda ACH Payment Entry,12,18
+1219,WEB Addenda ACH Payment Template,12,19
+1220,XCK-ACH Payment Entry,12,20
+1221,XCK-ACH Payment Template,12,21
+1301,Reporting,13,1
+1302,Bank Reporting,13,2
+1303,Information Reporting,13,3
+1401,Others,14,1

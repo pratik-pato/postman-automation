@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Bank Employee">
+  <testsuite name="login as admin" id="b3daaf61-0e17-464d-8b90-c9581de8fbb8" tests="1" time="912">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="add bank invalid data" id="73e86055-3bc3-4edc-9a6c-d72e36b7ff71" tests="0" time="0">
+    <error>
+      <![CDATA[Iteration: 0
+RequestError: Error: read ECONNRESET
+    at exports._errnoException (util.js:907:11)
+    at TLSWrap.onread (net.js:557:26)
+
+---
+testScriptError: ReferenceError: responseBody is not defined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:3:74)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="add bank employee" id="15af5de3-bf80-4f14-ac52-0664a347b53f" tests="2" time="834">
+    <testcase name="password check"/>
+    <testcase name="status code 201 Created"/>
+  </testsuite>
+  <testsuite name="get bank employee and verify details" id="2d2f6141-d140-4926-9155-37c26164e5e2" tests="3" time="222">
+    <testcase name="password check"/>
+    <testcase name="UserName check"/>
+    <testcase name="Id check"/>
+  </testsuite>
+  <testsuite name="get all bank employee" id="89f4dfdf-9652-4ccb-a3a2-ebbce606e794" tests="1" time="349">
+    <testcase name="Bank Employee Count : 21"/>
+  </testsuite>
+  <testsuite name="login with new user" id="8b2f194a-135e-48b4-837b-1456412dd2a6" tests="1" time="310">
+    <testcase name="Password change required"/>
+  </testsuite>
+  <testsuite name="relogin as admin" id="29f4254f-a6be-4955-8c7e-ff790de322bb" tests="1" time="613">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="self delete" id="5217ade7-58cd-41c6-bb4a-09581d357d7a" tests="1" time="498">
+    <testcase name="Error message 'Not entitled to perform the specified action.'"/>
+  </testsuite>
+  <testsuite name="logout" id="33a0d054-122d-4089-a34f-e06f21bdd6b2" tests="1" time="727">
+    <testcase name="User logged out"/>
+  </testsuite>
+  <testsuite name="relogin as admin " id="8a5507e0-8784-4799-b047-69b4920ec7d7" tests="1" time="248">
+    <testcase name="User logged in"/>
+  </testsuite>
+  <testsuite name="modify bank employee" id="c10b8f7b-7867-4c82-8c9f-6acbc5549da6" tests="1" time="257">
+    <testcase name="Bank employee modified"/>
+  </testsuite>
+  <testsuite name="get bank employee and verify OBO settings" id="da3c1b38-c76b-4593-88d8-4e0ba5b05f86" tests="4" time="220">
+    <testcase name="password check"/>
+    <testcase name="UserName check"/>
+    <testcase name="Id check"/>
+    <testcase name="OboSettings check"/>
+  </testsuite>
+  <testsuite name="delete bank employee" id="65ef1f9c-9509-4e37-886f-6eaa4a6ddf1f" tests="1" time="225">
+    <testcase name="Bank employee deleted"/>
+  </testsuite>
+  <testsuite name="get deleted bank employee" id="59f0d7f2-5f2a-4cc4-9d9a-1cbffadda0a9" tests="1" time="531">
+    <testcase name="Error message 'Not entitled to perform the specified action.'"/>
+  </testsuite>
+</testsuites>

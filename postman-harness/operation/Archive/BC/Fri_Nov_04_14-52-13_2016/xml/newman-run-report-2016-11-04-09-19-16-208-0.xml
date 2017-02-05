@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="RetailUserProfileCRUD">
+  <testsuite name="Login to BC as admin" id="13a72803-6406-4f8e-b589-8e5582b20a84" tests="1" time="221">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add RetailUser Profile" id="c1cfb0b4-1991-411a-8806-4e8c2a23edcc" tests="1" time="146">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="delete Retail profile 1" id="2b775807-03d2-42b6-8c5d-efc8669f06d2" tests="1" time="181">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="Add RetailUserProfile to test Duplicate profile" id="2288da98-93b9-4b19-9214-5160e7071c73" tests="1" time="55">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add RetailUserProfile Duplicate profile" id="72e273d5-8749-4e46-a327-f877bcce1c06" tests="1" time="99">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="delete Retail profile 2" id="85d8cdc7-8373-491b-aea0-68272e6186b7" tests="1" time="155">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="Add Business Profile Invalid Channel" id="d69414e8-be64-485f-af28-41e729652e35" tests="1" time="93">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Retail Profile Duplicate Channel" id="3cdd97f1-9e17-4bd6-8cfa-65ecc9de3a79" tests="2" time="127">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Duplicate channel in profile."/>
+  </testsuite>
+  <testsuite name="Add Retail Profile With Special Character" id="d5d2f512-d973-4cf4-a7af-35b437cf56c7" tests="2" time="115">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Name is 3-200 characters and can include numbers, letters, spaces, periods, and underscores."/>
+  </testsuite>
+  <testsuite name="Add Retail Profile With Not allowed parentEntId" id="d2195e81-e84a-4d9a-8439-97b835f4c3c6" tests="2" time="142">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Invalid Parent Group for Profile"/>
+  </testsuite>
+  <testsuite name="Add RetailProfile With Invalid parentEntId" id="5e77e407-b165-4ea7-a0dd-4442f8c3f6c0" tests="2" time="207">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Invalid Profile"/>
+  </testsuite>
+  <testsuite name="Add Retail Profile With No Channel" id="335ff627-c087-48b4-9879-ee302bdbbac3" tests="2" time="105">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Please select atleast one channel."/>
+  </testsuite>
+  <testsuite name="Add Retail Profile for get by Id" id="c4e0288f-de78-4f0c-ba21-6ff91fa44be3" tests="1" time="56">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="get profile by Id" id="5e9aae6b-bb1e-4798-916b-ddc16f55808c" tests="2" time="27">
+    <testcase name="status code is 200 : OK"/>
+    <testcase name="Profile Id verified : 2934"/>
+  </testsuite>
+  <testsuite name="Modify Retail user profile" id="cfd4ef34-cac3-4cba-9554-e016cfdfe80d" tests="1" time="66">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="get profile by Id Verify modification" id="bc17d1d3-a964-413a-85d0-a0cfc478fde0" tests="4" time="26">
+    <testcase name="Body has Sms Channel"/>
+    <testcase name="Body has No Mobile Channel"/>
+    <testcase name="status code is 200 : OK"/>
+    <testcase name="Profile Id verified : 2934"/>
+  </testsuite>
+  <testsuite name="delete profile3" id="deef362e-f333-4d6a-95b9-747f1232edc5" tests="1" time="115">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="get profile by Id Verify Delete" id="fd5005b4-e1b2-40c4-9de4-de2a7e87b591" tests="2" time="113">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Invalid Profile Id"/>
+  </testsuite>
+</testsuites>

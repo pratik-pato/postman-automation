@@ -1,0 +1,3 @@
+Suit,Requests,Assertions,FailCount,ErrorCount,FailMap
+BusinessUserProfile_Harness,18,18,3,2,#delete profile1$status code is 204 : No Content#get profile by Id Verify modification$Body has Sms Channel#get profile by Id Verify modification$Body has No Mobile Channel
+ProfileAssignmentsBusiness,19,15,4,6,#get profile by Id copy$status code is 200 : OK#business user add with profile$status code is 201 : Created#modify business user$status code is 204 : No Content#business user add with channel profile$Profile ID is Invalid.

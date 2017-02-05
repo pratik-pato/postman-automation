@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="ProfileAssignmentsBusiness">
+  <testsuite name="Login to CB as primaryadmin" id="6abdd588-6cb2-493a-b738-2e69b5e4672b" tests="1" time="1168">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile" id="3b13ea48-c887-43c6-8a22-085e29124a77" tests="1" time="354">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="get profile by Id copy" id="01222015-d2f2-4cfe-ba31-52e4ec352fba" tests="1" time="764">
+    <testcase name="status code is 200 : OK"/>
+  </testsuite>
+  <testsuite name="business user add with profile" id="fb70c7b1-79f5-4fa2-986b-3cbb3c307b7f" tests="1" time="3280">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Get Business Users with profile" id="e37b2a82-cdcb-475c-ae5a-c1067e6b91a2" tests="1" time="509">
+    <testcase name="User profile id verified"/>
+  </testsuite>
+  <testsuite name="modify business user" id="52343d34-a53a-4ecc-944c-84d30754344a" tests="1" time="649">
+    <testcase name="status code is 204 : No Content">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Get Business Users with profile copy" id="4c99db1f-f751-4baf-8d91-cc87b04fedea" tests="1" time="921">
+    <testcase name="User profile id verified">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="business user add without profile" id="ed8e1741-23e6-491d-990c-d8a567a5f6a9" tests="1" time="482">
+    <testcase name="Profile is required."/>
+  </testsuite>
+  <testsuite name="business user add with channel profile" id="73eabe43-0501-4d90-bd29-c31b9c0d7547" tests="1" time="852">
+    <testcase name="Profile ID is Invalid."/>
+  </testsuite>
+  <testsuite name="business user add with retailUser profile" id="d6220490-82f0-406c-9699-c964e9b9ab77" tests="1" time="907">
+    <testcase name="Profile ID is Invalid."/>
+  </testsuite>
+  <testsuite name="business user add with invalid profileId" id="a167196e-8a50-499f-a428-5f579f9a9292" tests="1" time="950">
+    <testcase name="Profile ID is Invalid."/>
+  </testsuite>
+  <testsuite name="business user add with multiple profile" id="429cdced-8b05-41cb-adf2-2e333a96b81d" tests="1" time="847">
+    <testcase name="User can be assigned to only one Profile."/>
+  </testsuite>
+  <testsuite name="Login to CB as jolina" id="8b663768-bd49-485e-a5d0-bca6a89643ee" tests="1" time="921">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile with user not entitled to add" id="67c41c17-a210-4c0b-ba8b-1d9863b389c9" tests="1" time="533">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="business user add with profile with user not entitled" id="27503a1c-d319-4dc4-8605-e405bf03cacb" tests="1" time="804">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Login to CB as secondaryadmin" id="b9108a34-212e-4605-b7b0-bc48dc9fdf68" tests="1" time="845">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile with secondaryadmin" id="6852af20-9285-4a56-a247-a7b1b96e8b32" tests="1" time="337">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="business user add with secondaryadmin" id="db5ce3d0-01ad-48dd-babb-43e779646fb7" tests="1" time="1875">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="delete assigned profile" id="a90baa50-c7df-4fbe-a48b-16503a922ae0" tests="1" time="766">
+    <testcase name="Can not delete assigned Profile."/>
+  </testsuite>
+</testsuites>

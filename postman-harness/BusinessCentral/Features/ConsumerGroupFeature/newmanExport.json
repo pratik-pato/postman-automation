@@ -1,0 +1,24 @@
+{
+  "values": [
+    {
+      "key": "env",
+      "name": "env",
+      "value": "http://10.96.25.141:9081",
+      "type": "string"
+    },
+    {
+      "key": "TokenKey",
+      "name": "TokenKey",
+      "value": "RkZJSEFTSGl6OStXd1M5ZHo3c090UmVWakJicUFrQnkrUjBQaXRjWEtQV0hLSnFhams9",
+      "type": "string"
+    },
+    {
+      "key": "x-csrf-token",
+      "name": "x-csrf-token",
+      "value": "1737453811687464409",
+      "type": "string"
+    }
+  ],
+  "_postman_exported_at": "2016-10-12T11:29:35.809Z",
+  "_postman_exported_using": "Newman/3.1.0"
+}

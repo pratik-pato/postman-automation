@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="ProfileAssignmentRetail">
+  <testsuite name="Login to BC as admin" id="1319c06a-7c5f-4740-b8a6-0c1040c0f04d" tests="1" time="86">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add RetailUser Profile(MA Platinum)" id="2f3cab9e-6344-4d8b-9253-08106ccf698f" tests="1" time="57">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="get profile by Id" id="d9796f53-7120-4151-b3ff-9c5529edc98a" tests="1" time="48">
+    <testcase name="status code is 200 : OK"/>
+  </testsuite>
+  <testsuite name="assign channel profile(which is not allowed)" id="37a23cde-e6a5-463d-b699-b9dd1f918a44" tests="1" time="233">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="assign profile to retail user" id="f926d736-b02a-41f3-af4b-f7983590a1fc" tests="1" time="313">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="delete profile associated with user" id="2133aaa1-fa6f-4edf-beb4-6b17a7aedf0a" tests="1" time="92">
+    <testcase name="Cannot Delete profile which is associated with user"/>
+  </testsuite>
+  <testsuite name="get user" id="ebdab3be-eacd-4324-9ae9-a0d9341b41bb" tests="1" time="30">
+    <testcase name="User created"/>
+  </testsuite>
+  <testsuite name="Add RetailUser Profile(MA Platinum) to assign in PUT" id="591c92a9-0881-44fa-ac7b-e24c2858c79e" tests="0" time="4902">
+    <error>
+      <![CDATA[Iteration: 0
+
+---
+testScriptError: TypeError: Cannot read property 'Id' of undefined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:4:51)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="Modify retail user" id="3b1ed1c0-d7dd-428b-b45e-4f902b4eca83" tests="1" time="121">
+    <testcase name="status code is 204 : No Content">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="verify edit user" id="2c7f8142-2c36-4ca5-b7e6-1e2c155b6670" tests="2" time="27">
+    <testcase name="User created"/>
+    <testcase name="PUT verified">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="retailUser without profile" id="d594645e-3638-4780-a351-9b28bb55f2cf" tests="1" time="232">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="assign validMultipleProfile" id="a086cb83-e5ee-4af6-8893-c1aef1fef256" tests="1" time="261">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add RetailUser Profile(Omni Channel)" id="3116e8e9-5460-4ee4-950a-d3ad279c8933" tests="1" time="67">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="assign omni channel profile to retail user" id="9f299175-9a7b-4b4d-ad5a-5e9c7bde1f2d" tests="1" time="213">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="assign businessUser profile(which is not allowed) " id="0f49b38c-f99f-49a4-a967-80cdccfa6d43" tests="1" time="112">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Login to BC as jbrown" id="6ba31d19-7339-4ff7-bece-57ce4fc0c238" tests="1" time="30">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="assign profile to retail user(by not entitled user)" id="289ca88f-1b4e-4dd1-a7ed-59a79cf23b94" tests="1" time="107">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+</testsuites>

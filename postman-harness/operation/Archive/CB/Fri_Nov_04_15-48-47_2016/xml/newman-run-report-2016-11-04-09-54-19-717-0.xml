@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="ProfileAssignmentsBusiness">
+  <testsuite name="Login to CB as primaryadmin" id="88e3be03-0033-4056-a5f5-d4cd374ca95f" tests="1" time="1095">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile" id="1d6fae76-6d59-4d18-821d-a3d423dd4f9c" tests="1" time="312">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="get profile by Id copy" id="36a8a393-16e7-4b5f-9044-e5439403ce6e" tests="1" time="616">
+    <testcase name="status code is 200 : OK"/>
+  </testsuite>
+  <testsuite name="business user add with profile" id="7af8750e-f00f-45c9-9d5a-3aaf8ae39495" tests="1" time="2374">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Get Business Users with profile" id="9a0c4211-a9eb-46dc-9ed9-0c221d5d14a6" tests="1" time="459">
+    <testcase name="User profile id verified"/>
+  </testsuite>
+  <testsuite name="modify business user" id="bc1cabcb-a254-4732-b66c-e865655cde7f" tests="1" time="1182">
+    <testcase name="status code is 204 : No Content">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Get Business Users with profile copy" id="fd9f55cf-520d-4bba-a1b6-504bf9c1713d" tests="1" time="956">
+    <testcase name="User profile id verified">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="business user add without profile" id="72273ef3-5ddb-4f23-850f-46f8f1f3c0ec" tests="1" time="291">
+    <testcase name="Profile is required."/>
+  </testsuite>
+  <testsuite name="business user add with channel profile" id="7a88976b-1c45-4919-9d56-4ee918cbd2e9" tests="1" time="1124">
+    <testcase name="Profile ID is Invalid."/>
+  </testsuite>
+  <testsuite name="business user add with retailUser profile" id="9845f6f2-3f4b-4e86-8096-c403e103c159" tests="1" time="656">
+    <testcase name="Profile ID is Invalid."/>
+  </testsuite>
+  <testsuite name="business user add with invalid profileId" id="270ee2d5-c1d8-4b86-813a-204feca187b9" tests="1" time="686">
+    <testcase name="Profile ID is Invalid."/>
+  </testsuite>
+  <testsuite name="business user add with multiple profile" id="6f7a2bff-dd61-4325-a581-fe037bb7e7ec" tests="1" time="655">
+    <testcase name="User can be assigned to only one Profile."/>
+  </testsuite>
+  <testsuite name="Login to CB as jolina" id="9f7f4d1f-1e97-47d8-bb0a-76606721bf96" tests="1" time="686">
+    <testcase name="status code is 201 : Created">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Add Business Profile with user not entitled to add" id="545fe50a-33eb-472b-b08e-b9e79f5a4c13" tests="1" time="1149">
+    <testcase name="status code is 400 : Bad Request">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="business user add with profile with user not entitled" id="0fbd83c6-1445-4ae7-8fc4-b74dec5e3d5f" tests="1" time="622">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Login to CB as secondaryadmin" id="aae1c532-3f77-48ea-b2bf-67598ed33404" tests="1" time="829">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Business Profile with secondaryadmin" id="355b605f-8f7a-4a18-88be-248c62443acd" tests="1" time="314">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="business user add with secondaryadmin" id="120cb80a-bfe3-4f28-93a0-7478cfcabecc" tests="1" time="2265">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="delete assigned profile" id="afba54ca-bbb9-4c54-b8f6-9b9afe7cd4ef" tests="1" time="682">
+    <testcase name="Can not delete assigned Profile."/>
+  </testsuite>
+</testsuites>

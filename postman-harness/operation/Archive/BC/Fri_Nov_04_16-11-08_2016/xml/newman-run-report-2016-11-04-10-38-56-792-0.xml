@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Lean Business with Business Employees">
+  <testsuite name="BC Login" id="ae2481ab-e7db-4270-adec-a51d79b156b6" tests="1" time="848">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="valid business name with invalid cif" id="cb518a35-cca7-4093-ba7a-908da32eaeb5" tests="1" time="401">
+    <testcase name="Error message 'Invalid business CIF.'"/>
+  </testsuite>
+  <testsuite name="Invalid business name with valid cif" id="9366398d-b85a-442c-9159-8fc22b48526e" tests="1" time="780">
+    <testcase name="Error message 'The name of the business being enrolled is invalid.'"/>
+  </testsuite>
+  <testsuite name="valid name and cif with existing customer Id" id="547c8abc-99dd-4818-ae0f-2bcb6a63756a" tests="1" time="763">
+    <testcase name="Error message 'CustomerID already exists.'"/>
+  </testsuite>
+  <testsuite name="Add Business copy" id="9e3a11ef-91b1-4cba-b8bf-fcb6d800ac13" tests="1" time="2289">
+    <testcase name="Business created"/>
+  </testsuite>
+  <testsuite name="Add Duplicate Business" id="7871398d-77a4-48d0-bc7a-748a464b0048" tests="1" time="367">
+    <testcase name="Error message: 'Business already exists.'"/>
+  </testsuite>
+  <testsuite name="Get Business By ID with admin details" id="9895b45c-927f-4e6c-995d-efab59b7fa9d" tests="4" time="603">
+    <testcase name="Business Id verified"/>
+    <testcase name="PrimaryContact user password verified"/>
+    <testcase name="SecondaryContact user password verified"/>
+    <testcase name="Status verified"/>
+  </testsuite>
+  <testsuite name="Modify Business" id="a296b077-57fd-430d-b82c-838c9a9eb58a" tests="1" time="500">
+    <testcase name="Business modified">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Get Business By ID and verify modified details" id="b0e1aa48-8a73-4e6a-870c-3bb3eef88947" tests="2" time="636">
+    <testcase name="Business Id verified"/>
+    <testcase name="ServicesPackageId verified"/>
+  </testsuite>
+  <testsuite name="Delete Business" id="0c6ce0d4-cf5d-4145-b687-bf29adc73581" tests="1" time="371">
+    <testcase name="Business deleted"/>
+  </testsuite>
+  <testsuite name="Get Business By ID" id="07ebf988-240f-43f7-8c36-e41de99828b9" tests="2" time="730">
+    <testcase name="Business Id verified"/>
+    <testcase name="Status verified"/>
+  </testsuite>
+  <testsuite name="Get All Business" id="ede6da65-17e1-444b-a11e-d20595744b49" tests="1" time="543">
+    <testcase name="Business Count : 7"/>
+  </testsuite>
+</testsuites>

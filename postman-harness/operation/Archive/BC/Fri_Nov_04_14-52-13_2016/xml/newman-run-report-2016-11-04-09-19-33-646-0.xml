@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Bank Employee">
+  <testsuite name="login as admin" id="dcf6f381-02e3-467e-8c84-c6d4e3b2d504" tests="1" time="78">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="add bank invalid data" id="02a29d00-44d4-493b-b8db-3a3f29f5742c" tests="1" time="609">
+    <testcase name="Error message 'Not entitled to perform the specified action.'"/>
+  </testsuite>
+  <testsuite name="add bank employee" id="c6b03e84-4c5f-4faa-b10d-f5d1ac81430d" tests="2" time="95">
+    <testcase name="password check"/>
+    <testcase name="status code 201 Created"/>
+  </testsuite>
+  <testsuite name="get bank employee and verify details" id="04e91d85-d0a9-4676-94c9-de4cfc8c886a" tests="3" time="22">
+    <testcase name="password check"/>
+    <testcase name="UserName check"/>
+    <testcase name="Id check"/>
+  </testsuite>
+  <testsuite name="get all bank employee" id="0d08631a-4de3-49a0-8743-80228d8b2aee" tests="1" time="92">
+    <testcase name="Bank Employee Count : 27"/>
+  </testsuite>
+  <testsuite name="login with new user" id="a8607887-cdca-4c55-be6f-6151acdab339" tests="1" time="107">
+    <testcase name="Password change required"/>
+  </testsuite>
+  <testsuite name="relogin as admin" id="49d061a9-d948-4cf8-b6af-f2f67bbbbb03" tests="1" time="24">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="self delete" id="59712e87-b488-4af5-be44-49abf5cc1dd2" tests="1" time="139">
+    <testcase name="Error message 'Not entitled to perform the specified action.'"/>
+  </testsuite>
+  <testsuite name="logout" id="c501b26e-e8ec-421b-b6a2-56eaa797b923" tests="1" time="430">
+    <testcase name="User logged out"/>
+  </testsuite>
+  <testsuite name="relogin as admin " id="76f0ea9b-e680-47c5-a4d6-a0599d46c08e" tests="1" time="22">
+    <testcase name="User logged in"/>
+  </testsuite>
+  <testsuite name="modify bank employee" id="72ead5f1-e3d8-4971-aa42-0361711faeb9" tests="1" time="45">
+    <testcase name="Bank employee modified"/>
+  </testsuite>
+  <testsuite name="get bank employee and verify OBO settings" id="4684294d-f789-4b29-979b-8e2a3c13280b" tests="4" time="14">
+    <testcase name="password check"/>
+    <testcase name="UserName check"/>
+    <testcase name="Id check"/>
+    <testcase name="OboSettings check"/>
+  </testsuite>
+  <testsuite name="delete bank employee" id="c1ca82fd-8bc3-4acd-b12a-cb444a1b9d7d" tests="1" time="92">
+    <testcase name="Bank employee deleted"/>
+  </testsuite>
+  <testsuite name="get deleted bank employee" id="b2931086-adc6-4634-9ae0-f141beadd1eb" tests="1" time="132">
+    <testcase name="Error message 'Not entitled to perform the specified action.'"/>
+  </testsuite>
+</testsuites>

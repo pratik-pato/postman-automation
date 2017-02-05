@@ -1,0 +1,75 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Get Logged In User Features",
+		"_postman_id": "e558262c-7bfa-c416-ef80-e1175476a88b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Login as Retail User",
+			"description": "",
+			"item": [
+				{
+					"name": "Login As Retail User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"User Logged in\"] = responseCode.code === 201;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init ",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"Id\": \"\",\"UserName\": \"manoj\", \"AppType\": \"Consumers\",\"Password\": \"Pass1234\",\"ChannelType\": \"Web\"}"
+						},
+						"description": "Login to Consumer Banking"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Get Features",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Logged In User Features",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Got Features of the Logged in User\"] = responseCode.code === 200;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/Features",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

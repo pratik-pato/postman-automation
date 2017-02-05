@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Secondary User Harness v1 copy">
+  <testsuite name="Login" id="f8b19850-6286-4f65-8f03-0790b8355cb5" tests="1" time="5501">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add Secondary User" id="ccbb5e4a-e97b-4a1e-b69a-179ba47c9e17" tests="0" time="606"/>
+  <testsuite name="Activate Secondary User " id="f4e1de7a-4a61-4274-a93e-396170eb315a" tests="1" time="364">
+    <testcase name="User is activated"/>
+  </testsuite>
+  <testsuite name="Modify Secondary User" id="e1eb39d7-8671-407f-91cf-766004010581" tests="1" time="281">
+    <testcase name="User is Modified"/>
+  </testsuite>
+  <testsuite name="Get added Secondary Users " id="130b735a-e3c7-48db-9b2a-fe3e58d3abaa" tests="1" time="238">
+    <testcase name="secondary User is added"/>
+  </testsuite>
+  <testsuite name="Revoking access for Transfers" id="20d9eebb-a7ea-4f08-886b-a34258086ce9" tests="1" time="16520">
+    <testcase name="Transfers is revoked for specified user"/>
+  </testsuite>
+  <testsuite name="Get Transfers for Secondary User" id="981daf6e-cc6f-499a-852d-9404dcb73e29" tests="1" time="1846">
+    <testcase name="Response have Transfers as entitlement false"/>
+  </testsuite>
+  <testsuite name="Granting access for Transfers " id="b2d65274-0caa-441e-abcb-21b8ade99cd6" tests="1" time="18586">
+    <testcase name="Transfers is granted for speciefied user"/>
+  </testsuite>
+  <testsuite name="Get Transfers for Secondary User- check granted Permission" id="7117e1b9-1b98-40a7-9dcc-5d7dece3fcf1" tests="1" time="369">
+    <testcase name="Response have Transfers as entitlement as true"/>
+  </testsuite>
+  <testsuite name="Revoking access to Payments" id="ef23f8f9-7388-4373-aa3f-dd08078934bb" tests="1" time="19738">
+    <testcase name="Payments is revoked for specified user"/>
+  </testsuite>
+  <testsuite name="Get Payments for Secondary User" id="ef1048b9-5076-4d64-9b0c-d706ac05b23a" tests="1" time="592">
+    <testcase name="Response have payments as entitlement as false"/>
+  </testsuite>
+  <testsuite name="Granting access to Payments " id="eb2621e0-682d-4deb-979b-96640e18119c" tests="1" time="15042">
+    <testcase name="Payments is granted for specified user"/>
+  </testsuite>
+  <testsuite name="Get Payments for Secondary User- check granted permission" id="4c336077-dda0-4742-b729-2e0b8dd6ffc1" tests="1" time="1330">
+    <testcase name="Response have payments as entitlement true"/>
+  </testsuite>
+  <testsuite name="Revoking of Mobile Payments" id="f7b5740e-ad2a-43ce-b059-0656f11cd10d" tests="1" time="15233">
+    <testcase name="Mobile Payments is revoked for specified user"/>
+  </testsuite>
+  <testsuite name="Get Mobile Payemnts for Secondary User" id="0d5c9d21-020c-4f91-8b8f-939b74b44f58" tests="1" time="267">
+    <testcase name="Response have Mobile Payments as entitlement false"/>
+  </testsuite>
+  <testsuite name="Granting of Mobile Payments " id="c5475691-bdb9-4343-be18-af8cce4ef03c" tests="1" time="15018">
+    <testcase name="Mobile Payments is granted"/>
+  </testsuite>
+  <testsuite name="Get Mobile Payments for Secondary User - check granted entitlement" id="22f540a2-4639-4b7d-a838-2cdd2fdb3028" tests="1" time="877">
+    <testcase name="Response have Mobile Payments as entitlement as true"/>
+  </testsuite>
+  <testsuite name="Revoking access for External Transfers" id="8baf1d60-4381-4d7c-a773-8a2bef96cc5d" tests="1" time="17741">
+    <testcase name="External Transfers is revoked"/>
+  </testsuite>
+  <testsuite name="Get External Transfers for Secondary User" id="63e43eb5-b27b-48db-abed-93bb4f3f1ee8" tests="1" time="641">
+    <testcase name="Response have External Transfers as entitlement false "/>
+  </testsuite>
+  <testsuite name="Granting access for External Transfers " id="663b16eb-bd69-47b0-995c-2b9da76e67a3" tests="1" time="16182">
+    <testcase name="External Transfers is granted"/>
+  </testsuite>
+  <testsuite name="Get External Transfers for Secondary User - check granted permission" id="bcad6ba8-6262-4a4c-91f0-e43fc2a12175" tests="1" time="547">
+    <testcase name="Response have External Transfers as entitlement true "/>
+  </testsuite>
+  <testsuite name="Revoking access for Transfer Template" id="d39ee2ca-7307-453b-bdb7-0547d3607fd2" tests="1" time="16506">
+    <testcase name="Transfer Template is revoked"/>
+  </testsuite>
+  <testsuite name="Get Transfer Template for Secondary User" id="bb1caea3-061c-4516-ad17-a4d9bc9f1dcd" tests="1" time="580">
+    <testcase name="Response have Transfer Template as entitlement false "/>
+  </testsuite>
+  <testsuite name="Granting  access for Transfer Template " id="08133a3c-485b-4977-a514-f6ab809e5d78" tests="1" time="16736">
+    <testcase name="Transfer Template is granted"/>
+  </testsuite>
+  <testsuite name="Get Transfer Template for Secondary User- check for granted permission" id="8cd7c22a-fa80-41d6-af67-50640fde72a5" tests="1" time="2549">
+    <testcase name="Response have Transfer Template as entitlement true "/>
+  </testsuite>
+  <testsuite name="Revoking access for External Transfers To" id="9a0b8afc-63a6-47f5-ad5a-b28473869aee" tests="1" time="13897">
+    <testcase name="External Transfers to is revoked"/>
+  </testsuite>
+  <testsuite name="Get External Transfers To for Secondary User " id="3726ae79-57f0-4da7-9a3e-601affb68a60" tests="1" time="794">
+    <testcase name="Response have External Transfers To as entitlement false"/>
+  </testsuite>
+  <testsuite name="Granting access for External Transfers To" id="4ce87e3e-e9bb-4cbd-ad58-f42ff9c01bc2" tests="1" time="14606">
+    <testcase name="External Transfers To is granted"/>
+  </testsuite>
+  <testsuite name="Get External Transfers To for Secondary User- check granted Permission " id="e4883db6-ee9e-4232-8b98-7501f3109279" tests="1" time="4408">
+    <testcase name="Response have External Transfers To as entitlement true"/>
+  </testsuite>
+  <testsuite name="Revoking access for External Transfers From" id="8d269110-7506-4df9-ab7c-0f0d16492747" tests="1" time="14600">
+    <testcase name="External Transfers From is revoked"/>
+  </testsuite>
+  <testsuite name="Get External Transfers From for Secondary User " id="7614e1dd-e240-494f-a154-742d7e5ecda5" tests="1" time="773">
+    <testcase name="Response have External Transfers from as entitlement false"/>
+  </testsuite>
+  <testsuite name="Granting access for External Transfers From" id="f6cfb4bc-dbb9-4102-ae4e-19804772c2e5" tests="1" time="14803">
+    <testcase name="External Transfers From is granted"/>
+  </testsuite>
+  <testsuite name="Get External Transfers from for Secondary User- check granted Permission " id="dcc6024c-28ff-4d13-b6e4-b62e2e6264b1" tests="1" time="4395">
+    <testcase name="Response have External Transfers From as entitlement as True"/>
+  </testsuite>
+  <testsuite name="Revoking access for Transfers To" id="ed2a9e76-de6d-4fba-bb4c-e350a917b2ac" tests="1" time="14336">
+    <testcase name="Transfers To is revoked"/>
+  </testsuite>
+  <testsuite name="Get Transfers to for Secondary User " id="db797dae-487a-421d-b616-ce75f284960b" tests="1" time="456">
+    <testcase name="Response have Transfers To as entitlement false"/>
+  </testsuite>
+  <testsuite name="Granting access for Transfers  to" id="ff477fdc-cc89-43b6-bf0f-2492fc4265c5" tests="1" time="13977">
+    <testcase name="Transfers To is granted"/>
+  </testsuite>
+  <testsuite name="Get Transfers for Secondary User- check granted Permission " id="d98247ab-7e38-4b78-a76b-da80d4ef5eb2" tests="1" time="2063">
+    <testcase name="Response have Transfers To as entitlement true"/>
+  </testsuite>
+  <testsuite name="Revoking access for Transfers From" id="5bab4c2c-54c5-4131-8bcf-4b095165785d" tests="1" time="14533">
+    <testcase name="Transfers From is revoked"/>
+  </testsuite>
+  <testsuite name="Get Transfers from for Secondary User " id="0d62e9bf-9387-4641-98d1-f915132c8a7d" tests="1" time="511">
+    <testcase name="Response have Transfers From as entitlement false"/>
+  </testsuite>
+  <testsuite name="Granting access for Transfers  from" id="ce7faad5-7e5c-4b5c-a847-4bf8ae16cb0d" tests="1" time="15052">
+    <testcase name="Transfers From is granted"/>
+  </testsuite>
+  <testsuite name="Get Transfers from for Secondary User- check granted Permission " id="dff26c34-2c1c-477e-8d6f-b9d90ec3623b" tests="1" time="2372">
+    <testcase name="Response have Transfers as entitlement true"/>
+  </testsuite>
+  <testsuite name="Granting access for Transfers with Limits" id="8f8cc7e2-26e0-4371-b286-1133801b2a08" tests="1" time="15486">
+    <testcase name="Transfers is granted"/>
+  </testsuite>
+  <testsuite name="Get Transfers for Secondary User- check granted Permission" id="418af15e-8e10-42e6-a43e-731291f4d93b" tests="4" time="336">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+  <testsuite name="Granting access to Payments " id="23631363-c4a2-4425-9c10-97352e3a3065" tests="1" time="14483">
+    <testcase name="Payments is granted"/>
+  </testsuite>
+  <testsuite name="Get Payments for Secondary User- check granted permission" id="9b2dbfb2-61e8-4a2a-abe8-3bc3a11e6035" tests="4" time="1161">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+  <testsuite name="Granting of Mobile Payments " id="d8489800-992d-4a1e-ae90-244350de27ae" tests="1" time="15687">
+    <testcase name="Mobile Payments is granted"/>
+  </testsuite>
+  <testsuite name="Get Mobile Payments for Secondary User - check granted entitlement" id="43dc5a9c-f518-43b5-9610-4c64e19fd9e3" tests="1" time="254">
+    <testcase name="Response have Mobile Payments as entitlement as true"/>
+  </testsuite>
+  <testsuite name="Granting access for External Transfers " id="e0c69b2d-c524-4263-b972-b714f82210df" tests="1" time="14394">
+    <testcase name="External Transfers is granted"/>
+  </testsuite>
+  <testsuite name="Get External Transfers for Secondary User - check granted permission" id="ac062fca-9a5f-414a-a9f8-3814870c8f82" tests="4" time="568">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+  <testsuite name="Granting  access for Transfer Template " id="2c7dc0aa-fef7-48c8-92b0-2fce04a117c3" tests="1" time="15391">
+    <testcase name="Transfer Template is granted"/>
+  </testsuite>
+  <testsuite name="Get Transfer Template for Secondary User- check for granted permission" id="b8c7c5ca-0e15-4f11-9398-bd35cfc44771" tests="4" time="2694">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+  <testsuite name="Granting access for External Transfers To" id="5b522534-8f2b-4b6f-af93-e41ad1f1886d" tests="1" time="15300">
+    <testcase name="Transfers is granted"/>
+  </testsuite>
+  <testsuite name="Get External Transfers To for Secondary User- check granted Permission " id="9416e7b3-5391-4b80-a514-040cb6b95234" tests="4" time="4289">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+  <testsuite name="Granting access for External Transfers From" id="96bbdd54-b117-4f46-8178-b92bf0a42209" tests="1" time="17357">
+    <testcase name="Transfers is granted"/>
+  </testsuite>
+  <testsuite name="Get External Transfers from for Secondary User- check granted Permission " id="f39a2664-bb66-4ff9-a860-bb98c9c244df" tests="4" time="6709">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+  <testsuite name="Granting access for Transfers  to" id="886bf332-dba1-47d1-aba3-a2ee2e7cfea0" tests="1" time="15916">
+    <testcase name="Transfers is granted"/>
+  </testsuite>
+  <testsuite name="Get Transfers for Secondary User- check granted Permission " id="aa309744-8f0f-40ea-9d3f-7f06e8332473" tests="4" time="2073">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+  <testsuite name="Granting access for Transfers  from" id="869d8dc6-5654-42b5-a57c-dc5c1f20f4bf" tests="1" time="14892">
+    <testcase name="Transfers is granted"/>
+  </testsuite>
+  <testsuite name="Get Transfers from for Secondary User- check granted Permission " id="f9a2d542-3b20-4f39-bd37-8557723b3811" tests="4" time="2171">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+  <testsuite name="*Get Accounts for Secondary User" id="b8ce15b6-5052-4e25-b135-c93073ace822" tests="0" time="457"/>
+  <testsuite name="Revoking access for Transfers To for a particular account" id="6887916b-13cf-4a15-80c4-fea2cf49c0de" tests="1" time="15152">
+    <testcase name="Transfers to is revoked for account 660110110-2732731-1"/>
+  </testsuite>
+  <testsuite name="Get Transfers to for Secondary User for a particular account" id="da20ae25-e004-4499-9db3-7266ae1e7e09" tests="1" time="468">
+    <testcase name="Response have Transfers To as entitlement false"/>
+  </testsuite>
+  <testsuite name="Grant access for Transfers To for a particular account " id="06275de4-2154-42f6-9519-cd59319f6252" tests="1" time="16950">
+    <testcase name="Transfers to is revoked for account 660110110-2732731-1"/>
+  </testsuite>
+  <testsuite name="Get Transfers to for Secondary User for a particular account " id="0ba2e096-4183-42e3-8fc1-0eec9abc0d9e" tests="1" time="480">
+    <testcase name="Response have Transfers as entitlement"/>
+  </testsuite>
+  <testsuite name="Revoking access for Transfers From for a particular account " id="7fcff99d-61d7-406d-9d3e-4e4a591885d6" tests="1" time="15494">
+    <testcase name="Transfers to is revoked for account 660110110-2732731-1"/>
+  </testsuite>
+  <testsuite name="Get Transfers From for Secondary User for a particular account" id="0ff0eca3-9939-40a3-b0e2-9459f4306aad" tests="1" time="486">
+    <testcase name="Response have Transfers as entitlement false"/>
+  </testsuite>
+  <testsuite name="Grant access for Transfers From for a particular account " id="31844966-5777-489a-8383-1f7f825805e7" tests="1" time="14994">
+    <testcase name="Transfers to is revoked for account 660110110-2732731-1"/>
+  </testsuite>
+  <testsuite name="Get Transfers From for Secondary User for a particular account" id="5a63ce13-4665-47f8-a555-d9e0ae8d819c" tests="1" time="466">
+    <testcase name="Response have Transfers as entitlement true"/>
+  </testsuite>
+  <testsuite name="Revoking access for External Transfers To for a particular account " id="bcaeb56d-ed0b-4d30-80a8-e8fa026a5728" tests="1" time="14684">
+    <testcase name="Transfers to is revoked for account"/>
+  </testsuite>
+  <testsuite name="Get External Transfers To for Secondary User for a particular account  " id="3e44efbb-5190-420c-a993-00529b4ba9f2" tests="1" time="774">
+    <testcase name="Response have Transfers as entitlement false"/>
+  </testsuite>
+  <testsuite name="Grant access for External Transfers To for a particular account   " id="964fa660-9c29-4eb2-bfea-c6d0843c6d8d" tests="1" time="15786">
+    <testcase name="Transfers to is revoked for account 660110110-2732731-1"/>
+  </testsuite>
+  <testsuite name="Get External Transfers To for Secondary User for a particular account   " id="43bca1f0-5ea2-41f3-94b8-e29bae0bcfa0" tests="1" time="967">
+    <testcase name="Response have Transfers as entitlement true"/>
+  </testsuite>
+  <testsuite name="Revoking access for External Transfers From for a particular account   " id="43b811c8-55d2-4280-9824-776a68550dc3" tests="1" time="15581">
+    <testcase name="Transfers to is revoked for account 660110110-2732731-1"/>
+  </testsuite>
+  <testsuite name="Get External Transfers From for Secondary User for a particular account" id="2067a5cf-936b-4f1c-ae2c-de860f599701" tests="1" time="807">
+    <testcase name="Response have Transfers as entitlement false"/>
+  </testsuite>
+  <testsuite name="Grant access for External Transfers From for a particular account    " id="0d32a1f4-6f37-4a33-aadf-569a2ba990d1" tests="1" time="15290">
+    <testcase name="Transfers to is revoked for account 660110110-2732731-1"/>
+  </testsuite>
+  <testsuite name="Get External Transfers From for Secondary User for a particular account    " id="925629a4-7165-41b4-b8bf-2d5068b131f1" tests="1" time="834">
+    <testcase name="Response have Transfers as entitlement true"/>
+  </testsuite>
+  <testsuite name="*Get Accounts for Secondary User" id="c5cc72e7-e48f-45fe-b2b8-f15817fd0bfe" tests="0" time="487"/>
+  <testsuite name="Grant access for Transfers To for a particular account " id="b2a1809b-8398-4554-abd4-9920528dda61" tests="1" time="16797">
+    <testcase name="Transfers to is revoked for account 660110110-2732731-1"/>
+  </testsuite>
+  <testsuite name="Get Transfers to for Secondary User for a particular account " id="c84b57f7-7e66-4573-b9d9-fcec9c123930" tests="4" time="499">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+  <testsuite name="Grant access for Transfers From for a particular account " id="823132a4-7a78-4908-8b5b-2670ab408e4a" tests="1" time="15177">
+    <testcase name="Transfers to is revoked for account 660110110-2732731-1"/>
+  </testsuite>
+  <testsuite name="Get Transfers From for Secondary User for a particular account" id="4244dced-19fe-4eea-b07d-b3be0425133d" tests="4" time="495">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+  <testsuite name="Grant access for External Transfers To for a particular account " id="dd3eaa62-90e6-4c16-bb50-1b2baeb77f25" tests="1" time="15866">
+    <testcase name="Transfers to is revoked for account 660110110-2732731-1"/>
+  </testsuite>
+  <testsuite name="Get External Transfers To for Secondary User for a particular account" id="318ac057-ca5f-4fed-9fa8-fda1a9ea6888" tests="4" time="585">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+  <testsuite name="Grant access for External Transfers From for a particular account   " id="077b2340-1961-4ce5-a0ae-ff2a55a70d68" tests="1" time="16147">
+    <testcase name="Transfers to is revoked for account 660110110-2732731-1"/>
+  </testsuite>
+  <testsuite name="Get External Transfers From for Secondary User for a particular account " id="646c23b7-38fe-4aaa-bb4d-83ad14fe7dbc" tests="4" time="808">
+    <testcase name="Limits verified for per Transaction "/>
+    <testcase name="Limits verified for per day "/>
+    <testcase name="Limits verified for per week"/>
+    <testcase name="Limits verified for per month"/>
+  </testsuite>
+</testsuites>

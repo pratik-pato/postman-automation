@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="RetailUserProfileCRUD">
+  <testsuite name="Login to BC as admin" id="98f7fb3a-ff23-4a4a-93ee-d3c705bf98b4" tests="1" time="876">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add RetailUser Profile" id="0b19b3d0-727f-40b6-bf13-66f1916582ca" tests="0" time="0">
+    <error>
+      <![CDATA[Iteration: 0
+RequestError: Error: read ECONNRESET
+    at exports._errnoException (util.js:907:11)
+    at TLSWrap.onread (net.js:557:26)
+
+---
+testScriptError: ReferenceError: responseBody is not defined
+    at Object.eval (eval at <anonymous> (evalmachine.<anonymous>:284:34), <anonymous>:3:27)
+    at evalmachine.<anonymous>:293:23
+    at evalmachine.<anonymous>:299:2
+    at Object.exports.runInContext (vm.js:44:17)
+    at _.extend._run (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:156:16)
+    at _.extend.execute (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\uvm\host.js:121:14)
+    at PostmanCollectionRun.<anonymous> (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\lib\runner\extensions\event.command.js:179:27)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1144:13
+    at replenish (C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1018:21)
+    at C:\Users\I329272\AppData\Roaming\npm\node_modules\newman\node_modules\postman-runtime\node_modules\async\dist\async.js:1022:13
+---
+]]>
+    </error>
+  </testsuite>
+  <testsuite name="delete Retail profile 1" id="8ce4e44e-4e25-4f1b-87c3-7d71b7298d4d" tests="1" time="840">
+    <testcase name="status code is 204 : No Content">
+      <failure type="AssertionFailure">
+        <![CDATA[Failed 1 times.]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Add RetailUserProfile to test Duplicate profile" id="04ca63e9-057a-4102-ab4e-43c641f904c7" tests="1" time="654">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add RetailUserProfile Duplicate profile" id="bad9b2e9-bf05-404a-8977-a0c53d7facb6" tests="1" time="394">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="delete Retail profile 2" id="28a14c99-beb2-4a5f-a8df-d92791251c59" tests="1" time="823">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="Add Business Profile Invalid Channel" id="3c538c93-0ab1-472e-abbd-ded1033d299b" tests="1" time="370">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add Retail Profile Duplicate Channel" id="96eddf4b-2990-4baa-8f93-efcd43e007bf" tests="2" time="742">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Duplicate channel in profile."/>
+  </testsuite>
+  <testsuite name="Add Retail Profile With Special Character" id="f3a4523c-5b3f-4f1a-9553-04a03569b6bc" tests="2" time="742">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Name is 3-200 characters and can include numbers, letters, spaces, periods, and underscores."/>
+  </testsuite>
+  <testsuite name="Add Retail Profile With Not allowed parentEntId" id="de13c117-77f4-4346-a197-871eb2ab6106" tests="2" time="723">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Invalid Parent Group for Profile"/>
+  </testsuite>
+  <testsuite name="Add RetailProfile With Invalid parentEntId" id="6be69542-1216-47c6-a373-8597b6ae0d5c" tests="2" time="889">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Invalid Profile"/>
+  </testsuite>
+  <testsuite name="Add Retail Profile With No Channel" id="94ec9c09-7dab-4036-a227-4b1c8a3f342e" tests="2" time="1240">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Please select atleast one channel."/>
+  </testsuite>
+  <testsuite name="Add Retail Profile for get by Id" id="adaa6d86-80b2-4f40-bfa7-3a032e862bef" tests="1" time="1110">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="get profile by Id" id="d7f42989-12fe-447b-bf67-296e3911451c" tests="2" time="239">
+    <testcase name="status code is 200 : OK"/>
+    <testcase name="Profile Id verified : 2109"/>
+  </testsuite>
+  <testsuite name="Modify Retail user profile" id="7302f4df-d0d5-427e-b8a7-eaef5d9b7f03" tests="1" time="335">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="get profile by Id Verify modification" id="21f0dae7-3700-4747-b0f8-9ec5ca5bf7ea" tests="4" time="245">
+    <testcase name="Body has Sms Channel"/>
+    <testcase name="Body has No Mobile Channel"/>
+    <testcase name="status code is 200 : OK"/>
+    <testcase name="Profile Id verified : 2109"/>
+  </testsuite>
+  <testsuite name="delete profile3" id="01e1d24b-c3f1-4e14-8873-1114104d9e11" tests="1" time="425">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="get profile by Id Verify Delete" id="bea0450a-f726-4229-abc0-8e9e6f415e0c" tests="2" time="371">
+    <testcase name="status code is 400 : Bad Request"/>
+    <testcase name="Error Message : Invalid Profile Id"/>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,4116 @@
+{
+  "collection": {
+    "info": {
+      "id": "4b9d8688-0425-9e77-b043-c5348885a06d",
+      "name": "Business Profile Features With Limit",
+      "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+    },
+    "event": [],
+    "variable": [],
+    "item": [
+      {
+        "description": {
+          "content": "",
+          "type": "text/plain"
+        },
+        "id": "58ad9c6a-1478-421c-9e50-6749133efa2f",
+        "name": "CB Feature Template",
+        "item": [
+          {
+            "id": "b81857a6-36c3-4a30-ac17-d76f65f32243",
+            "name": "Login",
+            "request": {
+              "url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"primaryadmin\",\r\n\r\n               \"AppType\": \"Business\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n}"
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"Logged in as primaryadmin for iteration : \"+environment['featureName']] = responseCode.code === 201;",
+                    "postman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));",
+                    "postman.setEnvironmentVariable(\"x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+                  ]
+                }
+              },
+              {
+                "listen": "prerequest",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "postman.setEnvironmentVariable('featureId',data['f_id']);",
+                    "postman.setEnvironmentVariable('featureName',data['name']);"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "697dc7f4-0a59-438c-8c86-32e458abae11",
+            "name": "get ProfileFeatures without assigning feature",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+              "method": "GET",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "TokenKey",
+                  "value": "{{TokenKey}}"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "var res = jsonData.d.results;",
+                    "",
+                    "var postResponse ={};",
+                    "postResponse.ProfileId = \"{{Id}}\";",
+                    "postResponse.FeatureId = \"{{featureId}}\";",
+                    "",
+                    "var jsonRequestBody = JSON.stringify(postResponse);",
+                    "postman.setEnvironmentVariable('reqPutOnlyFeature',jsonRequestBody);",
+                    "",
+                    "tests[\"\"+environment['featureName']+\" get without assigning.\"] = responseCode.code === 200;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "6673effd-f61c-4220-ae61-36b59a88183c",
+            "name": "Add Business Profile Feature without entitlements",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+              "method": "PUT",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "TokenKey",
+                  "value": "{{TokenKey}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{{reqPutOnlyFeature}}"
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "//var jsonData = JSON.parse(responseBody);",
+                    "//postman.setEnvironmentVariable(\"featureId\", jsonData.d.FeatureId);",
+                    "",
+                    "//tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                    "//tests[\"ProfileId and FeatureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === '601';",
+                    "tests[\"\"+environment['featureName']+\" added without entitlements.\"] = responseCode.code === 204;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "ac26ff79-966f-4759-ae80-757db1d27ed6",
+            "name": "get ProfileFeatures entitlements",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Childrens,Childrens/Properties",
+              "method": "GET",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "TokenKey",
+                  "value": "{{TokenKey}}"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "var res = jsonData.d.results;",
+                    "",
+                    "var postResponse ={};",
+                    "postResponse.ProfileId = \"{{Id}}\";",
+                    "postResponse.FeatureId = \"{{featureId}}\";",
+                    "",
+                    "var postResponseChannel ={};",
+                    "postResponseChannel.ProfileId = \"{{ChannelId}}\";",
+                    "postResponseChannel.FeatureId = \"{{featureId}}\";",
+                    "",
+                    "var entObj = {};",
+                    "var featureObj = {};",
+                    "var entObjChannel = {};",
+                    "var featureObjChannel = {};",
+                    "var entitlementsList = [];",
+                    "var channelEntitlementsList = [];",
+                    "",
+                    "for(var i=0;i<res.length;i++)",
+                    "{",
+                    "    var entitlement = {};",
+                    "    entitlement.OperationName = res[i].OperationName;//Parent Operation name tobe extracted",
+                    "    entitlement.Entitled = true;",
+                    "    entitlementsList.push(entitlement);",
+                    "",
+                    "    var channelEntitlement = {};",
+                    "    channelEntitlement.OperationName = res[i].OperationName;//Parent Operation name tobe extracted",
+                    "    channelEntitlement.Entitled = false;",
+                    "    channelEntitlementsList.push(channelEntitlement);",
+                    " ",
+                    "    var propArr = res[i].Properties.results;",
+                    "    var childArr = res[i].Childrens.results;",
+                    "    ",
+                    "    tests[\"Feature \"+res[i].OperationName+\" entitled false\"] = res[i].Entitled === false;",
+                    "    tests[\"Feature \"+environment['featureId']+\" has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;",
+                    "   for(var j=0;j<childArr.length;j++)",
+                    "    {",
+                    "        var entitlement = {};",
+                    "        entitlement.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent",
+                    "        entitlement.Entitled = true;",
+                    "        entitlementsList.push(entitlement);",
+                    "        ",
+                    "        var channelEntitlement = {};",
+                    "        channelEntitlement.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent",
+                    "        channelEntitlement.Entitled = false;",
+                    "        channelEntitlementsList.push(channelEntitlement);",
+                    "        ",
+                    "        var childPropArr = childArr[j].Properties.results;",
+                    "        tests[\"Feature \"+childArr[j].OperationName+\" entitled false\"] = childArr[j].Entitled === false;",
+                    "        ",
+                    "        //if(childPropArr.length>0)",
+                    "            tests[\"Child Feature of \"+environment['featureId']+\" has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;",
+                    "    }",
+                    "}",
+                    "",
+                    "entObj.Entitlements = entitlementsList; ",
+                    "",
+                    "postResponse.Feature = entObj;",
+                    "postResponseChannel.Feature = entObjChannel;",
+                    "",
+                    "entObjChannel.Entitlements = channelEntitlementsList; ",
+                    "",
+                    "",
+                    "var jsonRequestBodyCross = JSON.stringify(postResponse);",
+                    "postman.setEnvironmentVariable('newReq',jsonRequestBodyCross);",
+                    "",
+                    "var jsonRequestBodyChannel = JSON.stringify(postResponseChannel);",
+                    "postman.setEnvironmentVariable('newReqChannel',jsonRequestBodyChannel);",
+                    "",
+                    "tests[\"status code is 200 : OK for \"+environment['featureName']] = responseCode.code === 200;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "96e85b49-49aa-4bf7-b89d-0a898abe8098",
+            "name": "delete feature",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+              "method": "DELETE",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "TokenKey",
+                  "value": "{{TokenKey}}"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"\"+environment['featureName']+\" deleted.\"] = responseCode.code === 204;",
+                    ""
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "80c4334c-149b-472d-b22f-6fd4d30dcdfd",
+            "name": "Add Business Profile Features with entitlements (Valid Set)",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+              "method": "PUT",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "TokenKey",
+                  "value": "{{TokenKey}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{{newReq}}"
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "//var jsonData = JSON.parse(responseBody);",
+                    "//tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                    "//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];",
+                    "",
+                    "tests[\"\"+environment['featureName']+\" added with entitlements entitled true.\"] = responseCode.code === 204;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "a607368f-339f-4920-a31f-4b1da2ffd410",
+            "name": "get ProfileFeatures with children and limits",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+              "method": "GET",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "TokenKey",
+                  "value": "{{TokenKey}}"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "var res = jsonData.d.results;",
+                    "",
+                    "var postResponse ={};",
+                    "postResponse.ProfileId = \"{{Id}}\";",
+                    "postResponse.FeatureId = \"{{featureId}}\";",
+                    "",
+                    "var postResponseChannel ={};",
+                    "postResponseChannel.ProfileId = \"{{ChannelId}}\";",
+                    "postResponseChannel.FeatureId = \"{{featureId}}\";",
+                    "",
+                    "var entObj = {};",
+                    "var featureObj = {};",
+                    "var entitlementsList = [];",
+                    "var entObjChannel = {};",
+                    "var featureObjChannel = {};",
+                    "var entitlementsListChannel = [];",
+                    "",
+                    "var limitValue = 1600;",
+                    "var limitList = [];",
+                    "var limitListChannel = [];",
+                    "var periodType = [\"Per Month\",\"Per Week\",\"Per Day\",\"Per Transaction\"];",
+                    "",
+                    "for(var i=0;i<4;i++)",
+                    "{",
+                    "    limitValue = limitValue/2;",
+                    "    limitValueChannel = limitValue/2;",
+                    "    var limitObj = {};",
+                    "    limitObj.Period=periodType[i];",
+                    "    limitObj.Amount=limitValue.toString()+\".00\";",
+                    "    limitObj.ExceedWithApproval=true;",
+                    "    limitList.push(limitObj);",
+                    "    ",
+                    "    var limitObjChannel = {};",
+                    "    limitObjChannel.Period=periodType[i];",
+                    "    limitObjChannel.Amount=limitValueChannel.toString()+\".00\";",
+                    "    limitObjChannel.ExceedWithApproval=true;",
+                    "    limitListChannel.push(limitObjChannel);",
+                    "}",
+                    "",
+                    "for(var i=0;i<res.length;i++)",
+                    "{",
+                    "    var entitlement = {};",
+                    "    var limitArr = res[i].Limits.results;",
+                    "    entitlement.OperationName = res[i].OperationName;//Parent Operation name tobe extracted",
+                    "    entitlement.Entitled = true;",
+                    "    if(limitArr.length>0)",
+                    "    {",
+                    "        entitlement.Limits=limitList;",
+                    "    }",
+                    "    entitlementsList.push(entitlement);",
+                    "    ",
+                    "    var entitlementChannel = {};",
+                    "    entitlementChannel.OperationName = res[i].OperationName;//Parent Operation name tobe extracted",
+                    "    entitlementChannel.Entitled = true;",
+                    "    if(limitArr.length>0)",
+                    "    {",
+                    "        entitlementChannel.Limits=limitListChannel;",
+                    "    }",
+                    "    entitlementsListChannel.push(entitlementChannel);",
+                    "    ",
+                    "    var propArr = res[i].Properties.results;",
+                    "    var childArr = res[i].Childrens.results;",
+                    "    ",
+                    "    tests[\"Feature \"+res[i].OperationName+\" entitled true\"] = res[i].Entitled === true;",
+                    "    tests[\"Feature \"+environment['featureId']+\" has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;",
+                    "   for(var j=0;j<childArr.length;j++)",
+                    "    {",
+                    "        var entitlement = {};",
+                    "        var childlimitArr = childArr[j].Limits.results;",
+                    "        entitlement.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent",
+                    "        entitlement.Entitled = true;",
+                    "        if(childlimitArr.length>0)",
+                    "        {",
+                    "            entitlement.Limits=limitList;",
+                    "        }",
+                    "        entitlementsList.push(entitlement);",
+                    "        ",
+                    "        var entitlementChannel = {};",
+                    "        var childlimitArr = childArr[j].Limits.results;",
+                    "        entitlementChannel.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent",
+                    "        entitlementChannel.Entitled = true;",
+                    "        if(childlimitArr.length>0)",
+                    "        {",
+                    "            entitlementChannel.Limits=limitListChannel;",
+                    "        }",
+                    "        entitlementsListChannel.push(entitlementChannel);",
+                    "        ",
+                    "        ",
+                    "        var childPropArr = childArr[j].Properties.results;",
+                    "        tests[\"Feature \"+childArr[j].OperationName+\" entitled true\"] = childArr[j].Entitled === true;",
+                    "        ",
+                    "        //if(childPropArr.length>0)",
+                    "            tests[\"Child Feature of \"+environment['featureId']+\" has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;",
+                    "    }",
+                    "}",
+                    "",
+                    "entObj.Entitlements = entitlementsList; ",
+                    "postResponse.Feature = entObj;",
+                    "",
+                    "var jsonRequestBody = JSON.stringify(postResponse);",
+                    "postman.setEnvironmentVariable('newReqWithLimit',jsonRequestBody);",
+                    "",
+                    "entObjChannel.Entitlements = entitlementsListChannel; ",
+                    "postResponseChannel.Feature = entObjChannel;",
+                    "",
+                    "var jsonRequestBodyChannel = JSON.stringify(postResponseChannel);",
+                    "postman.setEnvironmentVariable('newReqWithLimitChannel',jsonRequestBodyChannel);",
+                    "tests[\"\"+environment['featureName']+\" expand limit,properties verified.\"] = responseCode.code === 200;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "97c06bf2-c7a8-4d75-b640-ad0a23d743c0",
+            "name": "Add Business Profile Features with entitlements (Valid Set) copy",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{ChannelId}}',FeatureId='{{featureId}}')",
+              "method": "PUT",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "TokenKey",
+                  "value": "{{TokenKey}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{{newReqChannel}}"
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "//var jsonData = JSON.parse(responseBody);",
+                    "//tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                    "//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];",
+                    "",
+                    "tests[\"Change entitlements to entitled false on channel for \"+environment['featureName']] = responseCode.code === 204;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "a245fdbf-0a9f-4555-9e42-834ad5787379",
+            "name": "get ProfileFeatures with children entitled false on channel Verify",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{ChannelId}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+              "method": "GET",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "TokenKey",
+                  "value": "{{TokenKey}}"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "var res = jsonData.d.results;",
+                    "",
+                    "for(var i=0;i<res.length;i++)",
+                    "{",
+                    "    var propArr = res[i].Properties.results;",
+                    "    var childArr = res[i].Childrens.results;",
+                    "    ",
+                    "    tests[\"Feature \"+res[i].OperationName+\" entitled false\"] = res[i].Entitled === false;",
+                    "    tests[\"Feature \"+environment['featureId']+\" has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;",
+                    "   for(var j=0;j<childArr.length;j++)",
+                    "    {",
+                    "        var childPropArr = childArr[j].Properties.results;",
+                    "        tests[\"Feature \"+childArr[j].OperationName+\" entitled false\"] = childArr[j].Entitled === false;",
+                    "        ",
+                    "        //if(childPropArr.length>0)",
+                    "            tests[\"Child Feature of\"+environment['featureId']+\" has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;",
+                    "    }",
+                    "}",
+                    "tests[\"Entitlements checked (false) on channel for \"+environment['featureName']] = responseCode.code === 200;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "98467970-5949-4826-800e-967778e8e8c7",
+            "name": "Add Business Profile Features with entitlements with limits",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+              "method": "PUT",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "TokenKey",
+                  "value": "{{TokenKey}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{{newReqWithLimit}}"
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "//var jsonData = JSON.parse(responseBody);",
+                    "//tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                    "//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];",
+                    "",
+                    "tests[\"set limits for \"+environment['featureName']] = responseCode.code === 204;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "8dba6a4d-d8cb-470b-9fdd-d50a120f89a8",
+            "name": "get ProfileFeatures with children and limits verify",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+              "method": "GET",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "TokenKey",
+                  "value": "{{TokenKey}}"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "var res = jsonData.d.results;",
+                    "var limitArr = [\"100.00\",\"200.00\",\"400.00\",\"800.00\"];",
+                    "for(var i=0;i<res.length;i++)",
+                    "{",
+                    "    var propArr = res[i].Properties.results;",
+                    "    var childArr = res[i].Childrens.results;",
+                    "    var parentLimit = res[i].Limits.results;",
+                    "    //if(parentLimit.length>0)",
+                    "    {",
+                    "        for(var k=0;k<parentLimit.length;k++)",
+                    "        {",
+                    "            tests[\"Limit for \"+environment['featureId']+\" \"+parentLimit[k].Period+\" is\"+parentLimit[k].Amount+\" and MaxLimitValue is null\"] = parentLimit[k].Amount === limitArr[k] && parentLimit[k].MaxLimitValue === null;",
+                    "        }",
+                    "    }",
+                    "    tests[\"Feature \"+res[i].OperationName+\" entitled true\"] = res[i].Entitled === true;",
+                    "    tests[\"Feature \"+environment['featureId']+\" has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;",
+                    "    for(var j=0;j<childArr.length;j++)",
+                    "    {",
+                    "        var childLimit = childArr[j].Limits.results;",
+                    "    //if(childLimit.length>0)",
+                    "        {",
+                    "        for(var k=0;k<childLimit.length;k++)",
+                    "            {",
+                    "            tests[\"Limit for \"+environment['featureId']+\" child \"+childLimit[k].Period+\" is\"+childLimit[k].Amount+\" and MaxLimitValue is null\"] = childLimit[k].Amount === limitArr[k] && childLimit[k].MaxLimitValue === null;",
+                    "            }",
+                    "        }",
+                    "        var childPropArr = childArr[j].Properties.results;",
+                    "        tests[\"Feature \"+childArr[j].OperationName+\" entitled true\"] = childArr[j].Entitled === true;",
+                    "        //if(childPropArr.length>0)",
+                    "            tests[\"Child Feature of\"+environment['featureId']+\" has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;",
+                    "    }",
+                    "}",
+                    "tests[\"check entitlements with limit for \"+environment['featureName']] = responseCode.code === 200;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "593fe33d-181b-4cc3-a446-7b851abf89be",
+            "name": "Add Business Profile Features with entitlements with limits on Channel",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+              "method": "PUT",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{{newReqWithLimitChannel}}"
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "//var jsonData = JSON.parse(responseBody);",
+                    "//tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                    "//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];",
+                    "",
+                    "tests[\"set limits on channel for \"+environment['featureName']] = responseCode.code === 204;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "fbc24764-c120-4949-a4df-752ae739b476",
+            "name": "get ProfileFeatures with children and limits verify on channel",
+            "request": {
+              "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{ChannelId}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+              "method": "GET",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "x-csrf-token",
+                  "value": "{{x-csrf-token}}"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "TokenKey",
+                  "value": "{{TokenKey}}"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "var res = jsonData.d.results;",
+                    "var limitArr = [\"50.00\",\"100.00\",\"200.00\",\"400.00\"];",
+                    "var maxlimitArr = [\"100.00\",\"200.00\",\"400.00\",\"800.00\"];",
+                    "for(var i=0;i<res.length;i++)",
+                    "{",
+                    "    var propArr = res[i].Properties.results;",
+                    "    var childArr = res[i].Childrens.results;",
+                    "    var parentLimit = res[i].Limits.results;",
+                    "    //if(parentLimit.length>0)",
+                    "    {",
+                    "        for(var k=0;k<parentLimit.length;k++)",
+                    "        {",
+                    "            tests[\"Limit for \"+environment['featureId']+\" \"+parentLimit[k].Period+\" is\"+parentLimit[k].Amount+\" and MaxLimitValue is : \"+maxlimitArr[k]] = parentLimit[k].Amount === limitArr[k] && parentLimit[k].MaxLimitValue === maxlimitArr[k];",
+                    "        }",
+                    "    }",
+                    "    tests[\"Feature \"+res[i].OperationName+\" entitled true\"] = res[i].Entitled === true;",
+                    "    tests[\"Feature \"+environment['featureId']+\" has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;",
+                    "    for(var j=0;j<childArr.length;j++)",
+                    "    {",
+                    "        var childLimit = childArr[j].Limits.results;",
+                    "    //if(childLimit.length>0)",
+                    "        {",
+                    "        for(var k=0;k<childLimit.length;k++)",
+                    "            {",
+                    "            tests[\"Limit for \"+environment['featureId']+\" child \"+childLimit[k].Period+\" is\"+childLimit[k].Amount+\" and MaxLimitValue is :\"+maxlimitArr[k]] = childLimit[k].Amount === limitArr[k] && childLimit[k].MaxLimitValue === maxlimitArr[k];",
+                    "            }",
+                    "        }",
+                    "        var childPropArr = childArr[j].Properties.results;",
+                    "        tests[\"Feature \"+childArr[j].OperationName+\" entitled true\"] = childArr[j].Entitled === true;",
+                    "        //if(childPropArr.length>0)",
+                    "            tests[\"Child Feature of\"+environment['featureId']+\" has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;",
+                    "    }",
+                    "}",
+                    "tests[\"check entitlements with limit on channel for \"+environment['featureName']] = responseCode.code === 200;"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      }
+    ]
+  },
+  "environment": {
+    "_": {
+      "postman_variable_scope": "environment",
+      "postman_exported_at": "2016-11-25T05:12:30.983Z",
+      "postman_exported_using": "Newman/3.2.0"
+    },
+    "id": "a481bb2c-55f3-60ae-abea-cb58e17b0cc5",
+    "name": "RetailBanking",
+    "values": [
+      {
+        "type": "any",
+        "value": "https://10.97.188.237:8081",
+        "key": "env"
+      },
+      {
+        "type": "any",
+        "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9",
+        "key": "TokenKey"
+      },
+      {
+        "type": "any",
+        "value": "6529087936337163841",
+        "key": "x-csrf-token"
+      },
+      {
+        "type": "any",
+        "value": "2180",
+        "key": "Id"
+      },
+      {
+        "type": "any",
+        "value": "2181",
+        "key": "ChannelId"
+      },
+      {
+        "type": "any",
+        "value": "101",
+        "key": "featureId"
+      },
+      {
+        "type": "any",
+        "value": "Account Management",
+        "key": "featureName"
+      },
+      {
+        "type": "any",
+        "value": "{\"ProfileId\":\"{{Id}}\",\"FeatureId\":\"{{featureId}}\"}",
+        "key": "reqPutOnlyFeature"
+      },
+      {
+        "type": "any",
+        "value": "{\"ProfileId\":\"{{Id}}\",\"FeatureId\":\"{{featureId}}\",\"Feature\":{\"Entitlements\":[{\"OperationName\":\"Account Balance\",\"Entitled\":true},{\"OperationName\":\"CheckImaging\",\"Entitled\":true},{\"OperationName\":\"Consolidated Balance\",\"Entitled\":true},{\"OperationName\":\"History\",\"Entitled\":true},{\"OperationName\":\"Transaction Search\",\"Entitled\":true},{\"OperationName\":\"View Transactions Across Groups\",\"Entitled\":true}]}}",
+        "key": "newReq"
+      },
+      {
+        "type": "any",
+        "value": "{\"ProfileId\":\"{{ChannelId}}\",\"FeatureId\":\"{{featureId}}\",\"Feature\":{\"Entitlements\":[{\"OperationName\":\"Account Balance\",\"Entitled\":false},{\"OperationName\":\"CheckImaging\",\"Entitled\":false},{\"OperationName\":\"Consolidated Balance\",\"Entitled\":false},{\"OperationName\":\"History\",\"Entitled\":false},{\"OperationName\":\"Transaction Search\",\"Entitled\":false},{\"OperationName\":\"View Transactions Across Groups\",\"Entitled\":false}]}}",
+        "key": "newReqChannel"
+      },
+      {
+        "type": "any",
+        "value": "{\"ProfileId\":\"{{Id}}\",\"FeatureId\":\"{{featureId}}\",\"Feature\":{\"Entitlements\":[{\"OperationName\":\"Account Balance\",\"Entitled\":true},{\"OperationName\":\"CheckImaging\",\"Entitled\":true},{\"OperationName\":\"Consolidated Balance\",\"Entitled\":true},{\"OperationName\":\"History\",\"Entitled\":true},{\"OperationName\":\"Transaction Search\",\"Entitled\":true},{\"OperationName\":\"View Transactions Across Groups\",\"Entitled\":true}]}}",
+        "key": "newReqWithLimit"
+      },
+      {
+        "type": "any",
+        "value": "{\"ProfileId\":\"{{ChannelId}}\",\"FeatureId\":\"{{featureId}}\",\"Feature\":{\"Entitlements\":[{\"OperationName\":\"Account Balance\",\"Entitled\":true},{\"OperationName\":\"CheckImaging\",\"Entitled\":true},{\"OperationName\":\"Consolidated Balance\",\"Entitled\":true},{\"OperationName\":\"History\",\"Entitled\":true},{\"OperationName\":\"Transaction Search\",\"Entitled\":true},{\"OperationName\":\"View Transactions Across Groups\",\"Entitled\":true}]}}",
+        "key": "newReqWithLimitChannel"
+      }
+    ]
+  },
+  "globals": {
+    "id": "999d373f-d1e3-426b-bdba-9c993171bbd9",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 13,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 14,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 13,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 13,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 13,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 73,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 13,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 606.6153846153848,
+      "started": 1480050752678,
+      "completed": 1480050763805
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 13,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "aa646e7a-7190-47f9-912f-02a660e1a654"
+        },
+        "item": {
+          "id": "b81857a6-36c3-4a30-ac17-d76f65f32243",
+          "name": "Login",
+          "request": {
+            "url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"primaryadmin\",\r\n\r\n               \"AppType\": \"Business\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n}"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"Logged in as primaryadmin for iteration : \"+environment['featureName']] = responseCode.code === 201;",
+                  "postman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));",
+                  "postman.setEnvironmentVariable(\"x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "postman.setEnvironmentVariable('featureId',data['f_id']);",
+                  "postman.setEnvironmentVariable('featureName',data['name']);"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/ns/authenticationservice/SecureUsers?action=init",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 202
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"primaryadmin\",\r\n\r\n               \"AppType\": \"Business\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n}"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "",
+              "value": ""
+            },
+            {
+              "key": "CSRF_TOKEN",
+              "value": "6529087936337163841"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:35 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/cb/odata/ns/authenticationservice/SecureUsers('AgriTech%20Profile%20Ltd')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1324"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/ns/authenticationservice/SecureUsers('AgriTech%20Profile%20Ltd')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/ns/authenticationservice/SecureUsers('AgriTech%20Profile%20Ltd')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.SecureUser\"},\"AffiliateID\":\"4\",\"AppType\":\"Business\",\"BankID\":\"1000\",\"BaseCurrency\":\"USD\",\"BusinessCIF\":\"1234567891\",\"BusinessCustId\":\"AgriTech Profile Ltd\",\"BusinessID\":140,\"BusinessName\":\"AgriTech Profile Ltd\",\"ChannelType\":\"Web\",\"CurrentMfaType\":\"1\",\"EntitlementID\":1103,\"Id\":\"AgriTech Profile Ltd\",\"NeedToAcceptTerms\":false,\"CarrierTermsAccepted\":true,\"Password\":\"\",\"UserProfileID\":\"141\",\"ProfileID\":0,\"SmallBusinessUser\":false,\"UserLocale\":{\"__metadata\":{\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.UserLocale\"},\"Country\":\"US\",\"DateFormat\":\"MM/dd/yyyy\",\"DateFormatName\":\"MM/dd/yyyy\",\"DateTimeFormat\":\"MM/dd/yyyy/H:mm\",\"DateTimeFormatName\":\"MM/dd/yyyy/H:mm\",\"Language\":\"en\",\"Locale\":\"en_US\",\"LocaleName\":null,\"TimeFormat\":\"H:mm\",\"TimeFormatName\":\"H:mm\",\"ZoneFormat\":\"z\",\"ZoneFormatName\":null},\"UserName\":\"primaryadmin\",\"UserType\":1,\"BPWFIID\":\"1000\",\"DeviceId\":null,\"MultifactorInfo\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/cb/odata/ns/authenticationservice/SecureUsers('AgriTech%20Profile%20Ltd')/MultifactorInfo\"}}}}",
+          "cookie": [],
+          "responseTime": 1597,
+          "responseSize": 1324,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "b81857a6-36c3-4a30-ac17-d76f65f32243",
+        "assertions": [
+          {
+            "assertion": "Logged in as primaryadmin for iteration : Account Management"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "88ab4516-4f56-4c60-9ec5-8cc30152eaa4",
+          "length": 13,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0
+        },
+        "item": {
+          "id": "697dc7f4-0a59-438c-8c86-32e458abae11",
+          "name": "get ProfileFeatures without assigning feature",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "var res = jsonData.d.results;",
+                  "",
+                  "var postResponse ={};",
+                  "postResponse.ProfileId = \"{{Id}}\";",
+                  "postResponse.FeatureId = \"{{featureId}}\";",
+                  "",
+                  "var jsonRequestBody = JSON.stringify(postResponse);",
+                  "postman.setEnvironmentVariable('reqPutOnlyFeature',jsonRequestBody);",
+                  "",
+                  "tests[\"\"+environment['featureName']+\" get without assigning.\"] = responseCode.code === 200;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:35 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "732"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')\",\"type\":\"com.sap.banking.profile.endpoint.v1_0.beans.ProfileFeature\"},\"ProfileId\":\"2180\",\"FeatureId\":\"101\",\"Assigned\":\"no\",\"Profile\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')/Profile\"}},\"Feature\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')/Feature\"}}}}",
+          "cookie": [],
+          "responseTime": 501,
+          "responseSize": 732,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "697dc7f4-0a59-438c-8c86-32e458abae11",
+        "assertions": [
+          {
+            "assertion": "Account Management get without assigning."
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "5b450f0a-81da-4f81-b47a-6fa5f620c6ab",
+          "length": 13,
+          "cycles": 1,
+          "position": 2,
+          "iteration": 0
+        },
+        "item": {
+          "id": "6673effd-f61c-4220-ae61-36b59a88183c",
+          "name": "Add Business Profile Feature without entitlements",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+            "method": "PUT",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{reqPutOnlyFeature}}"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "//var jsonData = JSON.parse(responseBody);",
+                  "//postman.setEnvironmentVariable(\"featureId\", jsonData.d.FeatureId);",
+                  "",
+                  "//tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                  "//tests[\"ProfileId and FeatureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === '601';",
+                  "tests[\"\"+environment['featureName']+\" added without entitlements.\"] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')",
+          "method": "PUT",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 38
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\"ProfileId\":\"2180\",\"FeatureId\":\"101\"}"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:36 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 524,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "6673effd-f61c-4220-ae61-36b59a88183c",
+        "assertions": [
+          {
+            "assertion": "Account Management added without entitlements."
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "52722f20-3856-4c59-8b84-02c2a9f97908",
+          "length": 13,
+          "cycles": 1,
+          "position": 3,
+          "iteration": 0
+        },
+        "item": {
+          "id": "ac26ff79-966f-4759-ae80-757db1d27ed6",
+          "name": "get ProfileFeatures entitlements",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Childrens,Childrens/Properties",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "var res = jsonData.d.results;",
+                  "",
+                  "var postResponse ={};",
+                  "postResponse.ProfileId = \"{{Id}}\";",
+                  "postResponse.FeatureId = \"{{featureId}}\";",
+                  "",
+                  "var postResponseChannel ={};",
+                  "postResponseChannel.ProfileId = \"{{ChannelId}}\";",
+                  "postResponseChannel.FeatureId = \"{{featureId}}\";",
+                  "",
+                  "var entObj = {};",
+                  "var featureObj = {};",
+                  "var entObjChannel = {};",
+                  "var featureObjChannel = {};",
+                  "var entitlementsList = [];",
+                  "var channelEntitlementsList = [];",
+                  "",
+                  "for(var i=0;i<res.length;i++)",
+                  "{",
+                  "    var entitlement = {};",
+                  "    entitlement.OperationName = res[i].OperationName;//Parent Operation name tobe extracted",
+                  "    entitlement.Entitled = true;",
+                  "    entitlementsList.push(entitlement);",
+                  "",
+                  "    var channelEntitlement = {};",
+                  "    channelEntitlement.OperationName = res[i].OperationName;//Parent Operation name tobe extracted",
+                  "    channelEntitlement.Entitled = false;",
+                  "    channelEntitlementsList.push(channelEntitlement);",
+                  " ",
+                  "    var propArr = res[i].Properties.results;",
+                  "    var childArr = res[i].Childrens.results;",
+                  "    ",
+                  "    tests[\"Feature \"+res[i].OperationName+\" entitled false\"] = res[i].Entitled === false;",
+                  "    tests[\"Feature \"+environment['featureId']+\" has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;",
+                  "   for(var j=0;j<childArr.length;j++)",
+                  "    {",
+                  "        var entitlement = {};",
+                  "        entitlement.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent",
+                  "        entitlement.Entitled = true;",
+                  "        entitlementsList.push(entitlement);",
+                  "        ",
+                  "        var channelEntitlement = {};",
+                  "        channelEntitlement.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent",
+                  "        channelEntitlement.Entitled = false;",
+                  "        channelEntitlementsList.push(channelEntitlement);",
+                  "        ",
+                  "        var childPropArr = childArr[j].Properties.results;",
+                  "        tests[\"Feature \"+childArr[j].OperationName+\" entitled false\"] = childArr[j].Entitled === false;",
+                  "        ",
+                  "        //if(childPropArr.length>0)",
+                  "            tests[\"Child Feature of \"+environment['featureId']+\" has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;",
+                  "    }",
+                  "}",
+                  "",
+                  "entObj.Entitlements = entitlementsList; ",
+                  "",
+                  "postResponse.Feature = entObj;",
+                  "postResponseChannel.Feature = entObjChannel;",
+                  "",
+                  "entObjChannel.Entitlements = channelEntitlementsList; ",
+                  "",
+                  "",
+                  "var jsonRequestBodyCross = JSON.stringify(postResponse);",
+                  "postman.setEnvironmentVariable('newReq',jsonRequestBodyCross);",
+                  "",
+                  "var jsonRequestBodyChannel = JSON.stringify(postResponseChannel);",
+                  "postman.setEnvironmentVariable('newReqChannel',jsonRequestBodyChannel);",
+                  "",
+                  "tests[\"status code is 200 : OK for \"+environment['featureName']] = responseCode.code === 200;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')/Feature/Entitlements?$expand=Properties,Childrens,Childrens/Properties",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:37 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            }
+          ],
+          "body": "{\"d\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Account%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Account%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Account Balance\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Account%20Balance',ObjectId='All',ObjectType='All',GroupId=0)/Limits\"}},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Account Balance\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='CheckImaging',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='CheckImaging',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"CheckImaging\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='CheckImaging',ObjectId='All',ObjectType='All',GroupId=0)/Limits\"}},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Check Imaging\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Consolidated%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Consolidated%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Consolidated Balance\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Consolidated%20Balance',ObjectId='All',ObjectType='All',GroupId=0)/Limits\"}},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Consolidated Balance\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='History',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='History',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"History\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='History',ObjectId='All',ObjectType='All',GroupId=0)/Limits\"}},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Account History\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Transaction%20Search',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Transaction%20Search',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Transaction Search\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Transaction%20Search',ObjectId='All',ObjectType='All',GroupId=0)/Limits\"}},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Transaction Search\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='View%20Transactions%20Across%20Groups',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='View%20Transactions%20Across%20Groups',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"View Transactions Across Groups\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='View%20Transactions%20Across%20Groups',ObjectId='All',ObjectType='All',GroupId=0)/Limits\"}},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"View Transactions Across Groups\"}]},\"Childrens\":{\"results\":[]}}]}}",
+          "cookie": [],
+          "responseTime": 665,
+          "responseSize": 7209,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "ac26ff79-966f-4759-ae80-757db1d27ed6",
+        "assertions": [
+          {
+            "assertion": "Feature Account Balance entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =Account Balance"
+          },
+          {
+            "assertion": "Feature CheckImaging entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =Check Imaging"
+          },
+          {
+            "assertion": "Feature Consolidated Balance entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =Consolidated Balance"
+          },
+          {
+            "assertion": "Feature History entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =Account History"
+          },
+          {
+            "assertion": "Feature Transaction Search entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =Transaction Search"
+          },
+          {
+            "assertion": "Feature View Transactions Across Groups entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =View Transactions Across Groups"
+          },
+          {
+            "assertion": "status code is 200 : OK for Account Management"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "3aade3b1-4aee-4f2a-bb4f-8b7a0e48477b",
+          "length": 13,
+          "cycles": 1,
+          "position": 4,
+          "iteration": 0
+        },
+        "item": {
+          "id": "96e85b49-49aa-4bf7-b89d-0a898abe8098",
+          "name": "delete feature",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+            "method": "DELETE",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"\"+environment['featureName']+\" deleted.\"] = responseCode.code === 204;",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')",
+          "method": "DELETE",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Accept",
+              "value": "*/*"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": ""
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:37 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 799,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "96e85b49-49aa-4bf7-b89d-0a898abe8098",
+        "assertions": [
+          {
+            "assertion": "Account Management deleted."
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "4456a9b0-205a-45ce-a505-b2a03af802cb",
+          "length": 13,
+          "cycles": 1,
+          "position": 5,
+          "iteration": 0
+        },
+        "item": {
+          "id": "80c4334c-149b-472d-b22f-6fd4d30dcdfd",
+          "name": "Add Business Profile Features with entitlements (Valid Set)",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+            "method": "PUT",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{newReq}}"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "//var jsonData = JSON.parse(responseBody);",
+                  "//tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                  "//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];",
+                  "",
+                  "tests[\"\"+environment['featureName']+\" added with entitlements entitled true.\"] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')",
+          "method": "PUT",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 392
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\"ProfileId\":\"2180\",\"FeatureId\":\"101\",\"Feature\":{\"Entitlements\":[{\"OperationName\":\"Account Balance\",\"Entitled\":true},{\"OperationName\":\"CheckImaging\",\"Entitled\":true},{\"OperationName\":\"Consolidated Balance\",\"Entitled\":true},{\"OperationName\":\"History\",\"Entitled\":true},{\"OperationName\":\"Transaction Search\",\"Entitled\":true},{\"OperationName\":\"View Transactions Across Groups\",\"Entitled\":true}]}}"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:39 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 541,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "80c4334c-149b-472d-b22f-6fd4d30dcdfd",
+        "assertions": [
+          {
+            "assertion": "Account Management added with entitlements entitled true."
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "c28a88ff-cf18-4d1d-aaab-571e50fae2d1",
+          "length": 13,
+          "cycles": 1,
+          "position": 6,
+          "iteration": 0
+        },
+        "item": {
+          "id": "a607368f-339f-4920-a31f-4b1da2ffd410",
+          "name": "get ProfileFeatures with children and limits",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "var res = jsonData.d.results;",
+                  "",
+                  "var postResponse ={};",
+                  "postResponse.ProfileId = \"{{Id}}\";",
+                  "postResponse.FeatureId = \"{{featureId}}\";",
+                  "",
+                  "var postResponseChannel ={};",
+                  "postResponseChannel.ProfileId = \"{{ChannelId}}\";",
+                  "postResponseChannel.FeatureId = \"{{featureId}}\";",
+                  "",
+                  "var entObj = {};",
+                  "var featureObj = {};",
+                  "var entitlementsList = [];",
+                  "var entObjChannel = {};",
+                  "var featureObjChannel = {};",
+                  "var entitlementsListChannel = [];",
+                  "",
+                  "var limitValue = 1600;",
+                  "var limitList = [];",
+                  "var limitListChannel = [];",
+                  "var periodType = [\"Per Month\",\"Per Week\",\"Per Day\",\"Per Transaction\"];",
+                  "",
+                  "for(var i=0;i<4;i++)",
+                  "{",
+                  "    limitValue = limitValue/2;",
+                  "    limitValueChannel = limitValue/2;",
+                  "    var limitObj = {};",
+                  "    limitObj.Period=periodType[i];",
+                  "    limitObj.Amount=limitValue.toString()+\".00\";",
+                  "    limitObj.ExceedWithApproval=true;",
+                  "    limitList.push(limitObj);",
+                  "    ",
+                  "    var limitObjChannel = {};",
+                  "    limitObjChannel.Period=periodType[i];",
+                  "    limitObjChannel.Amount=limitValueChannel.toString()+\".00\";",
+                  "    limitObjChannel.ExceedWithApproval=true;",
+                  "    limitListChannel.push(limitObjChannel);",
+                  "}",
+                  "",
+                  "for(var i=0;i<res.length;i++)",
+                  "{",
+                  "    var entitlement = {};",
+                  "    var limitArr = res[i].Limits.results;",
+                  "    entitlement.OperationName = res[i].OperationName;//Parent Operation name tobe extracted",
+                  "    entitlement.Entitled = true;",
+                  "    if(limitArr.length>0)",
+                  "    {",
+                  "        entitlement.Limits=limitList;",
+                  "    }",
+                  "    entitlementsList.push(entitlement);",
+                  "    ",
+                  "    var entitlementChannel = {};",
+                  "    entitlementChannel.OperationName = res[i].OperationName;//Parent Operation name tobe extracted",
+                  "    entitlementChannel.Entitled = true;",
+                  "    if(limitArr.length>0)",
+                  "    {",
+                  "        entitlementChannel.Limits=limitListChannel;",
+                  "    }",
+                  "    entitlementsListChannel.push(entitlementChannel);",
+                  "    ",
+                  "    var propArr = res[i].Properties.results;",
+                  "    var childArr = res[i].Childrens.results;",
+                  "    ",
+                  "    tests[\"Feature \"+res[i].OperationName+\" entitled true\"] = res[i].Entitled === true;",
+                  "    tests[\"Feature \"+environment['featureId']+\" has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;",
+                  "   for(var j=0;j<childArr.length;j++)",
+                  "    {",
+                  "        var entitlement = {};",
+                  "        var childlimitArr = childArr[j].Limits.results;",
+                  "        entitlement.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent",
+                  "        entitlement.Entitled = true;",
+                  "        if(childlimitArr.length>0)",
+                  "        {",
+                  "            entitlement.Limits=limitList;",
+                  "        }",
+                  "        entitlementsList.push(entitlement);",
+                  "        ",
+                  "        var entitlementChannel = {};",
+                  "        var childlimitArr = childArr[j].Limits.results;",
+                  "        entitlementChannel.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent",
+                  "        entitlementChannel.Entitled = true;",
+                  "        if(childlimitArr.length>0)",
+                  "        {",
+                  "            entitlementChannel.Limits=limitListChannel;",
+                  "        }",
+                  "        entitlementsListChannel.push(entitlementChannel);",
+                  "        ",
+                  "        ",
+                  "        var childPropArr = childArr[j].Properties.results;",
+                  "        tests[\"Feature \"+childArr[j].OperationName+\" entitled true\"] = childArr[j].Entitled === true;",
+                  "        ",
+                  "        //if(childPropArr.length>0)",
+                  "            tests[\"Child Feature of \"+environment['featureId']+\" has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;",
+                  "    }",
+                  "}",
+                  "",
+                  "entObj.Entitlements = entitlementsList; ",
+                  "postResponse.Feature = entObj;",
+                  "",
+                  "var jsonRequestBody = JSON.stringify(postResponse);",
+                  "postman.setEnvironmentVariable('newReqWithLimit',jsonRequestBody);",
+                  "",
+                  "entObjChannel.Entitlements = entitlementsListChannel; ",
+                  "postResponseChannel.Feature = entObjChannel;",
+                  "",
+                  "var jsonRequestBodyChannel = JSON.stringify(postResponseChannel);",
+                  "postman.setEnvironmentVariable('newReqWithLimitChannel',jsonRequestBodyChannel);",
+                  "tests[\"\"+environment['featureName']+\" expand limit,properties verified.\"] = responseCode.code === 200;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:39 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            }
+          ],
+          "body": "{\"d\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Account%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Account%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Account Balance\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Account Balance\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='CheckImaging',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='CheckImaging',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"CheckImaging\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Check Imaging\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Consolidated%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Consolidated%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Consolidated Balance\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Consolidated Balance\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='History',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='History',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"History\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Account History\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Transaction%20Search',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Transaction%20Search',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Transaction Search\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Transaction Search\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='View%20Transactions%20Across%20Groups',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='View%20Transactions%20Across%20Groups',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"View Transactions Across Groups\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"View Transactions Across Groups\"}]},\"Childrens\":{\"results\":[]}}]}}",
+          "cookie": [],
+          "responseTime": 443,
+          "responseSize": 6116,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "a607368f-339f-4920-a31f-4b1da2ffd410",
+        "assertions": [
+          {
+            "assertion": "Feature Account Balance entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Account Balance"
+          },
+          {
+            "assertion": "Feature CheckImaging entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Check Imaging"
+          },
+          {
+            "assertion": "Feature Consolidated Balance entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Consolidated Balance"
+          },
+          {
+            "assertion": "Feature History entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Account History"
+          },
+          {
+            "assertion": "Feature Transaction Search entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Transaction Search"
+          },
+          {
+            "assertion": "Feature View Transactions Across Groups entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =View Transactions Across Groups"
+          },
+          {
+            "assertion": "Account Management expand limit,properties verified."
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "4ea9d786-a5fd-4fd2-9e03-12023e03137a",
+          "length": 13,
+          "cycles": 1,
+          "position": 7,
+          "iteration": 0
+        },
+        "item": {
+          "id": "97c06bf2-c7a8-4d75-b640-ad0a23d743c0",
+          "name": "Add Business Profile Features with entitlements (Valid Set) copy",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{ChannelId}}',FeatureId='{{featureId}}')",
+            "method": "PUT",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{newReqChannel}}"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "//var jsonData = JSON.parse(responseBody);",
+                  "//tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                  "//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];",
+                  "",
+                  "tests[\"Change entitlements to entitled false on channel for \"+environment['featureName']] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2181',FeatureId='101')",
+          "method": "PUT",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 398
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\"ProfileId\":\"2181\",\"FeatureId\":\"101\",\"Feature\":{\"Entitlements\":[{\"OperationName\":\"Account Balance\",\"Entitled\":false},{\"OperationName\":\"CheckImaging\",\"Entitled\":false},{\"OperationName\":\"Consolidated Balance\",\"Entitled\":false},{\"OperationName\":\"History\",\"Entitled\":false},{\"OperationName\":\"Transaction Search\",\"Entitled\":false},{\"OperationName\":\"View Transactions Across Groups\",\"Entitled\":false}]}}"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:40 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 370,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "97c06bf2-c7a8-4d75-b640-ad0a23d743c0",
+        "assertions": [
+          {
+            "assertion": "Change entitlements to entitled false on channel for Account Management"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "aaf68b26-2754-494f-9308-978d55a42af1",
+          "length": 13,
+          "cycles": 1,
+          "position": 8,
+          "iteration": 0
+        },
+        "item": {
+          "id": "a245fdbf-0a9f-4555-9e42-834ad5787379",
+          "name": "get ProfileFeatures with children entitled false on channel Verify",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{ChannelId}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "var res = jsonData.d.results;",
+                  "",
+                  "for(var i=0;i<res.length;i++)",
+                  "{",
+                  "    var propArr = res[i].Properties.results;",
+                  "    var childArr = res[i].Childrens.results;",
+                  "    ",
+                  "    tests[\"Feature \"+res[i].OperationName+\" entitled false\"] = res[i].Entitled === false;",
+                  "    tests[\"Feature \"+environment['featureId']+\" has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;",
+                  "   for(var j=0;j<childArr.length;j++)",
+                  "    {",
+                  "        var childPropArr = childArr[j].Properties.results;",
+                  "        tests[\"Feature \"+childArr[j].OperationName+\" entitled false\"] = childArr[j].Entitled === false;",
+                  "        ",
+                  "        //if(childPropArr.length>0)",
+                  "            tests[\"Child Feature of\"+environment['featureId']+\" has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;",
+                  "    }",
+                  "}",
+                  "tests[\"Entitlements checked (false) on channel for \"+environment['featureName']] = responseCode.code === 200;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2181',FeatureId='101')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:40 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            }
+          ],
+          "body": "{\"d\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Account%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Account%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Account Balance\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Account Balance\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='CheckImaging',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='CheckImaging',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"CheckImaging\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Check Imaging\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Consolidated%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Consolidated%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Consolidated Balance\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Consolidated Balance\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='History',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='History',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"History\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Account History\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Transaction%20Search',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Transaction%20Search',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Transaction Search\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Transaction Search\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='View%20Transactions%20Across%20Groups',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='View%20Transactions%20Across%20Groups',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"View Transactions Across Groups\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":false,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"View Transactions Across Groups\"}]},\"Childrens\":{\"results\":[]}}]}}",
+          "cookie": [],
+          "responseTime": 319,
+          "responseSize": 6122,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "a245fdbf-0a9f-4555-9e42-834ad5787379",
+        "assertions": [
+          {
+            "assertion": "Feature Account Balance entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =Account Balance"
+          },
+          {
+            "assertion": "Feature CheckImaging entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =Check Imaging"
+          },
+          {
+            "assertion": "Feature Consolidated Balance entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =Consolidated Balance"
+          },
+          {
+            "assertion": "Feature History entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =Account History"
+          },
+          {
+            "assertion": "Feature Transaction Search entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =Transaction Search"
+          },
+          {
+            "assertion": "Feature View Transactions Across Groups entitled false"
+          },
+          {
+            "assertion": "Feature 101 has display name =View Transactions Across Groups"
+          },
+          {
+            "assertion": "Entitlements checked (false) on channel for Account Management"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "100c1135-525c-408f-94a0-234c4462bf52",
+          "length": 13,
+          "cycles": 1,
+          "position": 9,
+          "iteration": 0
+        },
+        "item": {
+          "id": "98467970-5949-4826-800e-967778e8e8c7",
+          "name": "Add Business Profile Features with entitlements with limits",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+            "method": "PUT",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{newReqWithLimit}}"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "//var jsonData = JSON.parse(responseBody);",
+                  "//tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                  "//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];",
+                  "",
+                  "tests[\"set limits for \"+environment['featureName']] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')",
+          "method": "PUT",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 392
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\"ProfileId\":\"2180\",\"FeatureId\":\"101\",\"Feature\":{\"Entitlements\":[{\"OperationName\":\"Account Balance\",\"Entitled\":true},{\"OperationName\":\"CheckImaging\",\"Entitled\":true},{\"OperationName\":\"Consolidated Balance\",\"Entitled\":true},{\"OperationName\":\"History\",\"Entitled\":true},{\"OperationName\":\"Transaction Search\",\"Entitled\":true},{\"OperationName\":\"View Transactions Across Groups\",\"Entitled\":true}]}}"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:41 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 553,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "98467970-5949-4826-800e-967778e8e8c7",
+        "assertions": [
+          {
+            "assertion": "set limits for Account Management"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "0f1b75b2-de07-42d1-8bf9-da988bf2b198",
+          "length": 13,
+          "cycles": 1,
+          "position": 10,
+          "iteration": 0
+        },
+        "item": {
+          "id": "8dba6a4d-d8cb-470b-9fdd-d50a120f89a8",
+          "name": "get ProfileFeatures with children and limits verify",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "var res = jsonData.d.results;",
+                  "var limitArr = [\"100.00\",\"200.00\",\"400.00\",\"800.00\"];",
+                  "for(var i=0;i<res.length;i++)",
+                  "{",
+                  "    var propArr = res[i].Properties.results;",
+                  "    var childArr = res[i].Childrens.results;",
+                  "    var parentLimit = res[i].Limits.results;",
+                  "    //if(parentLimit.length>0)",
+                  "    {",
+                  "        for(var k=0;k<parentLimit.length;k++)",
+                  "        {",
+                  "            tests[\"Limit for \"+environment['featureId']+\" \"+parentLimit[k].Period+\" is\"+parentLimit[k].Amount+\" and MaxLimitValue is null\"] = parentLimit[k].Amount === limitArr[k] && parentLimit[k].MaxLimitValue === null;",
+                  "        }",
+                  "    }",
+                  "    tests[\"Feature \"+res[i].OperationName+\" entitled true\"] = res[i].Entitled === true;",
+                  "    tests[\"Feature \"+environment['featureId']+\" has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;",
+                  "    for(var j=0;j<childArr.length;j++)",
+                  "    {",
+                  "        var childLimit = childArr[j].Limits.results;",
+                  "    //if(childLimit.length>0)",
+                  "        {",
+                  "        for(var k=0;k<childLimit.length;k++)",
+                  "            {",
+                  "            tests[\"Limit for \"+environment['featureId']+\" child \"+childLimit[k].Period+\" is\"+childLimit[k].Amount+\" and MaxLimitValue is null\"] = childLimit[k].Amount === limitArr[k] && childLimit[k].MaxLimitValue === null;",
+                  "            }",
+                  "        }",
+                  "        var childPropArr = childArr[j].Properties.results;",
+                  "        tests[\"Feature \"+childArr[j].OperationName+\" entitled true\"] = childArr[j].Entitled === true;",
+                  "        //if(childPropArr.length>0)",
+                  "            tests[\"Child Feature of\"+environment['featureId']+\" has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;",
+                  "    }",
+                  "}",
+                  "tests[\"check entitlements with limit for \"+environment['featureName']] = responseCode.code === 200;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:42 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            }
+          ],
+          "body": "{\"d\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Account%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Account%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Account Balance\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Account Balance\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='CheckImaging',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='CheckImaging',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"CheckImaging\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Check Imaging\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Consolidated%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Consolidated%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Consolidated Balance\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Consolidated Balance\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='History',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='History',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"History\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Account History\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Transaction%20Search',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Transaction%20Search',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Transaction Search\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Transaction Search\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='View%20Transactions%20Across%20Groups',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='View%20Transactions%20Across%20Groups',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"View Transactions Across Groups\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"View Transactions Across Groups\"}]},\"Childrens\":{\"results\":[]}}]}}",
+          "cookie": [],
+          "responseTime": 440,
+          "responseSize": 6116,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "8dba6a4d-d8cb-470b-9fdd-d50a120f89a8",
+        "assertions": [
+          {
+            "assertion": "Feature Account Balance entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Account Balance"
+          },
+          {
+            "assertion": "Feature CheckImaging entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Check Imaging"
+          },
+          {
+            "assertion": "Feature Consolidated Balance entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Consolidated Balance"
+          },
+          {
+            "assertion": "Feature History entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Account History"
+          },
+          {
+            "assertion": "Feature Transaction Search entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Transaction Search"
+          },
+          {
+            "assertion": "Feature View Transactions Across Groups entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =View Transactions Across Groups"
+          },
+          {
+            "assertion": "check entitlements with limit for Account Management"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "fad6c12e-d0d2-43ed-8b2f-61ec0a693fe2",
+          "length": 13,
+          "cycles": 1,
+          "position": 11,
+          "iteration": 0
+        },
+        "item": {
+          "id": "593fe33d-181b-4cc3-a446-7b851abf89be",
+          "name": "Add Business Profile Features with entitlements with limits on Channel",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+            "method": "PUT",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{{newReqWithLimitChannel}}"
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "//var jsonData = JSON.parse(responseBody);",
+                  "//tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                  "//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];",
+                  "",
+                  "tests[\"set limits on channel for \"+environment['featureName']] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2180',FeatureId='101')",
+          "method": "PUT",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 392
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\"ProfileId\":\"2181\",\"FeatureId\":\"101\",\"Feature\":{\"Entitlements\":[{\"OperationName\":\"Account Balance\",\"Entitled\":true},{\"OperationName\":\"CheckImaging\",\"Entitled\":true},{\"OperationName\":\"Consolidated Balance\",\"Entitled\":true},{\"OperationName\":\"History\",\"Entitled\":true},{\"OperationName\":\"Transaction Search\",\"Entitled\":true},{\"OperationName\":\"View Transactions Across Groups\",\"Entitled\":true}]}}"
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:43 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 799,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "593fe33d-181b-4cc3-a446-7b851abf89be",
+        "assertions": [
+          {
+            "assertion": "set limits on channel for Account Management"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "c1f81466-5b02-473e-8841-3e02f26bba91",
+          "length": 13,
+          "cycles": 1,
+          "position": 12,
+          "iteration": 0
+        },
+        "item": {
+          "id": "fbc24764-c120-4949-a4df-752ae739b476",
+          "name": "get ProfileFeatures with children and limits verify on channel",
+          "request": {
+            "url": "{{env}}/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='{{ChannelId}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "x-csrf-token",
+                "value": "{{x-csrf-token}}"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "TokenKey",
+                "value": "{{TokenKey}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "var res = jsonData.d.results;",
+                  "var limitArr = [\"50.00\",\"100.00\",\"200.00\",\"400.00\"];",
+                  "var maxlimitArr = [\"100.00\",\"200.00\",\"400.00\",\"800.00\"];",
+                  "for(var i=0;i<res.length;i++)",
+                  "{",
+                  "    var propArr = res[i].Properties.results;",
+                  "    var childArr = res[i].Childrens.results;",
+                  "    var parentLimit = res[i].Limits.results;",
+                  "    //if(parentLimit.length>0)",
+                  "    {",
+                  "        for(var k=0;k<parentLimit.length;k++)",
+                  "        {",
+                  "            tests[\"Limit for \"+environment['featureId']+\" \"+parentLimit[k].Period+\" is\"+parentLimit[k].Amount+\" and MaxLimitValue is : \"+maxlimitArr[k]] = parentLimit[k].Amount === limitArr[k] && parentLimit[k].MaxLimitValue === maxlimitArr[k];",
+                  "        }",
+                  "    }",
+                  "    tests[\"Feature \"+res[i].OperationName+\" entitled true\"] = res[i].Entitled === true;",
+                  "    tests[\"Feature \"+environment['featureId']+\" has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;",
+                  "    for(var j=0;j<childArr.length;j++)",
+                  "    {",
+                  "        var childLimit = childArr[j].Limits.results;",
+                  "    //if(childLimit.length>0)",
+                  "        {",
+                  "        for(var k=0;k<childLimit.length;k++)",
+                  "            {",
+                  "            tests[\"Limit for \"+environment['featureId']+\" child \"+childLimit[k].Period+\" is\"+childLimit[k].Amount+\" and MaxLimitValue is :\"+maxlimitArr[k]] = childLimit[k].Amount === limitArr[k] && childLimit[k].MaxLimitValue === maxlimitArr[k];",
+                  "            }",
+                  "        }",
+                  "        var childPropArr = childArr[j].Properties.results;",
+                  "        tests[\"Feature \"+childArr[j].OperationName+\" entitled true\"] = childArr[j].Entitled === true;",
+                  "        //if(childPropArr.length>0)",
+                  "            tests[\"Child Feature of\"+environment['featureId']+\" has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;",
+                  "    }",
+                  "}",
+                  "tests[\"check entitlements with limit on channel for \"+environment['featureName']] = responseCode.code === 200;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/ProfileFeatures(ProfileId='2181',FeatureId='101')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=C597E52CA34316F6421AA5F049926837BDF6E811BAE1C599DD73878428588B3A"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 25 Nov 2016 05:12:43 GMT"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSEF0SGNvR0hueHM1cllMenEva2NGRWxIaU5UY3dWVEpoN0QzYzZmVUVEd0E9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "6529087936337163841"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Content-Encoding",
+              "value": "gzip"
+            },
+            {
+              "key": "Vary",
+              "value": "Accept-Encoding"
+            }
+          ],
+          "body": "{\"d\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Account%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Account%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Account Balance\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Account Balance\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='CheckImaging',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='CheckImaging',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"CheckImaging\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Check Imaging\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Consolidated%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Consolidated%20Balance',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Consolidated Balance\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Consolidated Balance\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='History',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='History',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"History\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Account History\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Transaction%20Search',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='Transaction%20Search',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"Transaction Search\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"Transaction Search\"}]},\"Childrens\":{\"results\":[]}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='View%20Transactions%20Across%20Groups',ObjectId='All',ObjectType='All',GroupId=0)\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/Entitlements(OperationName='View%20Transactions%20Across%20Groups',ObjectId='All',ObjectType='All',GroupId=0)\",\"type\":\"com.sap.banking.entitlements.endpoint.v1_0.beans.Entitlement\"},\"OperationName\":\"View Transactions Across Groups\",\"ObjectId\":\"All\",\"ObjectType\":\"All\",\"GroupId\":0,\"Entitled\":true,\"RequiresApproval\":null,\"Category\":null,\"Limits\":{\"results\":[]},\"Properties\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"uri\":\"https://10.97.188.237:8081/cb/odata/services/businessuserprofileservice/EntitlementProperties('display%20name')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.KeyValue\"},\"Key\":\"display name\",\"Value\":\"View Transactions Across Groups\"}]},\"Childrens\":{\"results\":[]}}]}}",
+          "cookie": [],
+          "responseTime": 335,
+          "responseSize": 6116,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "fbc24764-c120-4949-a4df-752ae739b476",
+        "assertions": [
+          {
+            "assertion": "Feature Account Balance entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Account Balance"
+          },
+          {
+            "assertion": "Feature CheckImaging entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Check Imaging"
+          },
+          {
+            "assertion": "Feature Consolidated Balance entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Consolidated Balance"
+          },
+          {
+            "assertion": "Feature History entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Account History"
+          },
+          {
+            "assertion": "Feature Transaction Search entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =Transaction Search"
+          },
+          {
+            "assertion": "Feature View Transactions Across Groups entitled true"
+          },
+          {
+            "assertion": "Feature 101 has display name =View Transactions Across Groups"
+          },
+          {
+            "assertion": "check entitlements with limit on channel for Account Management"
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 33735
+    },
+    "failures": [],
+    "error": null
+  }
+}

@@ -1,0 +1,2767 @@
+{
+	"variables": [],
+	"info": {
+		"name": "getCorporateFeatures",
+		"_postman_id": "5cb72363-99fb-2603-f821-1cb8eefd9d30",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login to CB as primaryadmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\npostman.setEnvironmentVariable(\"Id\",1102);\npostman.setEnvironmentVariable(\"service\",\"cb/odata/services/businessuserprofileservice/\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"primaryadmin\",\r\n\r\n               \"AppType\": \"Business\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n}"
+				},
+				"description": "1. BusinessLogin"
+			},
+			"response": []
+		},
+		{
+			"name": "{{env}}{{service}}(ProfileId='{{Id}}',FeatureId='4')/Feature/Entitlements?$expand=Properties,Childrens",
+			"request": {
+				"url": "{{env}}/{{service}}BusinessUserProfiles('{{Id}}')/ProfileFeatures",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "1 Account Management",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"1\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='1')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "44 Transfer with limits",
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='44')/Feature/Entitlements?$filter=OperationName eq 'Transfers'&$expand=Limits",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "44 Transfer Limits on all",
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='44')/Feature/Entitlements?$expand=Limits",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "2 File Upload",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"2\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='2')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "3 ACH Batch Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"3\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='3')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "4 ACH Batch Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"4\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='4')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "5 ACH Batch Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"5\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='5')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "6 Approvals Workflow",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"6\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='6')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "7 ARC ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"7\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='7')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "8 ARC ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"8\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='8')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "10 Reporting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"10\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='10')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "11 Bank Reporting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"11\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='11')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "12 BOC ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"12\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='12')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "13 BOC ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"13\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='13')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "15 Administration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"15\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='15')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "17 Cash Management",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"17\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='17')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "16 Cash Concentration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"16\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='16')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "19 CCD Addenda ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"19\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='19')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "21 Child Support Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"21\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='21')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "18 CCD Addenda ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"18\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='18')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "20 CCD Addenda ACH Payment Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"20\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='20')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "23 Child Support Payment Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"23\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='23')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "22 Child Support Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"22\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='22')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "25 Tax Payment Third Party",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"25\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='25')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "24 CCD Addenda Healthcare",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"24\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='24')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "27 Tax Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"27\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='27')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "26 Tax Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"26\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='26')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "29 Others",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"29\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='29')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "28 Tax Payment Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"28\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='28')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "31 CIE Addenda ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"31\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='31')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "30 CIE Addenda ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"30\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='30')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "34 CTX Addenda ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"34\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='34')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "35 CTX Addenda ACH Payment Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"35\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='35')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "33 CTX Addenda ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"33\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='33')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "39 IAT Addenda ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"39\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='39')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "36 Manage ACH Participants",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"36\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='36')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "42 Information Reporting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"42\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='42')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "43 Payments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"43\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='43')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "40 IAT Addenda ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"40\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='40')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "41 IAT Addenda ACH Payment Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"41\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='41')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "46 Overall-ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"46\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='46')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "47 Overall-ACH Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"47\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='47')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "44 Transfers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"44\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='44')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "45 Overall-ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"45\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='45')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "50 POP ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"50\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='50')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "49 POP ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"49\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='49')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "55 RCK-ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"55\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='55')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "54 PPD Addenda ACH Payment Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"54\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='54')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "53 PPD Addenda ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"53\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='53')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "52 PPD Addenda ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"52\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='52')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "59 TEL-ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"59\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='59')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "58 TEL-ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"58\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='58')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "56 RCK-ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"56\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='56')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "63 WEB Addenda ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"63\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='63')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "62 WEB Addenda ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"62\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='62')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "64 WEB Addenda ACH Payment Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"64\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='64')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "65 Wires",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"65\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='65')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "76 XCK-ACH Payment Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"76\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='76')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "77 XCK-ACH Payment Template",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"77\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='77')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "78 Stops",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"78\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='78')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "75 XCK-ACH Payment Approval",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"75\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='75')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "79 Location Management",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"79\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='79')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "85 IAT-International ACH Transaction with Addenda",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"85\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='85')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "84 BOC-Back Office Conversion Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"84\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='84')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "87 Tax Payments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"87\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='87')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "86 CCD-Cash Concentration and Disbursement with Addenda",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"86\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='86')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "83 ARC-Accounts Receivable Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"83\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='83')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "82 ACH Payments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"82\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='82')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "93 Point of Purchase Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"93\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='93')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "92 Prearranged Payment and Deposit with Addenda",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"92\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='92')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "95 Telephone Initiated Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"95\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='95')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "94 Re-presented Check Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"94\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='94')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "89 CTX-Corporate Trade Exchange",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"89\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='89')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "88 CIE-Customer Initiated Entries with Addenda",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"88\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='88')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "91 WEB-Internet Initiated Entry with Addenda",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"91\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='91')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "90 XCK-Destroyed Check Entry",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"90\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='90')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "98 Cash Con-Disbursement Request Administration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"98\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='98')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "99 Cash Con-Deposit Entry Administration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"99\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='99')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "96 Child Support Payments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"96\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='96')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "97 Overall-ACH",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\n\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Feature verified\"] = jsonData.d.Id === \"97\";\ntests[\"Feature entitled false\"] = jsonData.d.Entitled === true;\n\nvar res = jsonData.d.Entitlements.results;\ntests[\"entitlements not empty\"] = res.length>0;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/{{service}}ProfileFeatures(ProfileId='{{Id}}',FeatureId='97')/Feature?$expand=Entitlements, ParentEntitlements ",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

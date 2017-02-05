@@ -1,0 +1,3 @@
+pack,dep,itr,data,application
+BusinessBanking\Features\BusinessProfileFeatures.json,BusinessBanking\Features\CBFeaturePreReq.json,71,featureData1.csv,CB
+BusinessBanking\Profiles\BusinessUserProfileCRUD.json,,1,,BC

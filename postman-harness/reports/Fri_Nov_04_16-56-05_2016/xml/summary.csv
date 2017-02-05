@@ -1,0 +1,4 @@
+Suit,Requests,Assertions,FailCount,ErrorCount,FailMap
+BusinessUserProfile_Harness,18,20,0,0,
+ProfileAssignmentsBusiness,19,19,2,0,#modify business user$status code is 204 : No Content#Get Business Users with profile copy$User profile id verified
+Business Profile Features With Limit,13,3039,0,0,

@@ -1,0 +1,3789 @@
+{
+  "collection": {
+    "info": {
+      "id": "25a10306-335d-52cb-3868-9f67e2267350",
+      "name": "RetailUserProfileCRUD",
+      "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+    },
+    "event": [],
+    "variable": [],
+    "item": [
+      {
+        "description": {
+          "content": "",
+          "type": "text/plain"
+        },
+        "id": "79d3ff77-2798-4b44-8e82-bcae5bb6c8a8",
+        "name": "RetailProfile",
+        "item": [
+          {
+            "id": "314878d0-db94-40b8-a631-a4c5b97b9b2c",
+            "name": "Login to BC as admin",
+            "request": {
+              "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+              },
+              "description": {
+                "content": "1. BankLogin",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                    ""
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "90c09bf9-4f8b-40cd-865c-31b7dbe68a6d",
+            "name": "Add RetailUser Profile",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\r\n\t\t\"ProfileName\": \"Testing Profiles {{$randomInt}}\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+              },
+              "description": {
+                "content": "Add profile test",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "postman.setEnvironmentVariable(\"Id\", jsonData.d.Id);",
+                    "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "d868d86c-81a7-4bbd-8659-8e51fbe09eab",
+            "name": "delete Retail profile 1",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+              "method": "DELETE",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "Delete previously created profile",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "029c15cd-2290-4e94-a2fc-82dd47e9dc79",
+            "name": "Add RetailUserProfile to test Duplicate profile",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\r\n\t\t\"ProfileName\": \"Testing Duplicate Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+              },
+              "description": {
+                "content": "3.1> Add profile to test Duplicate",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "postman.setEnvironmentVariable(\"Id\", jsonData.d.Id);",
+                    "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "d8a8e641-d327-4524-81ee-51222fe3ab4f",
+            "name": "Add RetailUserProfile Duplicate profile",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\r\n\t\t\"ProfileName\": \"Testing Duplicate Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n\r\n"
+              },
+              "description": {
+                "content": "3.2> Add profile to test Duplicate",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "d78cdb01-6def-4047-bad1-2a930b1dfdb3",
+            "name": "delete Retail profile 2",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+              "method": "DELETE",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "Delete previously created profile",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "6d515494-ccae-43c6-85ac-6a30507be42f",
+            "name": "Add Business Profile Invalid Channel",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\r\n\t\t\"ProfileName\": \"Testing InvalidChannel Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"InvalidMobile\"\r\n\t\t\t\t\t}]\r\n\t}"
+              },
+              "description": {
+                "content": "Add profile test with Invalid Channel",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "1c48e4ef-09cc-40cb-a7b0-1a0e1a78b92e",
+            "name": "Add Retail Profile Duplicate Channel",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\r\n\t\t\"ProfileName\": \"Testing DuplicateChannel Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}"
+              },
+              "description": {
+                "content": "Add profile test with Duplicate Channel",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                    "tests[\"Error Message : Duplicate channel in profile.\"] = responseBody.has(\"Duplicate channel in profile.\");"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "728b890f-ca5b-4a4a-94a6-41fd96c49dc7",
+            "name": "Add Retail Profile With Special Character",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\r\n\t\t\"ProfileName\": \"Te$ting $pecialChar Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+              },
+              "description": {
+                "content": "Add profile test special character",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                    "tests[\"Error Message : Name is 3-200 characters and can include numbers, letters, spaces, periods, and underscores.\"] = responseBody.has(\"Name is 3-200 characters and can include numbers, letters, spaces, periods, and underscores.\");"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "14cac99b-fd91-4d28-9981-bfa9b7d2266a",
+            "name": "Add Retail Profile With Not allowed parentEntId",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{    \r\n        \"ProfileName\": \"Not allowed parentEntId\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+              },
+              "description": {
+                "content": "Add profile test Not allowed parentEntId",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                    "tests[\"Error Message : Invalid Parent Group for Profile\"] = responseBody.has(\"Invalid Parent Group for Profile\");"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "fce56244-dfae-47d2-8971-10019ed66dea",
+            "name": "Add RetailProfile With Invalid parentEntId",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{    \r\n        \"ProfileName\": \"Invalid parentEntId\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 9999 ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+              },
+              "description": {
+                "content": "Add profile test Invalid parentEntId",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                    "tests[\"Error Message : Invalid Profile\"] = responseBody.has(\"Invalid Profile\");"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "44ec51e5-97de-4b26-ba51-2c7e0086af27",
+            "name": "Add Retail Profile With No Channel",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{    \r\n        \"ProfileName\": \"No channel\",    \r\n        \"Description\": \"This is test for No channel\",    \r\n        \"ParentEntGroupId\": 49 ,  \r\n        \"ChannelProfiles\": [    \r\n             \r\n        ]    \r\n}\r\n\r\n"
+              },
+              "description": {
+                "content": "Add profile test No Channel",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                    "tests[\"Error Message : Please select atleast one channel.\"] = responseBody.has(\"Please select atleast one channel.\");"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "a41275d1-76ac-4309-b352-3a9a7d4974b5",
+            "name": "Add Retail Profile for get by Id",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+              "method": "POST",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{    \r\n        \"ProfileName\": \"Test for get by Id postman_harness\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 49  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            },\r\n            {    \r\n                \"Channel\": \"Web\"\r\n            }\r\n        ]    \r\n}\r\n\r\n"
+              },
+              "description": {
+                "content": "Add profile test",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "postman.setEnvironmentVariable(\"Id\", jsonData.d.Id);",
+                    "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "cd560d61-4345-421a-a0c0-79228729a9ac",
+            "name": "get profile by Id",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+              "method": "GET",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "Get Business User Profile by ID",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "tests[\"status code is 200 : OK\"] = responseCode.code === 200;",
+                    "tests[\"Profile Id verified : \"+jsonData.d.Id] = jsonData.d.Id === environment['Id'];"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "da0b0a6f-0e4d-4d85-a15c-d260f19f0d77",
+            "name": "Modify Retail user profile",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+              "method": "PUT",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{    \r\n        \"ProfileName\": \"Test modified\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 49  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Web\"\r\n            },\r\n            {    \r\n                \"Channel\": \"Sms\"\r\n            } \r\n        ]    \r\n}\r\n\r\n"
+              },
+              "description": {
+                "content": "Modify profile",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "7413422c-5473-4de3-ab8a-35ea2044cfd8",
+            "name": "get profile by Id Verify modification",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+              "method": "GET",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "Get Business User Profile by ID",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = JSON.parse(responseBody);",
+                    "tests[\"Body has Sms Channel\"] = responseBody.has(\"Sms\");",
+                    "tests[\"Body has No Mobile Channel\"] = !(responseBody.has(\"Mobile\"));",
+                    "tests[\"status code is 200 : OK\"] = responseCode.code === 200;",
+                    "tests[\"Profile Id verified : \"+jsonData.d.Id] = jsonData.d.Id === environment['Id'];"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "54788349-c00f-49aa-9288-55b5c4bc750b",
+            "name": "delete profile3",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+              "method": "DELETE",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "Delete previously created profile",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "id": "e35ec04c-8e36-4710-a10c-71ead1d47e9b",
+            "name": "get profile by Id Verify Delete",
+            "request": {
+              "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+              "method": "GET",
+              "header": [
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Accept",
+                  "value": "application/json"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "formdata",
+                "formdata": []
+              },
+              "description": {
+                "content": "Get Business User Profile by ID",
+                "type": "text/plain"
+              }
+            },
+            "response": [],
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                    "tests[\"Error Message : Invalid Profile Id\"] = responseBody.has(\"Invalid Profile Id\");"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "event": []
+      }
+    ]
+  },
+  "environment": {
+    "id": "a481bb2c-55f3-60ae-abea-cb58e17b0cc5",
+    "name": "RetailBanking",
+    "values": [
+      {
+        "type": "any",
+        "value": "https://10.97.188.237:8081",
+        "key": "env"
+      },
+      {
+        "type": "any",
+        "value": "2028",
+        "key": "Id"
+      }
+    ]
+  },
+  "globals": {
+    "id": "7d491d27-30f3-46c0-89a5-58e9995dd6e5",
+    "values": []
+  },
+  "run": {
+    "stats": {
+      "iterations": {
+        "total": 1,
+        "pending": 0,
+        "failed": 0
+      },
+      "items": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "scripts": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequests": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "requests": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "tests": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "assertions": {
+        "total": 28,
+        "pending": 0,
+        "failed": 0
+      },
+      "testScripts": {
+        "total": 18,
+        "pending": 0,
+        "failed": 0
+      },
+      "prerequestScripts": {
+        "total": 0,
+        "pending": 0,
+        "failed": 0
+      }
+    },
+    "timings": {
+      "responseAverage": 753.1666666666666,
+      "started": 1478255846600,
+      "completed": 1478255863397
+    },
+    "executions": [
+      {
+        "cursor": {
+          "position": 0,
+          "iteration": 0,
+          "length": 18,
+          "cycles": 1,
+          "empty": false,
+          "eof": false,
+          "bof": true,
+          "cr": false,
+          "ref": "e1fcc7fc-9521-4fa2-b126-40eace0b4466"
+        },
+        "item": {
+          "id": "314878d0-db94-40b8-a631-a4c5b97b9b2c",
+          "name": "Login to BC as admin",
+          "request": {
+            "url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+            },
+            "description": {
+              "content": "1. BankLogin",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 66
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+          },
+          "description": {
+            "content": "1. BankLogin",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "",
+              "value": ""
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:07:55 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')"
+            },
+            {
+              "key": "TokenKey",
+              "value": "RkZJSEFTSDI0QVNuWDEvWnduQjUzZ0FnRzFSS1E3T1VOdFl1dWV0REwyZ2wzOVpXYWs9"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "3154569617882713870"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1226"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')\",\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.SecureUser\"},\"AffiliateID\":\"0\",\"AppType\":null,\"BankID\":\"1000\",\"BaseCurrency\":null,\"BusinessCIF\":null,\"BusinessCustId\":null,\"BusinessID\":0,\"BusinessName\":null,\"ChannelType\":null,\"CurrentMfaType\":null,\"EntitlementID\":4,\"Id\":\"BankEmp1\",\"NeedToAcceptTerms\":false,\"CarrierTermsAccepted\":false,\"Password\":\"\",\"UserProfileID\":null,\"ProfileID\":1,\"SmallBusinessUser\":false,\"UserLocale\":{\"__metadata\":{\"type\":\"com.sap.banking.common.endpoint.v1_0.beans.UserLocale\"},\"Country\":\"US\",\"DateFormat\":\"MM/dd/yyyy\",\"DateFormatName\":\"MM/dd/yyyy\",\"DateTimeFormat\":\"MM/dd/yyyy HH:mm\",\"DateTimeFormatName\":\"MM/dd/yyyy HH:mm\",\"Language\":\"en\",\"Locale\":\"en_US\",\"LocaleName\":\"en-US\",\"TimeFormat\":\"HH:mm\",\"TimeFormatName\":\"HH:mm\",\"ZoneFormat\":null,\"ZoneFormatName\":null},\"UserName\":\"admin\",\"UserType\":2,\"BPWFIID\":null,\"DeviceId\":null,\"MacId\":null,\"MultifactorInfo\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/ns/authenticationservice/BankEmployees('BankEmp1')/MultifactorInfo\"}}}}",
+          "cookie": [],
+          "responseTime": 988,
+          "responseSize": 1226,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "314878d0-db94-40b8-a631-a4c5b97b9b2c",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "10dfc92d-5340-48b8-9020-67dd1d5aa257",
+          "length": 18,
+          "cycles": 1,
+          "position": 1,
+          "iteration": 0
+        },
+        "item": {
+          "id": "90c09bf9-4f8b-40cd-865c-31b7dbe68a6d",
+          "name": "Add RetailUser Profile",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\t\"ProfileName\": \"Testing Profiles {{$randomInt}}\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+            },
+            "description": {
+              "content": "Add profile test",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "postman.setEnvironmentVariable(\"Id\", jsonData.d.Id);",
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 229
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Testing Profiles 429\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+          },
+          "description": {
+            "content": "Add profile test",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:00 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2022')"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "3154569617882713870"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "832"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2022')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2022')\",\"type\":\"com.sap.banking.retailuserprofile.endpoint.v1_0.beans.RetailUserProfile\"},\"Id\":\"2022\",\"ProfileName\":\"Testing Profiles 429\",\"Description\":\"This is test to add retail profile\",\"ProfileType\":7,\"ParentEntGroupId\":49,\"ParentGroupName\":null,\"CanSubscribe\":false,\"Status\":null,\"Id\":\"2022\",\"ChannelProfiles\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2022')/ChannelProfiles\"}},\"ProfileFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2022')/ProfileFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 3454,
+          "responseSize": 832,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "90c09bf9-4f8b-40cd-865c-31b7dbe68a6d",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "41de339f-965a-4ba7-92ab-e08641f9405e",
+          "length": 18,
+          "cycles": 1,
+          "position": 2,
+          "iteration": 0
+        },
+        "item": {
+          "id": "d868d86c-81a7-4bbd-8659-8e51fbe09eab",
+          "name": "delete Retail profile 1",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+            "method": "DELETE",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "Delete previously created profile",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2022')",
+          "method": "DELETE",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": ""
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "Delete previously created profile",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:01 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "3154569617882713870"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 576,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "d868d86c-81a7-4bbd-8659-8e51fbe09eab",
+        "assertions": [
+          {
+            "assertion": "status code is 204 : No Content"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "c725c6b3-dad9-4f2a-94b6-dbafc5101c0f",
+          "length": 18,
+          "cycles": 1,
+          "position": 3,
+          "iteration": 0
+        },
+        "item": {
+          "id": "029c15cd-2290-4e94-a2fc-82dd47e9dc79",
+          "name": "Add RetailUserProfile to test Duplicate profile",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\t\"ProfileName\": \"Testing Duplicate Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+            },
+            "description": {
+              "content": "3.1> Add profile to test Duplicate",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "postman.setEnvironmentVariable(\"Id\", jsonData.d.Id);",
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 243
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Testing Duplicate Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+          },
+          "description": {
+            "content": "3.1> Add profile to test Duplicate",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:01 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2025')"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "3154569617882713870"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "846"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2025')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2025')\",\"type\":\"com.sap.banking.retailuserprofile.endpoint.v1_0.beans.RetailUserProfile\"},\"Id\":\"2025\",\"ProfileName\":\"Testing Duplicate Profiles Harness\",\"Description\":\"This is test to add retail profile\",\"ProfileType\":7,\"ParentEntGroupId\":49,\"ParentGroupName\":null,\"CanSubscribe\":false,\"Status\":null,\"Id\":\"2025\",\"ChannelProfiles\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2025')/ChannelProfiles\"}},\"ProfileFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2025')/ProfileFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 315,
+          "responseSize": 846,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "029c15cd-2290-4e94-a2fc-82dd47e9dc79",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "1a6c2559-f877-4891-81c6-efd50a4dcac1",
+          "length": 18,
+          "cycles": 1,
+          "position": 4,
+          "iteration": 0
+        },
+        "item": {
+          "id": "d8a8e641-d327-4524-81ee-51222fe3ab4f",
+          "name": "Add RetailUserProfile Duplicate profile",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\t\"ProfileName\": \"Testing Duplicate Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n\r\n"
+            },
+            "description": {
+              "content": "3.2> Add profile to test Duplicate",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 245
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Testing Duplicate Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n\r\n"
+          },
+          "description": {
+            "content": "3.2> Add profile to test Duplicate",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:02 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "238"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"VE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error-2_descr\\\",\\\"errorCode\\\":-2,\\\"errorDetails\\\":[{\\\"Desc\\\":\\\"Duplicate profile name.\\\",\\\"FieldName\\\":\\\"userName\\\",\\\"Key\\\":\\\"Duplicate.EntitlementProfile.Name\\\"}]}\"}}}",
+          "cookie": [],
+          "responseTime": 511,
+          "responseSize": 238,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "d8a8e641-d327-4524-81ee-51222fe3ab4f",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "1072861a-2109-4a42-ab44-cb6962eb4a44",
+          "length": 18,
+          "cycles": 1,
+          "position": 5,
+          "iteration": 0
+        },
+        "item": {
+          "id": "d78cdb01-6def-4047-bad1-2a930b1dfdb3",
+          "name": "delete Retail profile 2",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+            "method": "DELETE",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "Delete previously created profile",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2025')",
+          "method": "DELETE",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": ""
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "Delete previously created profile",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:03 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "3154569617882713870"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 857,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "d78cdb01-6def-4047-bad1-2a930b1dfdb3",
+        "assertions": [
+          {
+            "assertion": "status code is 204 : No Content"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "2299a78a-3c62-47b8-bd29-938efc413d9a",
+          "length": 18,
+          "cycles": 1,
+          "position": 6,
+          "iteration": 0
+        },
+        "item": {
+          "id": "6d515494-ccae-43c6-85ac-6a30507be42f",
+          "name": "Add Business Profile Invalid Channel",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\t\"ProfileName\": \"Testing InvalidChannel Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"InvalidMobile\"\r\n\t\t\t\t\t}]\r\n\t}"
+            },
+            "description": {
+              "content": "Add profile test with Invalid Channel",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 244
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Testing InvalidChannel Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"InvalidMobile\"\r\n\t\t\t\t\t}]\r\n\t}"
+          },
+          "description": {
+            "content": "Add profile test with Invalid Channel",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:03 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "220"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"VE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error-2_descr\\\",\\\"errorCode\\\":-2,\\\"errorDetails\\\":[{\\\"Desc\\\":\\\"Channel selected in invalid.\\\",\\\"FieldName\\\":\\\"channelId\\\",\\\"Key\\\":\\\"channelId\\\"}]}\"}}}",
+          "cookie": [],
+          "responseTime": 406,
+          "responseSize": 220,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "6d515494-ccae-43c6-85ac-6a30507be42f",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "c67fe6b3-f08c-4bee-8268-7c0ee8697115",
+          "length": 18,
+          "cycles": 1,
+          "position": 7,
+          "iteration": 0
+        },
+        "item": {
+          "id": "1c48e4ef-09cc-40cb-a7b0-1a0e1a78b92e",
+          "name": "Add Retail Profile Duplicate Channel",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\t\"ProfileName\": \"Testing DuplicateChannel Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}"
+            },
+            "description": {
+              "content": "Add profile test with Duplicate Channel",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                  "tests[\"Error Message : Duplicate channel in profile.\"] = responseBody.has(\"Duplicate channel in profile.\");"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 242
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Testing DuplicateChannel Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}"
+          },
+          "description": {
+            "content": "Add profile test with Duplicate Channel",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:04 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "225"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"VE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error-2_descr\\\",\\\"errorCode\\\":-2,\\\"errorDetails\\\":[{\\\"Desc\\\":\\\"Duplicate channel in profile.\\\",\\\"FieldName\\\":\\\"channelList\\\",\\\"Key\\\":\\\"channelList\\\"}]}\"}}}",
+          "cookie": [],
+          "responseTime": 791,
+          "responseSize": 225,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "1c48e4ef-09cc-40cb-a7b0-1a0e1a78b92e",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          },
+          {
+            "assertion": "Error Message : Duplicate channel in profile."
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "403bd832-3b9b-4d59-affb-7e372087dbfb",
+          "length": 18,
+          "cycles": 1,
+          "position": 8,
+          "iteration": 0
+        },
+        "item": {
+          "id": "728b890f-ca5b-4a4a-94a6-41fd96c49dc7",
+          "name": "Add Retail Profile With Special Character",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\t\"ProfileName\": \"Te$ting $pecialChar Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+            },
+            "description": {
+              "content": "Add profile test special character",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                  "tests[\"Error Message : Name is 3-200 characters and can include numbers, letters, spaces, periods, and underscores.\"] = responseBody.has(\"Name is 3-200 characters and can include numbers, letters, spaces, periods, and underscores.\");"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 245
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\r\n\t\t\"ProfileName\": \"Te$ting $pecialChar Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+          },
+          "description": {
+            "content": "Add profile test special character",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:05 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "316"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"VE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error-2_descr\\\",\\\"errorCode\\\":-2,\\\"errorDetails\\\":[{\\\"Desc\\\":\\\"Name is 3-200 characters and can include numbers, letters, spaces, periods, and underscores.\\\",\\\"FieldName\\\":\\\"profileName\\\",\\\"Key\\\":\\\"Invalid.BusinessUserProfile.ProfileName\\\"}]}\"}}}",
+          "cookie": [],
+          "responseTime": 1119,
+          "responseSize": 316,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "728b890f-ca5b-4a4a-94a6-41fd96c49dc7",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          },
+          {
+            "assertion": "Error Message : Name is 3-200 characters and can include numbers, letters, spaces, periods, and underscores."
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "54e8e8f1-059b-4647-bc65-7fe0a51e01e3",
+          "length": 18,
+          "cycles": 1,
+          "position": 9,
+          "iteration": 0
+        },
+        "item": {
+          "id": "14cac99b-fd91-4d28-9981-bfa9b7d2266a",
+          "name": "Add Retail Profile With Not allowed parentEntId",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n        \"ProfileName\": \"Not allowed parentEntId\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "Add profile test Not allowed parentEntId",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                  "tests[\"Error Message : Invalid Parent Group for Profile\"] = responseBody.has(\"Invalid Parent Group for Profile\");"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 281
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n        \"ProfileName\": \"Not allowed parentEntId\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "Add profile test Not allowed parentEntId",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:06 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "274"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"VE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error-2_descr\\\",\\\"errorCode\\\":-2,\\\"errorDetails\\\":[{\\\"Desc\\\":\\\"Invalid Parent Group for Profile\\\",\\\"FieldName\\\":\\\"RetailUserProfile.invalid.parentId\\\",\\\"Key\\\":\\\"RetailUserProfile.invalid.parentId\\\"}]}\"}}}",
+          "cookie": [],
+          "responseTime": 710,
+          "responseSize": 274,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "14cac99b-fd91-4d28-9981-bfa9b7d2266a",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          },
+          {
+            "assertion": "Error Message : Invalid Parent Group for Profile"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "1a712b53-fc39-4d01-adac-f8bc9bc6542f",
+          "length": 18,
+          "cycles": 1,
+          "position": 10,
+          "iteration": 0
+        },
+        "item": {
+          "id": "fce56244-dfae-47d2-8971-10019ed66dea",
+          "name": "Add RetailProfile With Invalid parentEntId",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n        \"ProfileName\": \"Invalid parentEntId\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 9999 ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "Add profile test Invalid parentEntId",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                  "tests[\"Error Message : Invalid Profile\"] = responseBody.has(\"Invalid Profile\");"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 276
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n        \"ProfileName\": \"Invalid parentEntId\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 9999 ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "Add profile test Invalid parentEntId",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:07 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "239"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"VE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error-2_descr\\\",\\\"errorCode\\\":-2,\\\"errorDetails\\\":[{\\\"Desc\\\":\\\"Invalid Profile\\\",\\\"FieldName\\\":\\\"RetailUserProfile.invalid\\\",\\\"Key\\\":\\\"RetailUserProfile.invalid\\\"}]}\"}}}",
+          "cookie": [],
+          "responseTime": 815,
+          "responseSize": 239,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "fce56244-dfae-47d2-8971-10019ed66dea",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          },
+          {
+            "assertion": "Error Message : Invalid Profile"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "f7ada46d-e587-4165-9eb1-30352e37e66c",
+          "length": 18,
+          "cycles": 1,
+          "position": 11,
+          "iteration": 0
+        },
+        "item": {
+          "id": "44ec51e5-97de-4b26-ba51-2c7e0086af27",
+          "name": "Add Retail Profile With No Channel",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n        \"ProfileName\": \"No channel\",    \r\n        \"Description\": \"This is test for No channel\",    \r\n        \"ParentEntGroupId\": 49 ,  \r\n        \"ChannelProfiles\": [    \r\n             \r\n        ]    \r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "Add profile test No Channel",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                  "tests[\"Error Message : Please select atleast one channel.\"] = responseBody.has(\"Please select atleast one channel.\");"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 213
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n        \"ProfileName\": \"No channel\",    \r\n        \"Description\": \"This is test for No channel\",    \r\n        \"ParentEntGroupId\": 49 ,  \r\n        \"ChannelProfiles\": [    \r\n             \r\n        ]    \r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "Add profile test No Channel",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:08 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "230"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"VE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error-2_descr\\\",\\\"errorCode\\\":-2,\\\"errorDetails\\\":[{\\\"Desc\\\":\\\"Please select atleast one channel.\\\",\\\"FieldName\\\":\\\"channelList\\\",\\\"Key\\\":\\\"channelList\\\"}]}\"}}}",
+          "cookie": [],
+          "responseTime": 699,
+          "responseSize": 230,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "44ec51e5-97de-4b26-ba51-2c7e0086af27",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          },
+          {
+            "assertion": "Error Message : Please select atleast one channel."
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "c21f9298-e169-4be5-8129-7ee82251b321",
+          "length": 18,
+          "cycles": 1,
+          "position": 12,
+          "iteration": 0
+        },
+        "item": {
+          "id": "a41275d1-76ac-4309-b352-3a9a7d4974b5",
+          "name": "Add Retail Profile for get by Id",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+            "method": "POST",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n        \"ProfileName\": \"Test for get by Id postman_harness\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 49  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            },\r\n            {    \r\n                \"Channel\": \"Web\"\r\n            }\r\n        ]    \r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "Add profile test",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "postman.setEnvironmentVariable(\"Id\", jsonData.d.Id);",
+                  "tests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+          "method": "POST",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 356
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n        \"ProfileName\": \"Test for get by Id postman_harness\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 49  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            },\r\n            {    \r\n                \"Channel\": \"Web\"\r\n            }\r\n        ]    \r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "Add profile test",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:09 GMT"
+            },
+            {
+              "key": "Location",
+              "value": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "3154569617882713870"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "832"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')\",\"type\":\"com.sap.banking.retailuserprofile.endpoint.v1_0.beans.RetailUserProfile\"},\"Id\":\"2028\",\"ProfileName\":\"Test for get by Id postman_harness\",\"Description\":\"This is test for add\",\"ProfileType\":7,\"ParentEntGroupId\":49,\"ParentGroupName\":null,\"CanSubscribe\":false,\"Status\":null,\"Id\":\"2028\",\"ChannelProfiles\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')/ChannelProfiles\"}},\"ProfileFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')/ProfileFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 669,
+          "responseSize": 832,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "a41275d1-76ac-4309-b352-3a9a7d4974b5",
+        "assertions": [
+          {
+            "assertion": "status code is 201 : Created"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "0071dbfd-ffb0-4abc-bfc4-db358362f712",
+          "length": 18,
+          "cycles": 1,
+          "position": 13,
+          "iteration": 0
+        },
+        "item": {
+          "id": "cd560d61-4345-421a-a0c0-79228729a9ac",
+          "name": "get profile by Id",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "Get Business User Profile by ID",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "tests[\"status code is 200 : OK\"] = responseCode.code === 200;",
+                  "tests[\"Profile Id verified : \"+jsonData.d.Id] = jsonData.d.Id === environment['Id'];"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "Get Business User Profile by ID",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:09 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "3154569617882713870"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "832"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')\",\"type\":\"com.sap.banking.retailuserprofile.endpoint.v1_0.beans.RetailUserProfile\"},\"Id\":\"2028\",\"ProfileName\":\"Test for get by Id postman_harness\",\"Description\":\"This is test for add\",\"ProfileType\":7,\"ParentEntGroupId\":49,\"ParentGroupName\":null,\"CanSubscribe\":false,\"Status\":null,\"Id\":\"2028\",\"ChannelProfiles\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')/ChannelProfiles\"}},\"ProfileFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')/ProfileFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 238,
+          "responseSize": 832,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "cd560d61-4345-421a-a0c0-79228729a9ac",
+        "assertions": [
+          {
+            "assertion": "status code is 200 : OK"
+          },
+          {
+            "assertion": "Profile Id verified : 2028"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "e01961b4-6ace-44c4-9818-027b341737e4",
+          "length": 18,
+          "cycles": 1,
+          "position": 14,
+          "iteration": 0
+        },
+        "item": {
+          "id": "da0b0a6f-0e4d-4d85-a15c-d260f19f0d77",
+          "name": "Modify Retail user profile",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+            "method": "PUT",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{    \r\n        \"ProfileName\": \"Test modified\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 49  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Web\"\r\n            },\r\n            {    \r\n                \"Channel\": \"Sms\"\r\n            } \r\n        ]    \r\n}\r\n\r\n"
+            },
+            "description": {
+              "content": "Modify profile",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')",
+          "method": "PUT",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": 333
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{    \r\n        \"ProfileName\": \"Test modified\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 49  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Web\"\r\n            },\r\n            {    \r\n                \"Channel\": \"Sms\"\r\n            } \r\n        ]    \r\n}\r\n\r\n"
+          },
+          "description": {
+            "content": "Modify profile",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:10 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "3154569617882713870"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 344,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "da0b0a6f-0e4d-4d85-a15c-d260f19f0d77",
+        "assertions": [
+          {
+            "assertion": "status code is 204 : No Content"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "5e94488a-1f6f-49b1-9c21-7f445c276ea5",
+          "length": 18,
+          "cycles": 1,
+          "position": 15,
+          "iteration": 0
+        },
+        "item": {
+          "id": "7413422c-5473-4de3-ab8a-35ea2044cfd8",
+          "name": "get profile by Id Verify modification",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "Get Business User Profile by ID",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "tests[\"Body has Sms Channel\"] = responseBody.has(\"Sms\");",
+                  "tests[\"Body has No Mobile Channel\"] = !(responseBody.has(\"Mobile\"));",
+                  "tests[\"status code is 200 : OK\"] = responseCode.code === 200;",
+                  "tests[\"Profile Id verified : \"+jsonData.d.Id] = jsonData.d.Id === environment['Id'];"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')?$expand=ChannelProfiles",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "Get Business User Profile by ID",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:10 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "3154569617882713870"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1625"
+            }
+          ],
+          "body": "{\"d\":{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')\",\"type\":\"com.sap.banking.retailuserprofile.endpoint.v1_0.beans.RetailUserProfile\"},\"Id\":\"2028\",\"ProfileName\":\"Test modified\",\"Description\":\"This is test for add\",\"ProfileType\":7,\"ParentEntGroupId\":49,\"ParentGroupName\":null,\"CanSubscribe\":false,\"Status\":null,\"Id\":\"2028\",\"ChannelProfiles\":{\"results\":[{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2030')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2030')\",\"type\":\"com.sap.banking.profile.endpoint.v1_0.beans.ChannelProfile\"},\"Id\":\"2030\",\"Channel\":\"Web\",\"ChannelFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2030')/ChannelFeatures\"}}},{\"__metadata\":{\"id\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2031')\",\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2031')\",\"type\":\"com.sap.banking.profile.endpoint.v1_0.beans.ChannelProfile\"},\"Id\":\"2031\",\"Channel\":\"Sms\",\"ChannelFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/ChannelProfiles('2031')/ChannelFeatures\"}}}]},\"ProfileFeatures\":{\"__deferred\":{\"uri\":\"https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')/ProfileFeatures\"}}}}",
+          "cookie": [],
+          "responseTime": 265,
+          "responseSize": 1625,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "7413422c-5473-4de3-ab8a-35ea2044cfd8",
+        "assertions": [
+          {
+            "assertion": "Body has Sms Channel"
+          },
+          {
+            "assertion": "Body has No Mobile Channel"
+          },
+          {
+            "assertion": "status code is 200 : OK"
+          },
+          {
+            "assertion": "Profile Id verified : 2028"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "69050002-b8b1-4ecb-aa32-9c08bcb8b2b2",
+          "length": 18,
+          "cycles": 1,
+          "position": 16,
+          "iteration": 0
+        },
+        "item": {
+          "id": "54788349-c00f-49aa-9288-55b5c4bc750b",
+          "name": "delete profile3",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+            "method": "DELETE",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "Delete previously created profile",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')",
+          "method": "DELETE",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            },
+            {
+              "key": "content-length",
+              "value": ""
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "Delete previously created profile",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "No Content",
+          "code": 204,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "2.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:10 GMT"
+            },
+            {
+              "key": "x-csrf-token",
+              "value": "3154569617882713870"
+            }
+          ],
+          "body": "",
+          "cookie": [],
+          "responseTime": 441,
+          "responseSize": 0,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "54788349-c00f-49aa-9288-55b5c4bc750b",
+        "assertions": [
+          {
+            "assertion": "status code is 204 : No Content"
+          }
+        ]
+      },
+      {
+        "cursor": {
+          "ref": "66dd6180-0015-46ee-aadc-88be37d32741",
+          "length": 18,
+          "cycles": 1,
+          "position": 17,
+          "iteration": 0
+        },
+        "item": {
+          "id": "e35ec04c-8e36-4710-a10c-71ead1d47e9b",
+          "name": "get profile by Id Verify Delete",
+          "request": {
+            "url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+            "method": "GET",
+            "header": [
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "description": {
+                  "content": "",
+                  "type": "text/plain"
+                },
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "description": {
+              "content": "Get Business User Profile by ID",
+              "type": "text/plain"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;",
+                  "tests[\"Error Message : Invalid Profile Id\"] = responseBody.has(\"Invalid Profile Id\");"
+                ]
+              }
+            }
+          ]
+        },
+        "request": {
+          "url": "https://10.97.188.237:8081/bc/odata/services/retailuserprofileservice/RetailUserProfiles('2028')?$expand=ChannelProfiles",
+          "method": "GET",
+          "header": [
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Accept",
+              "value": "application/json"
+            },
+            {
+              "description": {
+                "content": "",
+                "type": "text/plain"
+              },
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "User-Agent",
+              "value": "PostmanRuntime/3.0.2"
+            },
+            {
+              "key": "Host",
+              "value": "10.97.188.237:8081"
+            },
+            {
+              "key": "cookie",
+              "value": "JSESSIONID=E1C6BE7DFF51079CA85AC169F413A18ED6CC6FB3B5F33FE7F0EECF5BC4118BEE"
+            },
+            {
+              "key": "accept-encoding",
+              "value": "gzip, deflate"
+            }
+          ],
+          "body": {
+            "mode": "formdata",
+            "formdata": []
+          },
+          "description": {
+            "content": "Get Business User Profile by ID",
+            "type": "text/plain"
+          }
+        },
+        "response": {
+          "status": "Bad Request",
+          "code": 400,
+          "header": [
+            {
+              "key": "Server",
+              "value": "Apache-Coyote/1.1"
+            },
+            {
+              "key": "DataServiceVersion",
+              "value": "1.0"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 04 Nov 2016 16:08:11 GMT"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Content-Length",
+              "value": "248"
+            },
+            {
+              "key": "Connection",
+              "value": "close"
+            }
+          ],
+          "body": "{\"error\":{\"code\":\"VE\",\"message\":{\"lang\":\"en\",\"value\":\"{\\\"errorKey\\\":\\\"Error-2_descr\\\",\\\"errorCode\\\":-2,\\\"errorDetails\\\":[{\\\"Desc\\\":\\\"Invalid Profile Id\\\",\\\"FieldName\\\":\\\"RetailUserProfile.invalid.id\\\",\\\"Key\\\":\\\"RetailUserProfile.invalid.id\\\"}]}\"}}}",
+          "cookie": [],
+          "responseTime": 359,
+          "responseSize": 248,
+          "update": {},
+          "reason": {},
+          "text": {},
+          "json": {},
+          "mime": {},
+          "dataURI": {},
+          "size": {},
+          "describe": {},
+          "toObjectResolved": {},
+          "toJSON": {},
+          "meta": {}
+        },
+        "id": "e35ec04c-8e36-4710-a10c-71ead1d47e9b",
+        "assertions": [
+          {
+            "assertion": "status code is 400 : Bad Request"
+          },
+          {
+            "assertion": "Error Message : Invalid Profile Id"
+          }
+        ]
+      }
+    ],
+    "transfers": {
+      "responseTotal": 8183
+    },
+    "failures": [],
+    "error": null
+  }
+}

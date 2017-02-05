@@ -1,0 +1,8 @@
+Suit,Requests,Assertions,FailCount,ErrorCount,FailMap
+Business Profile Features With Limit,13,73,0,0,
+BusinessUserProfile_Harness,18,18,3,2,#delete profile1$status code is 204 : No Content#get profile by Id Verify modification$Body has Sms Channel#get profile by Id Verify modification$Body has No Mobile Channel
+BusinessUserProfile_Harness,18,15,1,3,#delete profile1$status code is 204 : No Content
+ProfileAssignmentsBusiness,19,15,1,4,#modify business user$status code is 204 : No Content
+Business Profile Features With Limit,13,7,6,6,#Add Business Profile Feature without entitlements$Account Management added without entitlements.#delete feature$Account Management deleted.#Add Business Profile Features with entitlements (Valid Set)$Account Management added with entitlements entitled true.#Add Business Profile Features with entitlements (Valid Set) copy$Change entitlements to entitled false on channel for Account Management#Add Business Profile Features with entitlements with limits$set limits for Account Management#Add Business Profile Features with entitlements with limits on Channel$set limits on channel for Account Management
+BusinessUserProfile_Harness,18,17,0,1,
+preps,3,4,0,2,

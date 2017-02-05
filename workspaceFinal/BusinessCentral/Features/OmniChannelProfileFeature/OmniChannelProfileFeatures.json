@@ -1,0 +1,583 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Omni Channel Profile Features With Limit",
+		"_postman_id": "b5db30aa-b88f-fa37-f824-fb8deb8e39d1",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Retail Profile Feature Template",
+			"description": "",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Logged in with admin : Iteration = \"+environment['featureId']] = responseCode.code === 201;\npostman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));postman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));\npostman.setEnvironmentVariable(\"x-csrf-token\",postman.getResponseHeader('x-csrf-token'));"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setEnvironmentVariable('featureId',data['f_id']);"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get ProfileFeatures without assigning feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\r\nvar res = jsonData.d.results;\r\n\r\nvar postResponse ={};\r\npostResponse.ProfileId = \"{{Id}}\";\r\npostResponse.FeatureId = \"{{featureId}}\";\r\n\r\nvar jsonRequestBody = JSON.stringify(postResponse);\r\npostman.setEnvironmentVariable('reqPutOnlyFeature',jsonRequestBody);\r\npostman.setEnvironmentVariable('featureName',jsonData.d.Feature.FeatureName);\r\n\r\ntests[\"Feature \"+environment['featureId']+\" get without assigning\"] = responseCode.code === 200;\r\ntests[\"Feature not assigned for \"+environment['featureId']] = jsonData.d.Assigned === \"no\";\r\ntests[\"Profile Id verified :\"+environment['Id']+\" \"+environment['featureId']] = jsonData.d.ProfileId === environment['Id'];\r\ntests[\"Feature Id verified :\"+environment['featureId']] = jsonData.d.FeatureId === environment['featureId'];"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setEnvironmentVariable('featureId',data['f_id']);"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')?$expand=Feature",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Retail User Profile Feature without entitlements",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "//var jsonData = JSON.parse(responseBody);\n//postman.setEnvironmentVariable(\"featureId\", jsonData.d.FeatureId);\n\n//tests[\"status code is 201 : Created\"] = responseCode.code === 201;\n//tests[\"ProfileId and FeatureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === '601';\ntests[\"Feature : \"+environment['featureName']+\" added without entitlements\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{reqPutOnlyFeature}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get ProfileFeatures entitlements",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\r\nvar res = jsonData.d.results;\r\n\r\nvar postResponse ={};\r\npostResponse.ProfileId = \"{{Id}}\";\r\npostResponse.FeatureId = \"{{featureId}}\";\r\n\r\nvar postResponseChannel ={};\r\npostResponseChannel.ProfileId = \"{{ChannelId}}\";\r\npostResponseChannel.FeatureId = \"{{featureId}}\";\r\n\r\nvar entObj = {};\r\nvar featureObj = {};\r\nvar entObjChannel = {};\r\nvar featureObjChannel = {};\r\nvar entitlementsList = [];\r\nvar channelEntitlementsList = [];\r\n\r\nfor(var i=0;i<res.length;i++)\r\n{\r\n    var entitlement = {};\r\n    entitlement.OperationName = res[i].OperationName;//Parent Operation name tobe extracted\r\n    entitlement.Entitled = true;\r\n    entitlementsList.push(entitlement);\r\n\r\n    var channelEntitlement = {};\r\n    channelEntitlement.OperationName = res[i].OperationName;//Parent Operation name tobe extracted\r\n    channelEntitlement.Entitled = false;\r\n    channelEntitlementsList.push(channelEntitlement);\r\n \r\n    var propArr = res[i].Properties.results;\r\n    var childArr = res[i].Childrens.results;\r\n    \r\n    tests[\"Feature \"+res[i].OperationName+\" entitled false\"] = res[i].Entitled === false;\r\n    tests[\"Feature has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;\r\n   for(var j=0;j<childArr.length;j++)\r\n    {\r\n        var entitlement = {};\r\n        entitlement.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent\r\n        entitlement.Entitled = true;\r\n        entitlementsList.push(entitlement);\r\n        \r\n        var channelEntitlement = {};\r\n        channelEntitlement.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent\r\n        channelEntitlement.Entitled = false;\r\n        channelEntitlementsList.push(channelEntitlement);\r\n        \r\n        var childPropArr = childArr[j].Properties.results;\r\n        tests[\"Feature \"+childArr[j].OperationName+\" entitled false\"] = childArr[j].Entitled === false;\r\n        \r\n        //if(childPropArr.length>0)\r\n            tests[\"Child Feature has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;\r\n    }\r\n}\r\n\r\nentObj.Entitlements = entitlementsList; \r\n\r\npostResponse.Feature = entObj;\r\npostResponseChannel.Feature = entObjChannel;\r\n\r\nentObjChannel.Entitlements = channelEntitlementsList; \r\n\r\n\r\nvar jsonRequestBodyCross = JSON.stringify(postResponse);\r\npostman.setEnvironmentVariable('newReq',jsonRequestBodyCross);\r\n\r\nvar jsonRequestBodyChannel = JSON.stringify(postResponseChannel);\r\npostman.setEnvironmentVariable('newReqChannel',jsonRequestBodyChannel);\r\n\r\ntests[\"All Entitlements for \"+environment['featureName']+\" are entitled False\"] = responseCode.code === 200;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Childrens,Childrens/Properties",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "delete feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Feature \"+environment['featureName']+\" deleted\"] = responseCode.code === 204;\r\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Retail User Profile Features with entitlements (Valid Set)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "//var jsonData = JSON.parse(responseBody);\n//tests[\"status code is 201 : Created\"] = responseCode.code === 201;\n//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];\n\ntests[\"Feature \"+environment['featureName']+\" added with entitlemnts entitled true\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{newReq}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get ProfileFeatures with children and limits",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\r\nvar res = jsonData.d.results;\r\n\r\nvar postResponse ={};\r\npostResponse.ProfileId = \"{{Id}}\";\r\npostResponse.FeatureId = \"{{featureId}}\";\r\n\r\nvar postResponseChannel ={};\r\npostResponseChannel.ProfileId = \"{{ChannelId}}\";\r\npostResponseChannel.FeatureId = \"{{featureId}}\";\r\n\r\nvar entObj = {};\r\nvar featureObj = {};\r\nvar entitlementsList = [];\r\nvar entObjChannel = {};\r\nvar featureObjChannel = {};\r\nvar entitlementsListChannel = [];\r\n\r\nvar limitValue = 1600;\r\nvar limitList = [];\r\nvar limitListChannel = [];\r\nvar periodType = [\"Per Month\",\"Per Week\",\"Per Day\",\"Per Transaction\"];\r\n\r\nfor(var i=0;i<4;i++)\r\n{\r\n    limitValue = limitValue/2;\r\n    limitValueChannel = limitValue/2;\r\n    var limitObj = {};\r\n    limitObj.Period=periodType[i];\r\n    limitObj.Amount=limitValue.toString()+\".00\";\r\n    limitObj.ExceedWithApproval=true;\r\n    limitList.push(limitObj);\r\n    \r\n    var limitObjChannel = {};\r\n    limitObjChannel.Period=periodType[i];\r\n    limitObjChannel.Amount=limitValueChannel.toString()+\".00\";\r\n    limitObjChannel.ExceedWithApproval=true;\r\n    limitListChannel.push(limitObjChannel);\r\n}\r\n\r\nfor(var i=0;i<res.length;i++)\r\n{\r\n    var entitlement = {};\r\n    var limitArr = res[i].Limits.results;\r\n    entitlement.OperationName = res[i].OperationName;//Parent Operation name tobe extracted\r\n    entitlement.Entitled = true;\r\n    if(limitArr.length>0)\r\n    {\r\n        entitlement.Limits=limitList;\r\n    }\r\n    entitlementsList.push(entitlement);\r\n    \r\n    var entitlementChannel = {};\r\n    entitlementChannel.OperationName = res[i].OperationName;//Parent Operation name tobe extracted\r\n    entitlementChannel.Entitled = true;\r\n    if(limitArr.length>0)\r\n    {\r\n        entitlementChannel.Limits=limitListChannel;\r\n    }\r\n    entitlementsListChannel.push(entitlementChannel);\r\n    \r\n    var propArr = res[i].Properties.results;\r\n    var childArr = res[i].Childrens.results;\r\n    \r\n    tests[\"Feature \"+res[i].OperationName+\" entitled true\"] = res[i].Entitled === true;\r\n    tests[\"Feature has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;\r\n   for(var j=0;j<childArr.length;j++)\r\n    {\r\n        var entitlement = {};\r\n        var childlimitArr = childArr[j].Limits.results;\r\n        entitlement.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent\r\n        entitlement.Entitled = true;\r\n        if(childlimitArr.length>0)\r\n        {\r\n            entitlement.Limits=limitList;\r\n        }\r\n        entitlementsList.push(entitlement);\r\n        \r\n        var entitlementChannel = {};\r\n        var childlimitArr = childArr[j].Limits.results;\r\n        entitlementChannel.OperationName = childArr[j].OperationName;//Child Operation name tobe extracted for each parent\r\n        entitlementChannel.Entitled = true;\r\n        if(childlimitArr.length>0)\r\n        {\r\n            entitlementChannel.Limits=limitListChannel;\r\n        }\r\n        entitlementsListChannel.push(entitlementChannel);\r\n        \r\n        \r\n        var childPropArr = childArr[j].Properties.results;\r\n        tests[\"Feature \"+childArr[j].OperationName+\" entitled true\"] = childArr[j].Entitled === true;\r\n        \r\n        //if(childPropArr.length>0)\r\n            tests[\"Child Feature has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;\r\n    }\r\n}\r\n\r\nentObj.Entitlements = entitlementsList; \r\npostResponse.Feature = entObj;\r\n\r\nvar jsonRequestBody = JSON.stringify(postResponse);\r\npostman.setEnvironmentVariable('newReqWithLimit',jsonRequestBody);\r\n\r\nentObjChannel.Entitlements = entitlementsListChannel; \r\npostResponseChannel.Feature = entObjChannel;\r\n\r\nvar jsonRequestBodyChannel = JSON.stringify(postResponseChannel);\r\npostman.setEnvironmentVariable('newReqWithLimitChannel',jsonRequestBodyChannel);\r\ntests[\"All Entitlements for \"+environment['featureName']+\" are entitled true\"] = responseCode.code === 200;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Retail User Profile Features with entitlements (Valid Set)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "//var jsonData = JSON.parse(responseBody);\n//tests[\"status code is 201 : Created\"] = responseCode.code === 201;\n//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];\n\ntests[\"Modify entitlements for feature \"+environment['featureName']+\" on channel profile\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{ChannelId}}',FeatureId='{{featureId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{newReqChannel}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get ProfileFeatures with children entitled false on channel Verify",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\r\nvar res = jsonData.d.results;\r\nvar fail = 0;\r\n\r\nfor(var i=0;i<res.length;i++)\r\n{\r\n    var propArr = res[i].Properties.results;\r\n    var childArr = res[i].Childrens.results;\r\n    \r\n     var flg = tests[\"Feature \"+res[i].OperationName+\" entitled false\"] = res[i].Entitled === false;\r\n    if (flg === false){fail = 1;}\r\n    tests[\"Feature has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;\r\n   for(var j=0;j<childArr.length;j++)\r\n    {\r\n        var childPropArr = childArr[j].Properties.results;\r\n        var flg = tests[\"Feature \"+childArr[j].OperationName+\" entitled false\"] = childArr[j].Entitled === false;\r\n        \r\n        //if(childPropArr.length>0)\r\n           tests[\"Child Feature has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;\r\n            if (flg === false){fail = 1;}\r\n    }\r\n}\r\ntests[\"All Entitlements for \"+environment['featureName']+\" are entitled False for channel profile\"] = fail === 0;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{ChannelId}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Business Profile Features with entitlements with limits",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "//var jsonData = JSON.parse(responseBody);\n//tests[\"status code is 201 : Created\"] = responseCode.code === 201;\n//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];\n\ntests[\"Modify entitlements for feature \"+environment['featureName']+\" on cross profile\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{newReqWithLimit}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get ProfileFeatures with children and limits verify",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\r\nvar res = jsonData.d.results;\r\nvar fail = 0;\r\nvar limitArr = [\"100.00\",\"200.00\",\"400.00\",\"800.00\"];\r\nfor(var i=0;i<res.length;i++)\r\n{\r\n    var propArr = res[i].Properties.results;\r\n    var childArr = res[i].Childrens.results;\r\n    var parentLimit = res[i].Limits.results;\r\n    if(parentLimit.length>0)\r\n    {\r\n        for(var k=0;k<parentLimit.length;k++)\r\n        {\r\n            tests[\"Limit for \"+parentLimit[k].Period+\" is\"+parentLimit[k].Amount+\" and MaxLimitValue is null for \"+environment['featureName']] = parentLimit[k].Amount === limitArr[k] && parentLimit[k].MaxLimitValue === null;\r\n        }\r\n    }\r\n    var flg = tests[\"Feature \"+res[i].OperationName+\" entitled true\"] = res[i].Entitled === true;\r\n    if(flg === false){fail = 1;}\r\n    tests[\"Feature has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;\r\n    for(var j=0;j<childArr.length;j++)\r\n    {\r\n        var childLimit = childArr[j].Limits.results;\r\n    //if(childLimit.length>0)\r\n        {\r\n        for(var k=0;k<childLimit.length;k++)\r\n            {\r\n            tests[\"Limit for child \"+childLimit[k].Period+\" is\"+childLimit[k].Amount+\" and MaxLimitValue is null for \"+environment['featureName']] = childLimit[k].Amount === limitArr[k] && childLimit[k].MaxLimitValue === null;\r\n            }\r\n        }\r\n        var childPropArr = childArr[j].Properties.results;\r\n        var flg= tests[\"Feature \"+childArr[j].OperationName+\" entitled true\"] = childArr[j].Entitled === true;\r\n        if(flg === false){fail = 1;}\r\n        //if(childPropArr.length>0)\r\n            tests[\"Child Feature has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;\r\n    }\r\n}\r\ntests[\"All Entitlements for \"+environment['featureName']+\" are entitled True for channel profile\"] = fail === 0;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{Id}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Retail User Profile Features with entitlements with limits on Channel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "//var jsonData = JSON.parse(responseBody);\n//tests[\"status code is 201 : Created\"] = responseCode.code === 201;\n//tests[\"profileId and featureId verified\"] = jsonData.d.ProfileId === environment['Id'] && jsonData.d.FeatureId === environment['featureId'];\ntests[\"Modify entitlements with limit for feature \"+environment['featureName']+\" on channel profile\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{ChannelId}}',FeatureId='{{featureId}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{{newReqWithLimitChannel}}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get ProfileFeatures with children and limits verify on channel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\r\nvar res = jsonData.d.results;\r\nvar fail = 0;\r\nvar limitArr = [\"50.00\",\"100.00\",\"200.00\",\"400.00\"];\r\nvar maxlimitArr = [\"100.00\",\"200.00\",\"400.00\",\"800.00\"];\r\nfor(var i=0;i<res.length;i++)\r\n{\r\n    var propArr = res[i].Properties.results;\r\n    var childArr = res[i].Childrens.results;\r\n    var parentLimit = res[i].Limits.results;\r\n    if(parentLimit.length>0)\r\n    {\r\n        for(var k=0;k<parentLimit.length;k++)\r\n        {\r\n            tests[\"Limit for \"+parentLimit[k].Period+\" is\"+parentLimit[k].Amount+\" and MaxLimitValue is : \"+maxlimitArr[k]+\" for \"+environment['featureName']] = parentLimit[k].Amount === limitArr[k] && parentLimit[k].MaxLimitValue === maxlimitArr[k];\r\n        }\r\n    }\r\n    var flg = tests[\"Feature \"+res[i].OperationName+\" entitled true\"] = res[i].Entitled === true;\r\n    if(flg === false){fail=1;}\r\n    tests[\"Feature has \"+propArr[0].Key+\" =\"+propArr[0].Value] = propArr.length>0;\r\n    for(var j=0;j<childArr.length;j++)\r\n    {\r\n        var childLimit = childArr[j].Limits.results;\r\n    //if(childLimit.length>0)\r\n        {\r\n        for(var k=0;k<childLimit.length;k++)\r\n            {\r\n            tests[\"Limit for child \"+childLimit[k].Period+\" is\"+childLimit[k].Amount+\" and MaxLimitValue is :\"+maxlimitArr[k]+\" for \"+environment['featureName']] = childLimit[k].Amount === limitArr[k] && childLimit[k].MaxLimitValue === maxlimitArr[k];\r\n            }\r\n        }\r\n        var childPropArr = childArr[j].Properties.results;\r\n        var flg = tests[\"Feature \"+childArr[j].OperationName+\" entitled true\"] = childArr[j].Entitled === true;\r\n        if(flg === false){fail=1;}\r\n        //if(childPropArr.length>0)\r\n            tests[\"Child Feature has \"+childPropArr[0].Key+\" =\"+childPropArr[0].Value] = childPropArr.length>0;\r\n    }\r\n}\r\ntests[\"All Entitlement for \"+environment['featureName']+\" are entitled True for channel profile\"] = fail === 0;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/ProfileFeatures(ProfileId='{{ChannelId}}',FeatureId='{{featureId}}')/Feature/Entitlements?$expand=Properties,Limits,Childrens,Childrens/Properties,Childrens/Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "TokenKey",
+								"value": "{{TokenKey}}",
+								"description": ""
+							},
+							{
+								"key": "x-csrf-token",
+								"value": "{{x-csrf-token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

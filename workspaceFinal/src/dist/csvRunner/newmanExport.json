@@ -1,0 +1,24 @@
+{
+  "id": "a481bb2c-55f3-60ae-abea-cb58e17b0cc5",
+  "name": "RetailBanking",
+  "values": [
+    {
+      "type": "any",
+      "value": "http://10.96.25.141:9082",
+      "key": "env"
+    },
+    {
+      "type": "any",
+      "value": "RkZJSEFTSGFVVWlPZVZ1ZXVLZ0I3SHFpdjAwajlaOVhEUUxCdW5idS8rVnNlOE1aMzg9",
+      "key": "TokenKey"
+    },
+    {
+      "type": "any",
+      "value": "6473662964694850998",
+      "key": "x-csrf-token"
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2016-11-25T09:20:33.716Z",
+  "_postman_exported_using": "Newman/3.2.0"
+}

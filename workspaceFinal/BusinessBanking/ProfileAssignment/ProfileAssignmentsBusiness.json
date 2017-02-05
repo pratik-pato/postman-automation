@@ -1,0 +1,672 @@
+{
+	"variables": [],
+	"info": {
+		"name": "ProfileAssignmentsBusiness",
+		"_postman_id": "920a14e5-098b-daf6-2d67-131292be19c2",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login to CB as primaryadmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\npostman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"primaryadmin\",\r\n\r\n               \"AppType\": \"Business\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n}"
+				},
+				"description": "1. BusinessLogin"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"Id\", jsonData.d.Id);\npostman.setEnvironmentVariable(\"DeleteId\", jsonData.d.Id);\ntests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{TokenKey}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Customer Service{{$randomInt}}\",    \r\n        \"Description\": \"Customer Service Profile with all channels\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }, {    \r\n                \"Channel\": \"Web\"\r\n            }, {    \r\n                \"Channel\": \"Sms\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Add profile test"
+			},
+			"response": []
+		},
+		{
+			"name": "get profile by Id copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 200 : OK\"] = responseCode.code === 200;\nvar jsonData = JSON.parse(responseBody);\nvar res = jsonData.d.ChannelProfiles.results;\npostman.setEnvironmentVariable(\"ChannelId\",res[0].Id);"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Get Business User Profile by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "business user add with profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\nvar jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"UserId\",jsonData.d.Id);\n"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserservice/BusinessUsers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Agri\",\r\n    \"LastName\": \"Postman\",\r\n    \"MiddleName\": \"ProfileBased\",\r\n    \"AffiliateBankID\": 2,\r\n    \"BankId\": \"1000\",\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n    \"ConfirmPasswordReminder\": \"toronto\",\r\n    \"ConfirmPasswordReminder2\": \"spot\",\r\n    \"CustId\": \"AgriTech Profile Ltd\",\r\n    \"Greeting\":null,\r\n    \"GreetingType\": \"2\",\r\n    \"OldPassword\":null,\r\n    \"Password\": \"Pass1234\",\r\n    \"PasswordClue\": \"Where were you born?\",\r\n    \"PasswordClue2\": \"What is your pet's name?\",\r\n    \"MemberId\":null,\r\n    \"GroupId\": \"1110\",\r\n    \"GroupName\":null,\r\n    \"PasswordReminder\": \"toronto\",\r\n    \"PasswordReminder2\": \"spotspot\",\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"33-12-1234\",\r\n    \"UserName\": \"AgriUsr1{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"CustomerType\": \"1\",\r\n    \"Address\": {\r\n        \"Street\": \"1119 Overlake Drive\",\r\n        \"Street2\":null,\r\n        \"Street3\":null,\r\n        \"City\": \"Saratoga\",\r\n        \"State\": \"WA\",\r\n        \"StreetCode\":null,\r\n        \"Country\": \"USA\",\r\n        \"Email\": \"agriusr1@anymail.com\",\r\n        \"Phone\": \"(206) 555-1423\",\r\n        \"Phone2\":null,\r\n        \"ZipCode\": \"98007\",\r\n        \"DataPhone\":null,\r\n        \"FaxPhone\":null,\r\n        \"PreferredContactMethod\":null,\r\n        \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"AutoEntitle\": true,\r\n    \"BusinessCustId\": \"AgriTech Profile Ltd\",\r\n    \"BusinessId\": 140,\r\n    \"PrimaryAdminUserId\": \"141\",\r\n    \"Admin\": true,\r\n\t\"BusinessUserProfiles\": [{\r\n\t\t\t\"Id\" : \"{{Id}}\"\r\n       }]\r\n    \r\n}"
+				},
+				"description": "3. Add profile business user"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Business Users with profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"UserName\",jsonData.d.UserName);\nvar res = jsonData.d.BusinessUserProfiles.results[0];\ntests[\"User profile id verified\"] = environment[\"Id\"] === res.Id;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserservice/BusinessUsers('{{UserId}}')?$expand=BusinessUserProfiles",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Get Business Users"
+			},
+			"response": []
+		},
+		{
+			"name": "modify business user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserservice/BusinessUsers('{{UserId}}')",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Id\": \"{{UserId}}\",\n    \"FirstName\": \"Agri\",\n    \"LastName\": \"Postman\",\n    \"MiddleName\": \"Modified\",\n    \"AffiliateBankID\": 4,\n    \"BankId\": \"1000\",\n    \"ConfirmPassword\": null,\n    \"ConfirmPasswordReminder\": null,\n    \"ConfirmPasswordReminder2\": null,\n    \"CustId\": \"AgriTech Profile Ltd\",\n    \"Greeting\": null,\n    \"GreetingType\": \"2\",\n    \"OldPassword\": null,\n    \"Password\": null,\n    \"PasswordClue\": \"Where were you born?\",\n    \"PasswordClue2\": \"What is your pet's name?\",\n    \"MemberId\": null,\n    \"GroupId\": \"2544\",\n    \"GroupName\": null,\n    \"PasswordReminder\": null,\n    \"PasswordReminder2\": null,\n    \"PersonalBanker\": \"0\",\n    \"Ssn\": \"33-12-1234\",\n    \"MaskSSN\": null,\n    \"UserName\": \"{{UserName}}\",\n    \"AccountStatus\": \"1\",\n    \"Timeout\": \"1500\",\n    \"CustomerType\": \"1\",\n    \"Address\": {\n      \"__metadata\": {\n        \"type\": \"com.sap.banking.common.endpoint.v1_0.beans.Address\"\n      },\n      \"Street\": \"1119 Overlake Drive\",\n      \"Street2\": null,\n      \"Street3\": null,\n      \"City\": \"Saratoga\",\n      \"State\": \"WA\",\n      \"StreetCode\": null,\n      \"Country\": \"USA\",\n      \"Email\": \"agriusr1@anymail.com\",\n      \"Phone\": \"(206) 555-1423\",\n      \"Phone2\": null,\n      \"ZipCode\": \"98007\",\n      \"DataPhone\": null,\n      \"FaxPhone\": null,\n      \"PreferredContactMethod\": null,\n      \"PreferredLanguage\": \"en_US\"\n    },\n    \"PasswordStatus\": \"Must Change Password\",\n    \"AutoEntitle\": true,\n    \"BusinessCustId\": \"AgriTech Profile Ltd\",\n    \"BusinessId\": 140,\n    \"PrimaryAdminUserId\": \"141\",\n    \"AdminUserId\": null,\n    \"Admin\": false,\n    \"BusinessUserProfiles\": [{\n        \"Id\": \"1110\"\n    }]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Business Users with profile copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"UserName\",jsonData.d.UserName);\nvar res = jsonData.d.BusinessUserProfiles.results[0];\ntests[\"User profile id verified\"] = \"1110\" === res.Id;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserservice/BusinessUsers('{{UserId}}')?$expand=BusinessUserProfiles",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Get Business Users"
+			},
+			"response": []
+		},
+		{
+			"name": "business user add without profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Profile is required.\"] = responseBody.has(\"Profile is required.\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserservice/BusinessUsers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Agri\",\r\n    \"LastName\": \"L\",\r\n    \"MiddleName\": \"ProfileBased\",\r\n    \"AffiliateBankID\": 2,\r\n    \"BankId\": \"1000\",\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n    \"ConfirmPasswordReminder\": \"toronto\",\r\n    \"ConfirmPasswordReminder2\": \"spot\",\r\n    \"CustId\": \"AgriTech Profile Ltd\",\r\n    \"Greeting\":null,\r\n    \"GreetingType\": \"2\",\r\n    \"OldPassword\":null,\r\n    \"Password\": \"Pass1234\",\r\n    \"PasswordClue\": \"Where were you born?\",\r\n    \"PasswordClue2\": \"What is your pet's name?\",\r\n    \"MemberId\":null,\r\n    \"GroupId\": \"1110\",\r\n    \"GroupName\":null,\r\n    \"PasswordReminder\": \"toronto\",\r\n    \"PasswordReminder2\": \"spotspot\",\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"33-12-1234\",\r\n    \"UserName\": \"jacob{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"CustomerType\": \"1\",\r\n    \"Address\": {\r\n        \"Street\": \"1119 Overlake Drive\",\r\n        \"Street2\":null,\r\n        \"Street3\":null,\r\n        \"City\": \"Saratoga\",\r\n        \"State\": \"WA\",\r\n        \"StreetCode\":null,\r\n        \"Country\": \"USA\",\r\n        \"Email\": \"agriusr1@anymail.com\",\r\n        \"Phone\": \"(206) 555-1423\",\r\n        \"Phone2\":null,\r\n        \"ZipCode\": \"98007\",\r\n        \"DataPhone\":null,\r\n        \"FaxPhone\":null,\r\n        \"PreferredContactMethod\":null,\r\n        \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"AutoEntitle\": true,\r\n    \"BusinessCustId\": \"AgriTech Profile Ltd\",\r\n    \"BusinessId\": 140,\r\n    \"PrimaryAdminUserId\": \"141\",\r\n    \"Admin\": true,\r\n\t\"BusinessUserProfiles\": [{\r\n\t\t\t\r\n       }]\r\n    \r\n}"
+				},
+				"description": "3. Add profile business user"
+			},
+			"response": []
+		},
+		{
+			"name": "business user add with channel profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Profile ID is Invalid.\"] = responseBody.has(\"Profile ID is Invalid.\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserservice/BusinessUsers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Agri\",\r\n    \"LastName\": \"L\",\r\n    \"MiddleName\": \"ProfileBased\",\r\n    \"AffiliateBankID\": 2,\r\n    \"BankId\": \"1000\",\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n    \"ConfirmPasswordReminder\": \"toronto\",\r\n    \"ConfirmPasswordReminder2\": \"spot\",\r\n    \"CustId\": \"AgriTech Profile Ltd\",\r\n    \"Greeting\":null,\r\n    \"GreetingType\": \"2\",\r\n    \"OldPassword\":null,\r\n    \"Password\": \"Pass1234\",\r\n    \"PasswordClue\": \"Where were you born?\",\r\n    \"PasswordClue2\": \"What is your pet's name?\",\r\n    \"MemberId\":null,\r\n    \"GroupId\": \"1110\",\r\n    \"GroupName\":null,\r\n    \"PasswordReminder\": \"toronto\",\r\n    \"PasswordReminder2\": \"spotspot\",\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"33-12-1234\",\r\n    \"UserName\": \"jacob{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"CustomerType\": \"1\",\r\n    \"Address\": {\r\n        \"Street\": \"1119 Overlake Drive\",\r\n        \"Street2\":null,\r\n        \"Street3\":null,\r\n        \"City\": \"Saratoga\",\r\n        \"State\": \"WA\",\r\n        \"StreetCode\":null,\r\n        \"Country\": \"USA\",\r\n        \"Email\": \"agriusr1@anymail.com\",\r\n        \"Phone\": \"(206) 555-1423\",\r\n        \"Phone2\":null,\r\n        \"ZipCode\": \"98007\",\r\n        \"DataPhone\":null,\r\n        \"FaxPhone\":null,\r\n        \"PreferredContactMethod\":null,\r\n        \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"AutoEntitle\": true,\r\n    \"BusinessCustId\": \"AgriTech Profile Ltd\",\r\n    \"BusinessId\": 140,\r\n    \"PrimaryAdminUserId\": \"141\",\r\n    \"Admin\": true,\r\n\t\"BusinessUserProfiles\": [{\r\n\t\t\t\"Id\" : \"{{ChannelId}}\"\r\n       }]\r\n    \r\n}"
+				},
+				"description": "3. Add profile business user"
+			},
+			"response": []
+		},
+		{
+			"name": "business user add with retailUser profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Profile ID is Invalid.\"] = responseBody.has(\"Profile ID is Invalid.\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserservice/BusinessUsers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Agri\",\r\n    \"LastName\": \"L\",\r\n    \"MiddleName\": \"ProfileBased\",\r\n    \"AffiliateBankID\": 2,\r\n    \"BankId\": \"1000\",\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n    \"ConfirmPasswordReminder\": \"toronto\",\r\n    \"ConfirmPasswordReminder2\": \"spot\",\r\n    \"CustId\": \"AgriTech Profile Ltd\",\r\n    \"Greeting\":null,\r\n    \"GreetingType\": \"2\",\r\n    \"OldPassword\":null,\r\n    \"Password\": \"Pass1234\",\r\n    \"PasswordClue\": \"Where were you born?\",\r\n    \"PasswordClue2\": \"What is your pet's name?\",\r\n    \"MemberId\":null,\r\n    \"GroupId\": \"1110\",\r\n    \"GroupName\":null,\r\n    \"PasswordReminder\": \"toronto\",\r\n    \"PasswordReminder2\": \"spotspot\",\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"33-12-1234\",\r\n    \"UserName\": \"jacob{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"CustomerType\": \"1\",\r\n    \"Address\": {\r\n        \"Street\": \"1119 Overlake Drive\",\r\n        \"Street2\":null,\r\n        \"Street3\":null,\r\n        \"City\": \"Saratoga\",\r\n        \"State\": \"WA\",\r\n        \"StreetCode\":null,\r\n        \"Country\": \"USA\",\r\n        \"Email\": \"agriusr1@anymail.com\",\r\n        \"Phone\": \"(206) 555-1423\",\r\n        \"Phone2\":null,\r\n        \"ZipCode\": \"98007\",\r\n        \"DataPhone\":null,\r\n        \"FaxPhone\":null,\r\n        \"PreferredContactMethod\":null,\r\n        \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"AutoEntitle\": true,\r\n    \"BusinessCustId\": \"AgriTech Profile Ltd\",\r\n    \"BusinessId\": 140,\r\n    \"PrimaryAdminUserId\": \"141\",\r\n    \"Admin\": true,\r\n\t\"BusinessUserProfiles\": [{\r\n\t\t\t\"Id\" : \"1205\"\r\n       }]\r\n    \r\n}"
+				},
+				"description": "3. Add profile business user"
+			},
+			"response": []
+		},
+		{
+			"name": "business user add with invalid profileId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Profile ID is Invalid.\"] = responseBody.has(\"Profile ID is Invalid.\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserservice/BusinessUsers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Agri\",\r\n    \"LastName\": \"L\",\r\n    \"MiddleName\": \"ProfileBased\",\r\n    \"AffiliateBankID\": 2,\r\n    \"BankId\": \"1000\",\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n    \"ConfirmPasswordReminder\": \"toronto\",\r\n    \"ConfirmPasswordReminder2\": \"spot\",\r\n    \"CustId\": \"AgriTech Profile Ltd\",\r\n    \"Greeting\":null,\r\n    \"GreetingType\": \"2\",\r\n    \"OldPassword\":null,\r\n    \"Password\": \"Pass1234\",\r\n    \"PasswordClue\": \"Where were you born?\",\r\n    \"PasswordClue2\": \"What is your pet's name?\",\r\n    \"MemberId\":null,\r\n    \"GroupId\": \"1110\",\r\n    \"GroupName\":null,\r\n    \"PasswordReminder\": \"toronto\",\r\n    \"PasswordReminder2\": \"spotspot\",\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"33-12-1234\",\r\n    \"UserName\": \"jacob{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"CustomerType\": \"1\",\r\n    \"Address\": {\r\n        \"Street\": \"1119 Overlake Drive\",\r\n        \"Street2\":null,\r\n        \"Street3\":null,\r\n        \"City\": \"Saratoga\",\r\n        \"State\": \"WA\",\r\n        \"StreetCode\":null,\r\n        \"Country\": \"USA\",\r\n        \"Email\": \"agriusr1@anymail.com\",\r\n        \"Phone\": \"(206) 555-1423\",\r\n        \"Phone2\":null,\r\n        \"ZipCode\": \"98007\",\r\n        \"DataPhone\":null,\r\n        \"FaxPhone\":null,\r\n        \"PreferredContactMethod\":null,\r\n        \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"AutoEntitle\": true,\r\n    \"BusinessCustId\": \"AgriTech Profile Ltd\",\r\n    \"BusinessId\": 140,\r\n    \"PrimaryAdminUserId\": \"141\",\r\n    \"Admin\": true,\r\n\t\"BusinessUserProfiles\": [{\r\n\t\t\t\"Id\" : \"9999\"\r\n       }]\r\n    \r\n}"
+				},
+				"description": "3. Add profile business user"
+			},
+			"response": []
+		},
+		{
+			"name": "business user add with multiple profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"User can be assigned to only one Profile.\"] = responseBody.has(\"User can be assigned to only one Profile.\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserservice/BusinessUsers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Agri\",\r\n    \"LastName\": \"L\",\r\n    \"MiddleName\": \"ProfileBased\",\r\n    \"AffiliateBankID\": 2,\r\n    \"BankId\": \"1000\",\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n    \"ConfirmPasswordReminder\": \"toronto\",\r\n    \"ConfirmPasswordReminder2\": \"spot\",\r\n    \"CustId\": \"AgriTech Profile Ltd\",\r\n    \"Greeting\":null,\r\n    \"GreetingType\": \"2\",\r\n    \"OldPassword\":null,\r\n    \"Password\": \"Pass1234\",\r\n    \"PasswordClue\": \"Where were you born?\",\r\n    \"PasswordClue2\": \"What is your pet's name?\",\r\n    \"MemberId\":null,\r\n    \"GroupId\": \"1110\",\r\n    \"GroupName\":null,\r\n    \"PasswordReminder\": \"toronto\",\r\n    \"PasswordReminder2\": \"spotspot\",\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"33-12-1234\",\r\n    \"UserName\": \"jacob{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"CustomerType\": \"1\",\r\n    \"Address\": {\r\n        \"Street\": \"1119 Overlake Drive\",\r\n        \"Street2\":null,\r\n        \"Street3\":null,\r\n        \"City\": \"Saratoga\",\r\n        \"State\": \"WA\",\r\n        \"StreetCode\":null,\r\n        \"Country\": \"USA\",\r\n        \"Email\": \"agriusr1@anymail.com\",\r\n        \"Phone\": \"(206) 555-1423\",\r\n        \"Phone2\":null,\r\n        \"ZipCode\": \"98007\",\r\n        \"DataPhone\":null,\r\n        \"FaxPhone\":null,\r\n        \"PreferredContactMethod\":null,\r\n        \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"AutoEntitle\": true,\r\n    \"BusinessCustId\": \"AgriTech Profile Ltd\",\r\n    \"BusinessId\": 140,\r\n    \"PrimaryAdminUserId\": \"141\",\r\n    \"Admin\": true,\r\n\t\"BusinessUserProfiles\": [{\r\n\t\t\t\"Id\" : \"1155\"\r\n       },{\r\n\t\t\t\"Id\" : \"1151\"\r\n       }]\r\n    \r\n}"
+				},
+				"description": "3. Add profile business user"
+			},
+			"response": []
+		},
+		{
+			"name": "Login to CB as jolina",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\npostman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"jolina\",\r\n\r\n               \"AppType\": \"Business\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n}"
+				},
+				"description": "1. BusinessLogin"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile with user not entitled to add",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;\r\n"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{TokenKey}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Customer Service{{$randomInt}}\",    \r\n        \"Description\": \"Customer Service Profile with all channels\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }, {    \r\n                \"Channel\": \"Web\"\r\n            }, {    \r\n                \"Channel\": \"Sms\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Add profile test"
+			},
+			"response": []
+		},
+		{
+			"name": "business user add with profile with user not entitled",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;\r\n"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserservice/BusinessUsers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Agri\",\r\n    \"LastName\": \"Postman\",\r\n    \"MiddleName\": \"ProfileBased\",\r\n    \"AffiliateBankID\": 2,\r\n    \"BankId\": \"1000\",\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n    \"ConfirmPasswordReminder\": \"toronto\",\r\n    \"ConfirmPasswordReminder2\": \"spot\",\r\n    \"CustId\": \"AgriTech Profile Ltd\",\r\n    \"Greeting\":null,\r\n    \"GreetingType\": \"2\",\r\n    \"OldPassword\":null,\r\n    \"Password\": \"Pass1234\",\r\n    \"PasswordClue\": \"Where were you born?\",\r\n    \"PasswordClue2\": \"What is your pet's name?\",\r\n    \"MemberId\":null,\r\n    \"GroupId\": \"1110\",\r\n    \"GroupName\":null,\r\n    \"PasswordReminder\": \"toronto\",\r\n    \"PasswordReminder2\": \"spotspot\",\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"33-12-1234\",\r\n    \"UserName\": \"AgriUsr1{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"CustomerType\": \"1\",\r\n    \"Address\": {\r\n        \"Street\": \"1119 Overlake Drive\",\r\n        \"Street2\":null,\r\n        \"Street3\":null,\r\n        \"City\": \"Saratoga\",\r\n        \"State\": \"WA\",\r\n        \"StreetCode\":null,\r\n        \"Country\": \"USA\",\r\n        \"Email\": \"agriusr1@anymail.com\",\r\n        \"Phone\": \"(206) 555-1423\",\r\n        \"Phone2\":null,\r\n        \"ZipCode\": \"98007\",\r\n        \"DataPhone\":null,\r\n        \"FaxPhone\":null,\r\n        \"PreferredContactMethod\":null,\r\n        \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"AutoEntitle\": true,\r\n    \"BusinessCustId\": \"AgriTech Profile Ltd\",\r\n    \"BusinessId\": 140,\r\n    \"PrimaryAdminUserId\": \"141\",\r\n    \"Admin\": true,\r\n\t\"BusinessUserProfiles\": [{\r\n\t\t\t\"Id\" : \"1110\"\r\n       }]\r\n    \r\n}"
+				},
+				"description": "3. Add profile business user"
+			},
+			"response": []
+		},
+		{
+			"name": "Login to CB as secondaryadmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\npostman.setEnvironmentVariable(\"TokenKey\",postman.getResponseHeader('TokenKey'));"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"secondaryadmin\",\r\n\r\n               \"AppType\": \"Business\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n}"
+				},
+				"description": "1. BusinessLogin"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Business Profile with secondaryadmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"Id\", jsonData.d.Id);\npostman.setEnvironmentVariable(\"DeleteId\", jsonData.d.Id);\ntests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "TokenKey",
+						"value": "{{TokenKey}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n        \"ProfileName\": \"Customer Service{{$randomInt}}\",    \r\n        \"Description\": \"Customer Service Profile with all channels\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }, {    \r\n                \"Channel\": \"Web\"\r\n            }, {    \r\n                \"Channel\": \"Sms\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+				},
+				"description": "Add profile test"
+			},
+			"response": []
+		},
+		{
+			"name": "business user add with secondaryadmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\nvar jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"UserId\",jsonData.d.Id);\n"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserservice/BusinessUsers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FirstName\": \"Agri\",\r\n    \"LastName\": \"Postman\",\r\n    \"MiddleName\": \"secondary\",\r\n    \"AffiliateBankID\": 2,\r\n    \"BankId\": \"1000\",\r\n    \"ConfirmPassword\": \"Pass1234\",\r\n    \"ConfirmPasswordReminder\": \"toronto\",\r\n    \"ConfirmPasswordReminder2\": \"spot\",\r\n    \"CustId\": \"AgriTech Profile Ltd\",\r\n    \"Greeting\":null,\r\n    \"GreetingType\": \"2\",\r\n    \"OldPassword\":null,\r\n    \"Password\": \"Pass1234\",\r\n    \"PasswordClue\": \"Where were you born?\",\r\n    \"PasswordClue2\": \"What is your pet's name?\",\r\n    \"MemberId\":null,\r\n    \"GroupId\": \"1110\",\r\n    \"GroupName\":null,\r\n    \"PasswordReminder\": \"toronto\",\r\n    \"PasswordReminder2\": \"spotspot\",\r\n    \"PersonalBanker\": \"0\",\r\n    \"Ssn\": \"33-12-1234\",\r\n    \"UserName\": \"AgriUsr1{{$randomInt}}\",\r\n    \"AccountStatus\": \"1\",\r\n    \"Timeout\": \"1500\",\r\n    \"CustomerType\": \"1\",\r\n    \"Address\": {\r\n        \"Street\": \"1119 Overlake Drive\",\r\n        \"Street2\":null,\r\n        \"Street3\":null,\r\n        \"City\": \"Saratoga\",\r\n        \"State\": \"WA\",\r\n        \"StreetCode\":null,\r\n        \"Country\": \"USA\",\r\n        \"Email\": \"agriusr1@anymail.com\",\r\n        \"Phone\": \"(206) 555-1423\",\r\n        \"Phone2\":null,\r\n        \"ZipCode\": \"98007\",\r\n        \"DataPhone\":null,\r\n        \"FaxPhone\":null,\r\n        \"PreferredContactMethod\":null,\r\n        \"PreferredLanguage\": \"en_US\"\r\n    },\r\n    \"AutoEntitle\": true,\r\n    \"BusinessCustId\": \"AgriTech Profile Ltd\",\r\n    \"BusinessId\": 140,\r\n    \"PrimaryAdminUserId\": \"141\",\r\n    \"Admin\": true,\r\n\t\"BusinessUserProfiles\": [{\r\n\t\t\t\"Id\" : \"{{Id}}\"\r\n       }]\r\n    \r\n}"
+				},
+				"description": "3. Add profile business user"
+			},
+			"response": []
+		},
+		{
+			"name": "delete assigned profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Can not delete assigned Profile.\"] = responseBody.has(\"The entitlement profile cannot be deleted.\");\npostman.clearEnvironmentVariable(\"Id\");\npostman.clearEnvironmentVariable(\"UserId\");\npostman.clearEnvironmentVariable(\"TokenKey\");\npostman.clearEnvironmentVariable(\"NewId\");\npostman.clearEnvironmentVariable(\"DeleteId\");\npostman.clearEnvironmentVariable(\"UserName\");\npostman.clearEnvironmentVariable(\"ChannelId\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/businessuserprofileservice/BusinessUserProfiles('{{Id}}')",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Get Business User Profile by ID"
+			},
+			"response": []
+		}
+	]
+}

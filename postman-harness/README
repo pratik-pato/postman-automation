@@ -1,0 +1,10 @@
+Description for batch files
+runharness.bat : runs CB and BC Harness on same hit with ip as parameter
+<usage>: runharness.bat https://10.97.188.237:8081
+
+runharness_BC.bat : runs BC Harness on same hit with ip as parameter
+<usage>: runharness_BC.bat https://10.97.188.237:8081
+
+runharness_CB.bat : runs CB Harness on same hit with ip as parameter
+<usage>: runharness_CB.bat https://10.97.188.237:8081
+

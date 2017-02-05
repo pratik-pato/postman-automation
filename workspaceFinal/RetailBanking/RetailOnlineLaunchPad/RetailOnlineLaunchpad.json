@@ -1,0 +1,178 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Retail Online Launchpad",
+		"_postman_id": "1d4583c4-06f7-5bdd-f597-b909728b99bd",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Login\"]=responseCode.code===201\npostman.setEnvironmentVariable(\"xcsrf\",postman.getResponseHeader('x-csrf-token'))"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init ",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"tbowman\",\r\n\r\n               \"AppType\": \"Consumers\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n} "
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Dashboard Setting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Added dashboard setting\"] = responseCode.code === 201;\nvar jsd = JSON.parse(responseBody);\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\n\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];\nvar res = jsd.d.DashboardSettingNameSpace;\n\ntests[\"DashboardSettingNameSpace : \"+res.DashboardSettingNameSpace] = responseBody.has(\"DASHBOARD_SETTING\");"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": "postman.setEnvironmentVariable('t1',\"Payments\");\npostman.setEnvironmentVariable('t2',\"transfer\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/personalizationservice/DashboardSettings",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"DashboardSettingNameSpace\": \"DASHBOARD_SETTING\",\n\t\"Tiles\": [{\n\t\"Name\":\"{{t1}}\"\n\t},\n\t{\n\t\"Name\":\"{{t2}}\"\n\t}]\n}\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Dashboard Setting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsd = JSON.parse(responseBody);\n\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\n\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];\n\nvar res = jsd.d.results;\ntests[\"DashboardSettingNameSpace : \"+res[0].DashboardSettingNameSpace] = responseBody.has(\"DASHBOARD_SETTING\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/personalizationservice/DashboardSettings",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Dashboard Setting Expand Tiles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsd = JSON.parse(responseBody);\n\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\n\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];\n\nvar res = jsd.d.results;\ntests[\"DashboardSettingNameSpace : \"+res[0].DashboardSettingNameSpace] = responseBody.has(\"DASHBOARD_SETTING\");\nvar temp =res[0];\nvar result=temp.Tiles.results;\n\ntests[\"Expand 1st Tiles : \" +result[0].Name]=result[0].Name===environment['t1'];\n\ntests[\"Expand 2nd Tiles : \" +result[1].Name]=result[1].Name===environment['t2'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/personalizationservice/DashboardSettings?$expand=Tiles",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete tiles,updated rec displayed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "var jsd = JSON.parse(responseBody);\nvar res = jsd.d.DashboardSettingNameSpace;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\n\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];\ntests[\"DashboardSettingNameSpace : \"+res] = responseBody.has(\"DASHBOARD_SETTING\");"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/personalizationservice/DashboardSettings",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"DashboardSettingNameSpace\": \"DASHBOARD_SETTING\",\n\t\"Tiles\": [{\n\t\t\"Name\": \"Transfer\"\n\t},\n\t{\n\t\t\"Name\": \"Payment\"\n\t}]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

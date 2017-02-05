@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="ProfileAssignmentRetail">
+  <testsuite name="Login to BC as admin" id="94bf0ad8-8db2-4d40-a111-bcbf71e00859" tests="1" time="858">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Add RetailUser Profile(MA Platinum)" id="081f1ac2-05d8-49da-82ec-1c58551a8501" tests="1" time="323">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="get profile by Id" id="947b0338-de4c-41e7-b64b-2f7660687a68" tests="1" time="244">
+    <testcase name="status code is 200 : OK"/>
+  </testsuite>
+  <testsuite name="assign channel profile(which is not allowed)" id="2a2a58c5-28e1-4427-b1d7-28942be38180" tests="1" time="943">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="assign profile to retail user" id="3197ab9d-5d1e-4f91-9a20-c424eaef992c" tests="1" time="1283">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="delete profile associated with user" id="63ad07fd-5099-4ada-a91e-95ccac964310" tests="1" time="318">
+    <testcase name="Cannot Delete profile which is associated with user"/>
+  </testsuite>
+  <testsuite name="get user" id="68e9d55b-3ea1-4582-9ec5-cda6cce25fb1" tests="1" time="622">
+    <testcase name="User created"/>
+  </testsuite>
+  <testsuite name="Add RetailUser Profile(MA Platinum) to assign in PUT" id="d66712d0-bcf0-4331-94f9-add8a9ce2361" tests="1" time="292">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="Modify retail user" id="76fea7fc-b519-4b0b-9036-2bf85c326106" tests="1" time="431">
+    <testcase name="status code is 204 : No Content"/>
+  </testsuite>
+  <testsuite name="verify edit user" id="fc8584e6-cffb-437b-ac3a-9f12470c457b" tests="2" time="227">
+    <testcase name="User created"/>
+    <testcase name="PUT verified"/>
+  </testsuite>
+  <testsuite name="retailUser without profile" id="9f58b8c7-dd57-4eb5-95af-51b1d8557490" tests="1" time="458">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="assign validMultipleProfile" id="4a2dd768-6af3-4176-8266-d8d9250d45f9" tests="1" time="827">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Add RetailUser Profile(Omni Channel)" id="e4ae553e-e577-4a67-9824-9f36350deb8f" tests="1" time="695">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="assign omni channel profile to retail user" id="f2ca1e64-eb40-4854-bf82-47580d591aa1" tests="1" time="314">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="assign businessUser profile(which is not allowed) " id="0ad7d6bf-5ade-446a-90c8-d46483b19410" tests="1" time="853">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+  <testsuite name="Login to BC as jbrown" id="46be2eef-7bd2-423f-9a17-ad05b06b569d" tests="1" time="609">
+    <testcase name="status code is 201 : Created"/>
+  </testsuite>
+  <testsuite name="assign profile to retail user(by not entitled user)" id="f3dde57f-cd40-4123-99b0-99121eb52e33" tests="1" time="359">
+    <testcase name="status code is 400 : Bad Request"/>
+  </testsuite>
+</testsuites>

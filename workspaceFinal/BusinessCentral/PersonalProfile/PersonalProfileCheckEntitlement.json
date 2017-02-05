@@ -1,0 +1,2488 @@
+{
+	"variables": [],
+	"info": {
+		"name": "PersonalProfile Check Entitlement ",
+		"_postman_id": "5dad62d5-f45c-96a2-3ad7-a959e45f3605",
+		"description": "Below harness execute cases to check if all entitlements of personal profile can  be add/edit/deleted",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1.Login",
+			"description": "This logins the specified user ",
+			"item": [
+				{
+					"name": "Login as Retail User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \npostman.setEnvironmentVariable(\"Id\", jsonData.d.UserProfileID); \ntests[\"User Logged in\"] = responseCode.code === 201;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init ",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"Id\": \"\",\"UserName\": \"manoj\", \"AppType\": \"Consumers\",\"Password\": \"Pass1234\",\"ChannelType\": \"Web\"}"
+						},
+						"description": "Login API"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2.Entitlements ",
+			"description": "",
+			"item": [
+				{
+					"name": "Revoking access for Transfers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is revoked for specified user\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers for logged in user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for Transfers ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted for speciefied user\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers for logged in user- check granted Permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement as true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access to Payments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Payments is revoked for specified user\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Payments\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access to Payments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments for Logged in user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have payments as entitlement as false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Payments'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Payments for Logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access to Payments ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Payments is granted for specified user\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Payments\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access to Payments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments for Logged in user- check granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have payments as entitlement true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Payments'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Payments for Logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking of Mobile Payments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Mobile Payments is revoked for specified user\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Mobile Payments\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking of Mobile Payments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mobile Payemnts for logged in user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Mobile Payments as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Mobile Payments'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Mobile Payemnts for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting of Mobile Payments ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Mobile Payments is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Mobile Payments\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Granting of Mobile Payments "
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mobile Payments for logged in user - check granted entitlement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Mobile Payments as entitlement as true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Mobile Payments'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Mobile Payments for logged in user - check granted entitlement"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for External Transfers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"Id\": \"{{id}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"External Transfers\",\n\n        \"Entitled\": false\n        \n            }\n            ]\n  }\n\n\n"
+						},
+						"description": "Revoking access for External Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers for logged in user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers as entitlement false \"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'External Transfers'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"Id\": \"{{id}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"External Transfers\",\n\n        \"Entitled\": true\n        \n            }\n            ]\n  }\n\n\n"
+						},
+						"description": "Granting access for External Transfers "
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers for logged in user - check granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers as entitlement true \"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'External Transfers'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers for logged in user - check granted permission"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for Transfer Template",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfer Template is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Id\": \"{{id}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"Transfers Template\",\n\n        \"Entitled\": false\n        \n            }\n            ]\n  }\n\n\n\n\n\n\n"
+						},
+						"description": "Revoking access for Transfer Template"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfer Template for logged in user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfer Template as entitlement false \"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers Template'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfer Template for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting  access for Transfer Template ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfer Template is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Id\": \"{{id}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"Transfers Template\",\n\n        \"Entitled\": true\n        \n            }\n            ]\n  }\n\n\n\n\n\n\n"
+						},
+						"description": "Granting  access for Transfer Template copy"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfer Template for logged in user- check for granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfer Template as entitlement true \"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers Template'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfer Template for logged in user- check for granted permission"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for External Transfers To",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers to is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for logged in user ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers To as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'External Transfers To'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers To",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers To is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for logged in user- check granted Permission copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers To as entitlement true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'External Transfers To'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for External Transfers From",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers From is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers From for logged in user ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers from as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'External Transfers From'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers From",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers From is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers from for logged in user- check granted Permission copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have External Transfers From as entitlement as True\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'External Transfers From'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for Transfers To",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers To is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access for Transfers To"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers to for logged in user ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers To as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for Transfers  to",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers To is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers for logged in user- check granted Permission ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers To as entitlement true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for Transfers From",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers From is revoked\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n\r\n        \"Entitled\": false\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access for Transfers From"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers from for logged in user ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers From as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers From'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for Transfers  from",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers From is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n\r\n        \"Entitled\": true\r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers from for logged in user- check granted Permission copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers From'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3.Entitlements  with Limits",
+			"description": "",
+			"item": [
+				{
+					"name": "Granting access for Transfers with Limits",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers\",\r\n\r\n        \"Entitled\": true,\r\n        \r\n        \"Limits\": [{\r\n\"Period\": \"PERIOD_MONTH\",\r\n\"Amount\": \"{{PERIOD_MONTH}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_WEEK\",\r\n\"Amount\": \"{{PERIOD_WEEK}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_DAY\",\r\n\"Amount\": \"{{PERIOD_DAY}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_TRANSACTION\",\r\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Granting access for Transfers with Limits"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers for logged in user- check granted Permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access to Payments ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Payments is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Payments\",\r\n                \"Entitled\": true,\r\n\r\n             \"Limits\": [{\r\n\"Period\": \"PERIOD_MONTH\",\r\n\"Amount\": \"{{PERIOD_MONTH}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_WEEK\",\r\n\"Amount\": \"{{PERIOD_WEEK}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_DAY\",\r\n\"Amount\": \"{{PERIOD_DAY}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_TRANSACTION\",\r\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access to Payments"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payments for Logged in user- check granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Payments'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Payments for Logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting of Mobile Payments ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Mobile Payments is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Mobile Payments\",\r\n\r\n        \"Entitled\": true\r\n        \r\n        \r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Granting of Mobile Payments "
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mobile Payments for logged in user - check granted entitlement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Mobile Payments as entitlement as true\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Mobile Payments'&$expand=Limits ",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Mobile Payments for logged in user - check granted entitlement"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"External Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \"Id\": \"{{id}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"External Transfers\",\n        \"Entitled\": true,\n            \"Limits\": [{\n\"Period\": \"PERIOD_MONTH\",\n\"Amount\": \"{{PERIOD_MONTH}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"PERIOD_WEEK\",\n\"Amount\": \"{{PERIOD_WEEK}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"PERIOD_DAY\",\n\"Amount\": \"{{PERIOD_DAY}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"PERIOD_TRANSACTION\",\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\n\"ExceedWithApproval\": false\n}]\n\n            }\n            ]\n  }"
+						},
+						"description": "Granting access for External Transfers "
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers for logged in user - check granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'External Transfers'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers for logged in user - check granted permission"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting  access for Transfer Template ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfer Template is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Id\": \"{{id}}\",\n    \"Entitlements\": [{\n        \"OperationName\": \"Transfers Template\",\n                \"Entitled\": true,\n       \"Limits\": [{\n\"Period\": \"PERIOD_MONTH\",\n\"Amount\": \"{{PERIOD_MONTH}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"PERIOD_WEEK\",\n\"Amount\": \"{{PERIOD_WEEK}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"PERIOD_DAY\",\n\"Amount\": \"{{PERIOD_DAY}}\",\n\"ExceedWithApproval\": false\n},\n{\n\"Period\": \"PERIOD_TRANSACTION\",\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\n\"ExceedWithApproval\": false\n}]\n\n            }\n            ]\n  }"
+						},
+						"description": "Granting  access for Transfer Template copy"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfer Template for logged in user- check for granted permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers Template'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfer Template for logged in user- check for granted permission"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers To",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n        \"Entitled\": true,\r\n             \"Limits\": [{\r\n\"Period\": \"PERIOD_MONTH\",\r\n\"Amount\": \"{{PERIOD_MONTH}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_WEEK\",\r\n\"Amount\": \"{{PERIOD_WEEK}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_DAY\",\r\n\"Amount\": \"{{PERIOD_DAY}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_TRANSACTION\",\r\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for logged in user- check granted Permission copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'External Transfers To'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for External Transfers From",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n        \"Entitled\": true,\r\n            \"Limits\": [{\r\n\"Period\": \"PERIOD_MONTH\",\r\n\"Amount\": \"{{PERIOD_MONTH}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_WEEK\",\r\n\"Amount\": \"{{PERIOD_WEEK}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_DAY\",\r\n\"Amount\": \"{{PERIOD_DAY}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_TRANSACTION\",\r\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers from for logged in user- check granted Permission copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'External Transfers From'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for Transfers  to",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n        \"Entitled\": true,\r\n             \"Limits\": [{\r\n\"Period\": \"PERIOD_MONTH\",\r\n\"Amount\": \"{{PERIOD_MONTH}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_WEEK\",\r\n\"Amount\": \"{{PERIOD_WEEK}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_DAY\",\r\n\"Amount\": \"{{PERIOD_DAY}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_TRANSACTION\",\r\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers for logged in user- check granted Permission ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Granting access for Transfers  from",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers is granted\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n        \"Entitled\": true,\r\n             \"Limits\": [{\r\n\"Period\": \"PERIOD_MONTH\",\r\n\"Amount\": \"{{PERIOD_MONTH}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_WEEK\",\r\n\"Amount\": \"{{PERIOD_WEEK}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_DAY\",\r\n\"Amount\": \"{{PERIOD_DAY}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_TRANSACTION\",\r\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "This case will revoke an entitlment for Transfers"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers from for logged in user- check granted Permission copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers From'&$expand=Limits ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers for logged in user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Entitlements with Accounts",
+			"description": "",
+			"item": [
+				{
+					"name": "*Get Accounts for logged in user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "\nvar jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\npostman.setEnvironmentVariable(\"Account\",res[1].ObjectId); "
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Access' ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Accounts for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for Transfers To for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": false}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for Transfers To for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers to for logged in user for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers To as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers to for logged in user for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for Transfers To for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": true}\r\n        \r\n        ]}"
+						},
+						"description": "Grant access for Transfers To for a particular account copy"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers to for logged in user for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers to for logged in user for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for Transfers From for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": false}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers From for logged in user for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers From for logged in user for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for Transfers From for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"660110110-2732731-1\",\r\n        \"Entitled\": true}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers From for logged in user for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement false\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers From for logged in user for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for External Transfers To for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": false}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for External Transfers To for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for logged in user for a particular account copy copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'External Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers To for logged in user for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for External Transfers To for a particular account copy copy copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}}}\",\r\n        \"Entitled\": true}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for External Transfers To for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for logged in user for a particular account copy copy copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement false\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers To for logged in user for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Revoking access for External Transfers From for a particular account copy copy copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}}}\",\r\n        \"Entitled\": false}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for External Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers From for logged in user for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement false\"] = responseBody.has(\"<d:Entitled>false</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers From for logged in user for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for External Transfers From for a particular account copy copy copy copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}}}\",\r\n        \"Entitled\": true}\r\n        \r\n        ]}"
+						},
+						"description": "Revoking access for External Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers From for logged in user for a particular account copy copy copy copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Response have Transfers as entitlement false\"] = responseBody.has(\"<d:Entitled>true</d:Entitled>\");\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers From for logged in user for a particular account"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5.Entitlements with  Account and Limits",
+			"description": "",
+			"item": [
+				{
+					"name": "*Get Accounts for logged in user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "\nvar jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\npostman.setEnvironmentVariable(\"Account\",res[1].ObjectId); "
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Access' ",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Accounts for logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for Transfers To for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}\",\r\n        \"Entitled\": true,\r\n      \"Limits\": [{\r\n\"Period\": \"PERIOD_MONTH\",\r\n\"Amount\": \"{{PERIOD_MONTH}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_WEEK\",\r\n\"Amount\": \"{{PERIOD_WEEK}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_DAY\",\r\n\"Amount\": \"{{PERIOD_DAY}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_TRANSACTION\",\r\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Grant access for Transfers To for a particular account copy"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers to for logged in user for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'&$expand=Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers to for logged in user for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for Transfers From for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"660110110-2732731-1\",\r\n        \"Entitled\": true,\r\n           \"Limits\": [{\r\n\"Period\": \"PERIOD_MONTH\",\r\n\"Amount\": \"{{PERIOD_MONTH}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_WEEK\",\r\n\"Amount\": \"{{PERIOD_WEEK}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_DAY\",\r\n\"Amount\": \"{{PERIOD_DAY}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_TRANSACTION\",\r\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access for Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transfers From for logged in user for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'&$expand=Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Transfers From for logged in user for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for External Transfers To for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers To\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}}}\",\r\n        \"Entitled\": true,\r\n           \"Limits\": [{\r\n\"Period\": \"PERIOD_MONTH\",\r\n\"Amount\": \"{{PERIOD_MONTH}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_WEEK\",\r\n\"Amount\": \"{{PERIOD_WEEK}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_DAY\",\r\n\"Amount\": \"{{PERIOD_DAY}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_TRANSACTION\",\r\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access for External Transfers To for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers To for logged in user for a particular account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'&$expand=Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers To for logged in user for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Grant access for External Transfers From for a particular account copy copy copy copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Transfers to is revoked for account 660110110-2732731-1\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"{{id}}\",\r\n    \"Entitlements\": [{\r\n        \"OperationName\": \"External Transfers From\",\r\n        \"ObjectType\": \"Account\",\r\n        \"ObjectId\": \"{{Account}}}}\",\r\n        \"Entitled\": true,\r\n           \"Limits\": [{\r\n\"Period\": \"PERIOD_MONTH\",\r\n\"Amount\": \"{{PERIOD_MONTH}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_WEEK\",\r\n\"Amount\": \"{{PERIOD_WEEK}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_DAY\",\r\n\"Amount\": \"{{PERIOD_DAY}}\",\r\n\"ExceedWithApproval\": false\r\n},\r\n{\r\n\"Period\": \"PERIOD_TRANSACTION\",\r\n\"Amount\": \"{{PERIOD_TRANSACTION}}\",\r\n\"ExceedWithApproval\": false\r\n}]\r\n\r\n            }\r\n            ]\r\n  }"
+						},
+						"description": "Revoking access for External Transfers From for a particular account"
+					},
+					"response": []
+				},
+				{
+					"name": "Get External Transfers From for logged in user for a particular account ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody); \nvar res = jsonData.d.results;\nvar res1 = res[0].Limits.results;\nvar pertransaction = res1[0].Amount; \n\ntests [\"Limits verified for per Transaction \"]= pertransaction===environment[\"PERIOD_TRANSACTION\"];\n\nvar perday = res1[1].Amount; \n\ntests [\"Limits verified for per day \"]= perday===environment[\"PERIOD_DAY\"];\n\nvar perweek = res1[2].Amount; \n\ntests [\"Limits verified for per week\"]= perweek===environment[\"PERIOD_WEEK\"];\n\nvar permonth = res1[3].Amount; \n\ntests [\"Limits verified for per month End of Harness\"]= permonth===environment[\"PERIOD_MONTH\"];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/cb/odata/services/retailuserservice/PersonalProfiles('{{id}}')/Entitlements?$filter=OperationName eq 'Transfers To' and ObjectType eq 'Account' and ObjectId eq '{{Account}}'&$expand=Limits",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get External Transfers From for logged in user for a particular account"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

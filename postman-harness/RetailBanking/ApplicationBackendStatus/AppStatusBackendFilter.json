@@ -1,0 +1,356 @@
+{
+	"variables": [],
+	"info": {
+		"name": "AppStatus_BackendFilter",
+		"_postman_id": "4c28f696-4f28-2cfe-6c62-d199aa56c992",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Login\"]=responseCode.code===201\npostman.setEnvironmentVariable(\"xcsrf\",postman.getResponseHeader('x-csrf-token'))"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/ns/authenticationservice/SecureUsers?action=init ",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n               \"Id\": \"\",\r\n\r\n               \"UserName\": \"tbowman\",\r\n\r\n               \"AppType\": \"Consumers\",\r\n\r\n               \"Password\": \"Pass1234\",\r\n\r\n               \"ChannelType\": \"Web\"\r\n\r\n} "
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Staus,Top and create date asc",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=new,top=3,create date asc'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$filter=status eq 'New'&$top=3&$format=json&$orderby=create_date asc",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "status,Top and Create date desc",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=deleted,top=3,create date desc'] =responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$filter=status eq 'Deleted'&$top=3&$format=json&$orderby=create_date desc",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Filter =Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=new'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$inlinecount=allpages&$filter=status eq 'New'",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "filter=Create date and status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=Deleted,create date GE and LE'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$filter=%20(create_date%20ge%20datetime%272016-06-30T05:46:48%27%20and%20create_date%20le%20datetime%272016-09-03T05:46:48%27)and%20status%20eq%20%27Deleted%27",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "filter=skip,top and status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=Deleted,Skip=10,top=8'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$top=8&$skip=10&$format=json&$filter=status%20eq%20%27Deleted%27",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "filter=skip,top,status=new",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=new,Skip=1,top=1'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$top=1&$skip=1&$format=json&$filter=status%20eq%20%27New%27",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "filter=status & top",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=Deleted,top=2'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$top=2&$format=json&$filter=status%20eq%20%27Deleted%27",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "filter=status & category_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=New & Category_id'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$filter=status eq 'New' and category_id eq '2'",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "filter=status,category_id,create date",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=New & Category_id,create date'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$filter=status eq 'New' and category_id eq '2' and(create_date ge datetime'2005-03-17T12:18:56' and create_date le datetime'2005-04-18T12:18:56')",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "filter=status,create date by asc order,skip,top",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=New &create date in ascending order,skip=4,top=3'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$filter=status eq 'New'&$orderby=create_date asc&$skip=4&$top=34",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "filter=status='Deleted',create date asc order,skip,top",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=Deleted&create date in ascending order,skip=5,top=4'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$filter=status eq 'Deleted'&$orderby=create_date asc&$skip=5&$top=4",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "filter=status,Category_id,create date asc,skip,top",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=Deleted&Category_id,create date in ascending order,skip=5,top=4'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$filter=status eq 'Deleted' and category_id eq '2'  &$orderby=create_date asc&$skip=5&$top=4 ",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Status,Create date desc,skip,top",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests['Retrives Application Details With respect to Filter:status=Deleted&create date in descending order,skip=5,top=4'] = responseCode.code === 200;\nvar xcsrfCheck = postman.getResponseHeader('x-csrf-token');\ntests['user verified with x-csrf-token :'+xcsrfCheck] = xcsrfCheck === environment['xcsrf'];\npostman.clearEnvironmentVariable('xcsrf')"
+					}
+				}
+			],
+			"request": {
+				"url": "{{env}}/cb/odata/services/applicationservice/Applications?$filter=status eq 'Deleted'&$orderby=create_date desc&$skip=5&$top=4",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

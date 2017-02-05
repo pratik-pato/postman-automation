@@ -1,0 +1,629 @@
+{
+	"variables": [],
+	"info": {
+		"name": "RetailUserProfileCRUD",
+		"_postman_id": "25a10306-335d-52cb-3868-9f67e2267350",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RetailProfile",
+			"description": "",
+			"item": [
+				{
+					"name": "Login to BC as admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 201 : Created\"] = responseCode.code === 201;\n"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/ns/authenticationservice/BankEmployees?action=login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \r\n    \"UserName\": \"admin\",    \r\n    \"Password\": \"Pass1234\"\r\n}"
+						},
+						"description": "1. BankLogin"
+					},
+					"response": []
+				},
+				{
+					"name": "Add RetailUser Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"Id\", jsonData.d.Id);\ntests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\t\"ProfileName\": \"Testing Profiles {{$randomInt}}\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+						},
+						"description": "Add profile test"
+					},
+					"response": []
+				},
+				{
+					"name": "delete Retail profile 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 204 : No Content\"] = responseCode.code != 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Delete previously created profile"
+					},
+					"response": []
+				},
+				{
+					"name": "Add RetailUserProfile to test Duplicate profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"Id\", jsonData.d.Id);\ntests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\t\"ProfileName\": \"Testing Duplicate Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+						},
+						"description": "3.1> Add profile to test Duplicate"
+					},
+					"response": []
+				},
+				{
+					"name": "Add RetailUserProfile Duplicate profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\t\"ProfileName\": \"Testing Duplicate Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n\r\n"
+						},
+						"description": "3.2> Add profile to test Duplicate"
+					},
+					"response": []
+				},
+				{
+					"name": "delete Retail profile 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Delete previously created profile"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Business Profile Invalid Channel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\t\"ProfileName\": \"Testing InvalidChannel Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"InvalidMobile\"\r\n\t\t\t\t\t}]\r\n\t}"
+						},
+						"description": "Add profile test with Invalid Channel"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Retail Profile Duplicate Channel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code != 400;\ntests[\"Error Message : Duplicate channel in profile.\"] = responseBody.has(\"Duplicate channel in profile.\");"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\t\"ProfileName\": \"Testing DuplicateChannel Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}"
+						},
+						"description": "Add profile test with Duplicate Channel"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Retail Profile With Special Character",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;\ntests[\"Error Message : Name is 3-200 characters and can include numbers, letters, spaces, periods, and underscores.\"] = responseBody.has(\"Name is 3-200 characters and can include numbers, letters, spaces, periods, and underscores.\");"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\t\"ProfileName\": \"Te$ting $pecialChar Profiles Harness\",\r\n\t\t\"Description\": \"This is test to add retail profile\",\t\r\n\t\t\"ParentEntGroupId\" : 49,\r\n\t\t\"ChannelProfiles\": [{\r\n\t\t\t\t\t\t\"Channel\": \"Sms\"\r\n\t\t\t\t\t},{\r\n\t\t\t\t\t\t\"Channel\": \"Mobile\"\r\n\t\t\t\t\t}]\r\n\t}\r\n"
+						},
+						"description": "Add profile test special character"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Retail Profile With Not allowed parentEntId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;\ntests[\"Error Message : Invalid Parent Group for Profile\"] = responseBody.has(\"Invalid Parent Group for Profile\");"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \r\n        \"ProfileName\": \"Not allowed parentEntId\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 1101  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+						},
+						"description": "Add profile test Not allowed parentEntId"
+					},
+					"response": []
+				},
+				{
+					"name": "Add RetailProfile With Invalid parentEntId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;\ntests[\"Error Message : Invalid Profile\"] = responseBody.has(\"Invalid Profile\");"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \r\n        \"ProfileName\": \"Invalid parentEntId\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 9999 ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            }   \r\n        ]    \r\n}\r\n\r\n"
+						},
+						"description": "Add profile test Invalid parentEntId"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Retail Profile With No Channel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;\ntests[\"Error Message : Please select atleast one channel.\"] = responseBody.has(\"Please select atleast one channel.\");"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \r\n        \"ProfileName\": \"No channel\",    \r\n        \"Description\": \"This is test for No channel\",    \r\n        \"ParentEntGroupId\": 49 ,  \r\n        \"ChannelProfiles\": [    \r\n             \r\n        ]    \r\n}\r\n\r\n"
+						},
+						"description": "Add profile test No Channel"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Retail Profile for get by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\npostman.setEnvironmentVariable(\"Id\", jsonData.d.Id);\ntests[\"status code is 201 : Created\"] = responseCode.code === 201;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \r\n        \"ProfileName\": \"Test for get by Id postman_harness\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 49  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Mobile\"\r\n            },\r\n            {    \r\n                \"Channel\": \"Web\"\r\n            }\r\n        ]    \r\n}\r\n\r\n"
+						},
+						"description": "Add profile test"
+					},
+					"response": []
+				},
+				{
+					"name": "get profile by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Profile Id verified : \"+jsonData.d.Id] = jsonData.d.Id === environment['Id'];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Business User Profile by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Modify Retail user profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{    \r\n        \"ProfileName\": \"Test modified\",    \r\n        \"Description\": \"This is test for add\",    \r\n        \"ParentEntGroupId\": 49  ,  \r\n        \"ChannelProfiles\": [    \r\n            {    \r\n                \"Channel\": \"Web\"\r\n            },\r\n            {    \r\n                \"Channel\": \"Sms\"\r\n            } \r\n        ]    \r\n}\r\n\r\n"
+						},
+						"description": "Modify profile"
+					},
+					"response": []
+				},
+				{
+					"name": "get profile by Id Verify modification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var jsonData = JSON.parse(responseBody);\ntests[\"Body has Sms Channel\"] = responseBody.has(\"Sms\");\ntests[\"Body has No Mobile Channel\"] = !(responseBody.has(\"Mobile\"));\ntests[\"status code is 200 : OK\"] = responseCode.code === 200;\ntests[\"Profile Id verified : \"+jsonData.d.Id] = jsonData.d.Id === environment['Id'];"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Business User Profile by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "delete profile3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 204 : No Content\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Delete previously created profile"
+					},
+					"response": []
+				},
+				{
+					"name": "get profile by Id Verify Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"status code is 400 : Bad Request\"] = responseCode.code === 400;\ntests[\"Error Message : Invalid Profile Id\"] = responseBody.has(\"Invalid Profile Id\");"
+							}
+						}
+					],
+					"request": {
+						"url": "{{env}}/bc/odata/services/retailuserprofileservice/RetailUserProfiles('{{Id}}')?$expand=ChannelProfiles",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "Get Business User Profile by ID"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
